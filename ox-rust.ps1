@@ -1,0 +1,61 @@
+##########################################################
+# config
+##########################################################
+
+# config files
+$Global:OX_ELEMENT.cg = "$HOME\.cargo\config.toml"
+$Global:OX_ELEMENT.rs = "$HOME\.rustup\settings.toml"
+# backup files
+if (!(Test-Path -Path "$env:OX_BACKUP\rust")) {
+    mkdir "$env:OX_BACKUP\rust"
+}
+
+$Global:OX_OXIDE.bkcg = "$env:OX_BACKUP\rust\config.toml"
+$Global:OX_OXIDE.bkrs = "$env:OX_BACKUP\rust\settings.toml"
+
+##########################################################
+# packages
+##########################################################
+
+function cgh { cargo help $args }
+function cgis { cargo install $args }
+function cgus { cargo uninstall $args }
+function cgls { cargo --list }
+function cgup { cargo update $args }
+function cgcl { cargo clean }
+function cgsc { cargo search $args }
+function cgck { cargo check }
+function cgdp { cargo tree $args }
+function cgcf { cargo config $args }
+
+function cgif {
+    cargo $($pkg + " info")
+}
+
+##########################################################
+# project
+##########################################################
+
+function cgb { cargo build $args }
+function cgr { cargo run $args }
+function cgts { cargo test $args }
+function cgfx { cargo fix $args }
+function cgpb { cargo publish $args }
+
+function cgii {
+    param( $proj )
+    if ([string]::IsNullOrEmpty($proj)) { cargo init $proj }
+    else { cargo new $proj }
+}
+
+##########################################################
+# rustup
+##########################################################
+
+function rsh { rustup help $args }
+function rsis { rustup component add $args }
+function rsus { rustup component remove $args }
+function rsls { rustup component list }
+function rsup { rustup update }
+function rsck { rustup check }
+function rsr { rustup run }
