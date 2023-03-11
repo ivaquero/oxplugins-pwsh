@@ -4,17 +4,11 @@
 
 # config files
 $Global:OX_ELEMENT.jl = "$HOME\.julia\config\startup.jl"
-$Global:OX_ELEMENT.jlm = "$HOME\.julia\environments\v$(julia -v | rg --only-matching '\d.\d')\Manifest.toml"
+$Global:OX_ELEMENT.jlm = $HOME\.julia\environments\v$(julia -v | rg --only-matching '\d.\d')\Manifest.toml
 $Global:OX_ELEMENT.jlp = "$HOME\.julia\environments\v$(julia -v | rg --only-matching '\d.\d')\Project.toml"
-
 # backup files
-if (!(Test-Path -Path "$env:OX_BACKUP\conan")) {
-    mkdir "$env:OX_BACKUP\vscode"
-}
-
-$Global:OX_OXIDE.bkcn = "$env:OX_BACKUP\conan\conan.conf"
-$Global:OX_OXIDE.bkcnr = "$env:OX_BACKUP\conan\remotes.json"
-$Global:OX_OXIDE.bkcnd = "$env:OX_BACKUP\conan\profiles\default"
+$Global:OX_OXIDE.bkjl = "$env:OX_BACKUP\julia\startup.jl"
+$Global:OX_OXIDE.bkjlx = "$env:OX_BACKUP\julia\julia-pkgs.txt"
 
 function up_julia {
     echo "Update Julia by $($Global:OX_OXIDE.bkjlx)"

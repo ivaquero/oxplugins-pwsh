@@ -13,10 +13,6 @@ $Global:OX_ELEMENT.vsk = "$($Global:OX_APPHOME.vs)\User\keybindings.json"
 $Global:OX_ELEMENT.vss_ = "$($Global:OX_APPHOME.vs)\User\snippets"
 
 # backup files
-if (!(Test-Path -Path "$env:OX_BACKUP\vscode")) {
-    mkdir "$env:OX_BACKUP\vscode"
-}
-
 $Global:OX_OXIDE.bkvsk = "$env:OX_BACKUP\vscode\keybindings.json"
 $Global:OX_OXIDE.bkvss_ = "$env:OX_BACKUP\vscode\snippets"
 $Global:OX_OXIDE.bkvsx = "$env:OX_BACKUP\vscode\vscode-exts.txt"

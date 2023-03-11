@@ -6,10 +6,6 @@
 $Global:OX_ELEMENT.cg = "$HOME\.cargo\config.toml"
 $Global:OX_ELEMENT.rs = "$HOME\.rustup\settings.toml"
 # backup files
-if (!(Test-Path -Path "$env:OX_BACKUP\rust")) {
-    mkdir "$env:OX_BACKUP\rust"
-}
-
 $Global:OX_OXIDE.bkcg = "$env:OX_BACKUP\rust\config.toml"
 $Global:OX_OXIDE.bkrs = "$env:OX_BACKUP\rust\settings.toml"
 
