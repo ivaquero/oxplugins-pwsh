@@ -20,7 +20,6 @@ function gcf { git config $args }
 function gii { git init $args }
 # ui
 function gui { gitui }
-function gif { onefetch $args }
 
 ##########################################################
 # item management
