@@ -75,9 +75,9 @@ function scl {
     else { scoop cleanup $args --cache }
 }
 
-function sdp { scoop depends $args }
+function sdp { scoop depends $args[1] }
 function sck { scoop checkup }
-function ssc { scoop search }
+function ssc { scoop search $args[1] }
 function sat { scoop config aria2-enabled true }
 function saf { scoop config aria2-enabled false }
 
@@ -85,12 +85,12 @@ function saf { scoop config aria2-enabled false }
 function sif {
     Switch ( $args[1] ) {
         --json { scoop cat $args[2] }
-        Default { scoop info $args }
+        Default { scoop info $args[1] }
     }
 }
 function sst { scoop status }
-function spn { scoop hold $args }
-function supn { scoop unhold $args }
+function spn { scoop hold $args[1] }
+function supn { scoop unhold $args[1] }
 
 ##########################################################
 # extension
