@@ -18,19 +18,19 @@ else {
 function up_conda {
     param ( $the_env, $the_file )
     if ([string]::IsNullOrEmpty( $the_env )) {
-        $cenv = 'base'
+        $conda_env = 'base'
         $conda_file = "$Global:OX_OXIDE.bkceb"
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $cenv = $Global:OX_CONDA_ENV.$the_env
+        $conda_env = $Global:OX_CONDA_ENV.$the_env
         $conda_file = "$Global:OX_OXIDE.bkce$the_env"
     }
     else {
-        $cenv = $the_env
+        $conda_env = $the_env
         $conda_file = $the_file
     }
 
-    echo "Update Conda Env $cenv by $conda_file"
+    echo "Update Conda Env $conda_env by $conda_file"
     $pkg = (cat $conda_file | sd "`n" ' ')
     echo "Installing $pkg"
     Invoke-Expression ". $Global:OX_CONDA install $pkgs"
@@ -39,21 +39,49 @@ function up_conda {
 function back_conda {
     param ( $the_env, $the_file )
     if ([string]::IsNullOrEmpty( $the_env )) {
-        $cenv = 'base'
+        $conda_env = 'base'
         $conda_file = "$Global:OX_OXIDE.bkceb"
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $cenv = $Global:OX_CONDA_ENV.$the_env
+        $conda_env = $Global:OX_CONDA_ENV.$the_env
         $conda_file = "$Global:OX_OXIDE.bkce$the_env"
     }
     else {
-        $cenv = $the_env
+        $conda_env = $the_env
         $conda_file = $the_file
     }
 
-    echo "Backup Conda Env $cenv to $conda_file"
-    $pkg = $(conda tree -n $cenv leaves)
-    $pkg.Replace("[',\[\]]", '') | sd ' ' "`n" > "$conda_file"
+    echo "Backup Conda Env $conda_env to $conda_file"
+    conda tree -n $conda_env leaves  > "$conda_file"
+}
+
+function clean_conda {
+    param ( $the_env, $the_file )
+    if ([string]::IsNullOrEmpty( $the_env )) {
+        $conda_env = 'base'
+        $conda_file = "$Global:OX_OXIDE.bkceb"
+    }
+    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
+        $conda_env = $Global:OX_CONDA_ENV.$the_env
+        $conda_file = "$Global:OX_OXIDE.bkce$the_env"
+    }
+    else {
+        $conda_env = $the_env
+        $conda_file = $the_file
+    }
+
+    echo "Cleanup Conda Env $conda_env by $conda_file"
+    $the_leaves = (conda tree -n $conda_env leaves)
+
+    ForEach ( $line in $the_leaves ) {
+        $pkg = (cat $conda_file | rg $line)
+        if ([string]::IsNullOrEmpty($pkg)) {
+            . $Global:OX_CONDA uninstall -n $conda_env $line --quiet --yes
+        }
+    }
+    if ($(echo $the_leaves | wc -w) -eq $(cat $conda_file | wc -w)) -and ($(echo $the_leaves | wc -c) -eq $(cat $conda_file | wc -c)) {
+        echo "Conda Env Cleanup Finished"
+    }
 }
 
 ##########################################################
@@ -206,12 +234,12 @@ function cesd {
 # export environment: $1=name
 function ceep {
     param ( $the_env )
-    if ([string]::IsNullOrEmpty( $the_env )) { $cenv = base }
+    if ([string]::IsNullOrEmpty( $the_env )) { $conda_env = base }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $cenv = $Global:OX_CONDA_ENV.$the_env
+        $conda_env = $Global:OX_CONDA_ENV.$the_env
     }
-    else { $cenv = $1 }
-    conda env export -n $cenv -f $env:OX_BACKUP\install\$cenv-win.yml
+    else { $conda_env = $1 }
+    conda env export -n $conda_env -f $env:OX_BACKUP\install\$conda_env-win.yml
 }
 
 # rename environment
