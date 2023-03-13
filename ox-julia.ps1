@@ -3,13 +3,13 @@
 ##########################################################
 
 if ([string]::IsNullOrEmpty($env:JULIA_DEPOT_PATH)) {
-    $env:JULIA_DEPOT_PATH = "$HOME"
+    $env:JULIA_DEPOT_PATH = "$HOME\.julia"
 }
 
 # config files
-$Global:OX_ELEMENT.jl = "$HOME\.julia\config\startup.jl"
-$Global:OX_ELEMENT.jlm = $(fd 'Project' $JULIA_DEPOT_PATH/.julia/environments)
-$Global:OX_ELEMENT.jlp = $(fd 'Manifest' $JULIA_DEPOT_PATH/.julia/environments)
+$Global:OX_ELEMENT.jl = "$JULIA_DEPOT_PATH\config\startup.jl"
+$Global:OX_ELEMENT.jlm = $(fd 'Project' $JULIA_DEPOT_PATH/environments)
+$Global:OX_ELEMENT.jlp = $(fd 'Manifest' $JULIA_DEPOT_PATH/environments)
 # backup files
 $Global:OX_OXIDE.bkjl = "$env:OX_BACKUP\julia\startup.jl"
 $Global:OX_OXIDE.bkjlx = "$env:OX_BACKUP\julia\julia-pkgs.txt"
