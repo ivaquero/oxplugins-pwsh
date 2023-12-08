@@ -8,31 +8,29 @@ $Global:OX_OXYGEN.oxg = "$env:OXIDIZER\defaults\.gitconfig"
 $Global:OX_ELEMENT.g = "$HOME\.gitconfig"
 
 ##########################################################
-# project management
+# repository management
 ##########################################################
+
+function get_default_branch() {
+    git remote show origin | grep 'HEAD branch' | cut -d ' ' -f5
+}
 
 # git republish
 function grpbl() {
     git remote add origin $args[0]
-    if ([string]::IsNullOrEmpty($args[1])) { $branch = master }
-    else { $branch = $args[1] }
-    git pull $args[0] $branch
-    git push --set-upstream origin $branch
+    $dbranch = $(get_default_branch)
+    git pull $args[0] $dbranch
+    git push --set-upstream origin $dbranch
 }
-
-##########################################################
-# repository management
-##########################################################
 
 # clean files
 function gcl {
     git reset --hard HEAD~1
-    if ([string]::IsNullOrEmpty($args[0])) { $branch = master }
-    else { $branch = $args[0] }
-    git checkout --orphan origin/$branch
+    $dbranch = $(get_default_branch)
+    git checkout --orphan origin/$dbranch
     git add -A
     git commit -am "🎉 New Start"
-    git branch -D $branch
-    git branch -m $branch
-    git push -f origin $branch
+    git branch -D $dbranch
+    git branch -m $dbranch
+    git push -f origin $dbranch
 }
