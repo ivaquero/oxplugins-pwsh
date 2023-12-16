@@ -66,7 +66,7 @@ function rdf {
 }
 
 # catalyze file: owerwrite configuartion file by Oxidizer defaults
-function clyf {
+function clzf {
     $files = $args
     ForEach ( $file in $files ) {
         $oxfile = "ox" + $file
@@ -94,7 +94,7 @@ function ppgf {
 
 function epf { oxf $args }
 function ipf { rdf $args }
-function iif { clyf $args }
+function iif { clzf $args }
 
 ##########################################################
 # Gerneral File Utils
