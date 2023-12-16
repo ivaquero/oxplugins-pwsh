@@ -152,32 +152,6 @@ function sha2 { hashsum --sha256 $args }
 function sha5 { hashsum --sha512 $args }
 
 ##########################################################
-# Proxy Utils
-##########################################################
-
-# proxy
-function px {
-    param ( $the_port )
-    if ( $(echo $the_port | wc -L) -lt 2 ) {
-        $port = $Global:OX_PROXY.$the_port
-    }
-    else {
-        $port = $the_port
-    }
-    echo "using port $($Global:OX_PROXY.$the_port)"
-    $env:https_proxy = "http://127.0.0.1:$port"
-    $env:http_proxy = "http://127.0.0.1:$port"
-    $env:all_proxy = "socks5://127.0.0.1:$port"
-}
-
-function pxq {
-    echo 'unset all proxies'
-    $env:https_proxy = ''
-    $env:http_proxy = ''
-    $env:all_proxy = ''
-}
-
-##########################################################
 # Editor
 ##########################################################
 
