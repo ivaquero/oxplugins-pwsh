@@ -10,7 +10,7 @@
   - Conda
 - System Shortcuts
   - Windows
-  - File Utility
+  - File Utils
 - Language
   - Julia
   - Node
@@ -19,7 +19,6 @@
   - Git
   - Pueue
   - Container (Docker/Podman)
-  - Helix
 - CLI for App
   - Bitwarden-CLI
   - Jupyter
@@ -27,6 +26,7 @@
   - TeXLive
   - VSCode-CLI
 - Widgets
-  - File Formats
+  - Formats Convertion
   - Weather
+  - Network
   - Notes
