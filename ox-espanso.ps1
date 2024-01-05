@@ -10,7 +10,7 @@ else {
     $Global:OX_APPHOME.es = "$env:APPDATA\espanso"
 }
 
-$Global:OX_ELEMENT.es = "$($Global:OX_APPHOME.es)\default.yml"
+$Global:OX_ELEMENT.es = "$($Global:OX_APPHOME.es)\config\default.yml"
 $Global:OX_ELEMENT.esb = "$($Global:OX_APPHOME.es)\match\base.yml"
 $Global:OX_ELEMENT.esx_ = "$($Global:OX_APPHOME.es)\match\packages"
 
