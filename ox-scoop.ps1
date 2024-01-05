@@ -2,16 +2,15 @@
 # config
 ##########################################################
 
+# path
+$env:SCOOP = 'C:\Scoop'
+
 $Global:OX_OXYGEN.oxs = "$env:OXIDIZER\defaults\Scoopfile.txt"
 # backup files
 if ([string]::IsNullOrEmpty("$env:OX_BACKUP\install")) {
     mkdir "$env:OX_BACKUP\install"
 }
 $Global:OX_OXIDE.bks = "$env:OX_BACKUP\install\Scoopfile.json"
-
-##########################################################
-# config
-##########################################################
 
 function up_scoop {
     echo "Update Scoop by $($Global:OX_OXIDE.bks)"
@@ -21,10 +20,6 @@ function up_scoop {
 function back_scoop {
     echo "Backup Scoop to $($Global:OX_OXIDE.bks)"
     scoop export > $($Global:OX_OXIDE.bks)
-}
-
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\install")) {
-    mkdir "$env:OX_BACKUP\install"
 }
 
 ##########################################################
@@ -56,12 +51,7 @@ function sat { scoop config aria2-enabled true }
 function saf { scoop config aria2-enabled false }
 
 # info & version
-function sif {
-    Switch ( $args[0] ) {
-        --json { scoop cat $args[1] }
-        Default { scoop info $args[0] }
-    }
-}
+function sif {scoop info $args[0]}
 function sst { scoop status }
 function spn { scoop hold $args[0] }
 function supn { scoop unhold $args[0] }
@@ -80,9 +70,3 @@ function sxls { scoop bucket list }
 
 function sii { param ( $pkg ) scoop create $pkg }
 function sca { param ( $pkg ) scoop cat $pkg }
-
-##########################################################
-# mirrors
-##########################################################
-
-function smr {}
