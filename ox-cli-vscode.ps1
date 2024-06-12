@@ -3,14 +3,23 @@
 ##########################################################
 
 # system files
-$Global:OX_APPHOME.vs = "$env:APPDATA\Code\User"
-if (!(Test-Path -Path "$Global:OX_APPHOME.vs")) {
-    $Global:OX_APPHOME.vs = "$env:SCOOP\persist\vscode\data\user-data"
+Switch ($env:OS) {
+    "*Darwin* | *Ubuntu* | *Debian* | *WSL*" {
+        $Global:VSCODE_DATA = "$env:APPDATA\Code\User"
+    }
+    "*MINGW* | *Windows*" {
+        if (Test-Path -Path "$env:SCOOP\persist\vscode\data\user-data") {
+            $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode\data\user-data"
+        }
+        elseif (Test-Path -Path "$env:SCOOP\persist\vscode-win7\data\user-data") {
+            $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode-win7\data\user-data"
+        }
+    }
 }
 
-$Global:OX_ELEMENT.vs = "$($Global:OX_APPHOME.vs)\User\settings.json"
-$Global:OX_ELEMENT.vsk = "$($Global:OX_APPHOME.vs)\User\keybindings.json"
-$Global:OX_ELEMENT.vss_ = "$($Global:OX_APPHOME.vs)\User\snippets"
+$Global:OX_ELEMENT.vs = "$Global:VSCODE_DATA\User\settings.json"
+$Global:OX_ELEMENT.vsk = "$Global:VSCODE_DATA\User\keybindings.json"
+$Global:OX_ELEMENT.vss_ = "$Global:VSCODE_DATA\User\snippets"
 
 # backup files
 if ([string]::IsNullOrEmpty("$env:OX_BACKUP\vscode")) {
@@ -53,12 +62,12 @@ function back_vscode {
 
 function vscl {
     echo "Cleaning up VSCode Cache.`n"
-    rm -rfv $($Global:OX_APPHOME.vs)\Cache\*
+    rm -rfv $VSCODE_DATA\Cache\*
 
     Switch ( $args[1] ) {
         -a {
             echo "Cleaning up VSCode Workspace Storage.`n"
-            rm -rfv $($Global:OX_APPHOME.vs)\User\workspaceStorage\*
+            rm -rfv $VSCODE_DATA\User\workspaceStorage\*
         }
     }
 }

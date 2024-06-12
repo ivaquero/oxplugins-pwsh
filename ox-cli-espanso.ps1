@@ -3,16 +3,20 @@
 ##########################################################
 
 # system files
-if (!(Test-Path -Path "$env:APPDATA\espanso")) {
-    $Global:OX_APPHOME.es = "$env:SCOOP\current\.espanso"
-}
-else {
-    $Global:OX_APPHOME.es = "$env:APPDATA\espanso"
+Switch ($env:OS) {
+    "*Darwin* | *Ubuntu* | *Debian* | *WSL*" {
+        $Global:ESPANSO_DATA = "$env:APPDATA\espanso"
+    }
+    "*MINGW* | *Windows*" {
+        if (Test-Path -Path "$env:SCOOP/shims/espansod") {
+            $Global:ESPANSO_DATA = "$env:SCOOP\current\.espanso"
+        }
+    }
 }
 
-$Global:OX_ELEMENT.es = "$($Global:OX_APPHOME.es)\config\default.yml"
-$Global:OX_ELEMENT.esb = "$($Global:OX_APPHOME.es)\match\base.yml"
-$Global:OX_ELEMENT.esx_ = "$($Global:OX_APPHOME.es)\match\packages"
+$Global:OX_ELEMENT.es = "$Global:ESPANSO_DATA\config\default.yml"
+$Global:OX_ELEMENT.esb = "$Global:ESPANSO_DATA\match\base.yml"
+$Global:OX_ELEMENT.esx_ = "$Global:ESPANSO_DATA\match\packages"
 
 # backup files
 $Global:OX_OXIDE.bkes = "$env:OX_BACKUP\espanso\config\default.yml"
@@ -55,7 +59,7 @@ function esq { espansod stop }
 
 function esa {
     param ( $path )
-    touch $($Global:OX_APPHOME.es)\match\$path.yml
+    touch $Global:ESPANSO_DATA\match\$path.yml
 }
 function esh { espansod help $args }
 function esed { espansod edit $args }
