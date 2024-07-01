@@ -27,5 +27,4 @@ Powershell Plugins for [oxidizer](https://github.com/ivaquero/oxidizer).
 |  `ox-utils-files.ps1`  |  System Utils   |         File Operation         |
 | `ox-utils-formats.ps1` |  System Utils   |       Formats Conversion       |
 | `ox-utils-network.ps1` |  System Utils   |     Network Configuration      |
-| `ox-term-weather.ps1`  | Terminal Utils  |      Weather (wttr-based)      |
 |  `ox-xtra-notes.ps1`   |   Extra Utils   | Notes Apps (Obsidian & Logseq) |
