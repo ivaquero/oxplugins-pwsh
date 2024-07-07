@@ -35,7 +35,7 @@ function oxf {
 
         if ( $file.EndsWith("_") ) {
             rm -rf $out_path
-            cp -R -v $in_path $out_path
+            cp -R $in_path $out_path
         }
         else {
             cp $in_path $out_path
@@ -56,7 +56,7 @@ function rdf {
 
         if ( $file.EndsWith("_") ) {
             rm -rf $out_path
-            cp -R -v $in_path $out_path
+            cp -R $in_path $out_path
         }
         else {
             cp $in_path $out_path
