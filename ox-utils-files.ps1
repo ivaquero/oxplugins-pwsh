@@ -38,7 +38,7 @@ function oxf {
             cp -R -v $in_path $out_path
         }
         else {
-            cp -v $in_path $out_path
+            cp $in_path $out_path
         }
     }
 }
@@ -59,7 +59,7 @@ function rdf {
             cp -R -v $in_path $out_path
         }
         else {
-            cp -v $in_path $out_path
+            cp $in_path $out_path
         }
 
     }
@@ -74,7 +74,7 @@ function clzf {
         $out_path = $Global:OX_ELEMENT.$file
 
         test_oxpath $out_path
-        cp -v $in_path $out_path
+        cp $in_path $out_path
     }
 }
 
@@ -88,7 +88,7 @@ function ppgf {
         $out_path = $Global:OX_OXIDE.$bkfile
 
         test_oxpath $out_path
-        cp -v $in_path $out_path
+        cp $in_path $out_path
     }
 }
 
