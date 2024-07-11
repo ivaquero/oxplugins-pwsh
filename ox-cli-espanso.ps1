@@ -3,15 +3,8 @@
 ##########################################################
 
 # system files
-Switch ($env:OS) {
-    "*Darwin* | *Ubuntu* | *Debian* | *WSL*" {
-        $Global:ESPANSO_DATA = "$env:APPDATA\espanso"
-    }
-    "*MINGW* | *Windows*" {
-        if (Test-Path -Path "$env:SCOOP/shims/espansod") {
-            $Global:ESPANSO_DATA = "$env:SCOOP\current\.espanso"
-        }
-    }
+if (Test-Path -Path "$env:SCOOP/shims/espansod") {
+    $Global:ESPANSO_DATA = "$env:SCOOP\current\.espanso"
 }
 
 $Global:OX_ELEMENT.es = "$Global:ESPANSO_DATA\config\default.yml"

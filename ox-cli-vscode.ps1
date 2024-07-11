@@ -3,18 +3,11 @@
 ##########################################################
 
 # system files
-Switch ($env:OS) {
-    "*Darwin* | *Ubuntu* | *Debian* | *WSL*" {
-        $Global:VSCODE_DATA = "$env:APPDATA\Code\User"
-    }
-    "*MINGW* | *Windows*" {
-        if (Test-Path -Path "$env:SCOOP\persist\vscode\data\user-data") {
-            $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode\data\user-data"
-        }
-        elseif (Test-Path -Path "$env:SCOOP\persist\vscode-win7\data\user-data") {
-            $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode-win7\data\user-data"
-        }
-    }
+if (Test-Path -Path "$env:SCOOP\persist\vscode\data\user-data") {
+    $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode\data\user-data"
+}
+elseif (Test-Path -Path "$env:SCOOP\persist\vscode-win7\data\user-data") {
+    $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode-win7\data\user-data"
 }
 
 $Global:OX_ELEMENT.vs = "$Global:VSCODE_DATA\User\settings.json"
@@ -25,9 +18,6 @@ $Global:OX_ELEMENT.vss_ = "$Global:VSCODE_DATA\User\snippets"
 if ([string]::IsNullOrEmpty("$env:OX_BACKUP\vscode")) {
     mkdir "$env:OX_BACKUP\vscode"
 }
-$Global:OX_OXIDE.bkvsk = "$env:OX_BACKUP\vscode\keybindings.json"
-$Global:OX_OXIDE.bkvss_ = "$env:OX_BACKUP\vscode\snippets"
-$Global:OX_OXIDE.bkvsx = "$env:OX_BACKUP\vscode\vscode-exts.txt"
 
 function up_vscode {
     echo "Update VSCode extensions by $($Global:OX_OXIDE.bkvsx)"
