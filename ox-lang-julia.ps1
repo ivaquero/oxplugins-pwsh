@@ -2,10 +2,6 @@
 # config
 ##########################################################
 
-if ([string]::IsNullOrEmpty($env:JULIA_DEPOT_PATH)) {
-    $env:JULIA_DEPOT_PATH = "$HOME\.julia"
-}
-
 if ([string]::IsNullOrEmpty("$env:JULIA_DEPOT_PATH\environments")) {
     mkdir "$env:JULIA_DEPOT_PATH\environments"
 }
