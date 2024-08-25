@@ -61,10 +61,17 @@ function nfx { npm audit fix $args }
 function npb { npm publish $args }
 
 ##########################################################
-# node
+# packages
 ##########################################################
 
-function nj {
-    if ([string]::IsNullOrEmpty($args)) { node }
-    else { node $args }
-}
+function yif { yarn info }
+
+##########################################################
+# project
+##########################################################
+
+function ycf { yarn config $args }
+function yii { yarn init $args }
+function yr { yarn run $args }
+function yau { yarn audit $args }
+function ypb { yarn publish $args }

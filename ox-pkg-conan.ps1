@@ -52,7 +52,7 @@ function cnxls { conan remote list }
 # project
 ##########################################################
 
-function cnii { conan create $args }
+function cncr { conan create $args }
 function cnb { conan build $args }
 function cnif { conan inspect $args }
 function cnpb { conan publish $args }
