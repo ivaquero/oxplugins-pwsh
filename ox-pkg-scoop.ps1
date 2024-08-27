@@ -54,7 +54,7 @@ function saf { scoop config aria2-enabled false }
 function sif {scoop info $args[0]}
 function sst { scoop status }
 function spn { scoop hold $args[0] }
-function supn { scoop unhold $args[0] }
+function spnr { scoop unhold $args[0] }
 
 ##########################################################
 # extension
