@@ -101,7 +101,7 @@ function cus { mamba remove $args }
 function csc { mamba search $args }
 function cdp { mamba repoquery depends $pkg }
 # specific
-function crdp { mamba repoquery whoneeds $pkg }
+function cdpr { mamba repoquery whoneeds $pkg }
 
 # clean packages
 function ccl {

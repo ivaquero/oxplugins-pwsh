@@ -161,7 +161,7 @@ function jldp {
     julia --eval "'$cmd'"
 }
 
-function jlrdp {
+function jldpr {
     $cmd = $(echo 'using Pkg; Pkg.activate(";;"); using PkgDependency; PkgDependency.tree(",,"; reverse=true) |> println' | sd ",," "$args[1]" | sd ";;" "$OX_JULIA_ENV_ACTIVE")
     echo "'$cmd'"
     julia --eval "'$cmd'"
