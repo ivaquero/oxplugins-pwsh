@@ -16,21 +16,28 @@ function get_default_branch() {
 }
 
 # git republish
-function grpbl() {
+function git_repub {
     git remote add origin $args[0]
-    $dbranch = $(get_default_branch)
-    git pull $args[0] $dbranch
-    git push --set-upstream origin $dbranch
+    $branch_d = $(get_default_branch)
+    git pull $args[0] $branch_d
+    git push --set-upstream origin $branch_d
+}
+
+# git sync
+function git_sync {
+    $branch_d=$(get_default_branch)
+    git pull upstream $branch_d
+    git push origin $branch_d
 }
 
 # clean files
-function gcl {
+function git_clean_history {
     git reset --hard HEAD~1
-    $dbranch = $(get_default_branch)
-    git checkout --orphan origin/$dbranch
+    $branch_d = $(get_default_branch)
+    git checkout --orphan origin/$branch_d
     git add -A
     git commit -am "🎉 New Start"
-    git branch -D $dbranch
-    git branch -m $dbranch
-    git push -f origin $dbranch
+    git branch -D $branch_d
+    git branch -m $branch_d
+    git push -f origin $branch_d
 }
