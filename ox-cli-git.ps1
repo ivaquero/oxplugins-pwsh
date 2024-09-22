@@ -15,6 +15,11 @@ function get_default_branch() {
     git remote show origin | grep 'HEAD branch' | cut -d ' ' -f5
 }
 
+function git_squash {
+    git reset --soft HEAD~$args[0]
+    git add -A
+}
+
 # git republish
 function git_repub {
     git remote add origin $args[0]
