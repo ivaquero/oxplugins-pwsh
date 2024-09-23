@@ -22,7 +22,6 @@ Powershell Plugins for [oxidizer](https://github.com/ivaquero/oxidizer).
 |   `ox-lang-julia.ps1`   |    Language     |             Julia              |
 |   `ox-lang-ruby.ps1`    |    Language     |       Ruby (include gem)       |
 |   `ox-lang-rust.ps1`    |    Language     |  Rust (include cargo, rustup)  |
-| `ox-svc-container.ps1`  |     Service     |  Container (Docker & Podman)   |
 |   `ox-svc-ollama.ps1`   |     Service     |             Ollama             |
 |   `ox-svc-pueue.ps1`    |     Service     |             Pueue              |
 |  `ox-utils-files.ps1`   |  System Utils   |         File Operation         |
