@@ -44,10 +44,6 @@ function nck { npm doctor }
 function nsc { npm search $args }
 function ncl { npm cache clean -f }
 function nif { npm info }
-function nfx {
-    if ([string]::IsNullOrEmpty($args)) { npm audit fix --force }
-    else { npm audit fix $args }
-}
 
 ##########################################################
 # project
@@ -56,9 +52,11 @@ function nfx {
 function nii { npm init $args }
 function nr { npm run $args }
 function nts { npm test $args }
-function nau { npm audit $args }
-function nfx { npm audit fix $args }
 function npb { npm publish $args }
+function nfx {
+    npm audit fix $args
+    npm audit $args
+}
 
 ##########################################################
 # packages
@@ -73,5 +71,4 @@ function yif { yarn info }
 function ycf { yarn config $args }
 function yii { yarn init $args }
 function yr { yarn run $args }
-function yau { yarn audit $args }
 function ypb { yarn publish $args }
