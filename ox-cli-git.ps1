@@ -11,16 +11,20 @@ $Global:OX_ELEMENT.g = "$HOME\.gitconfig"
 # repository management
 ##########################################################
 
-function get_default_branch() {
-    git remote show origin | grep 'HEAD branch' | cut -d ' ' -f5
-}
+# clean branch
+git_clean_branch {
+    param ( $branch, $obj )
+    Switch ( $branch ) {
+        -f { $list = "-l"; $flag = "-D"; find = "$obj" }
+        -r { $list = "-r"; $flag = "-r -d"; find = "$branch" }
+        -rf { $list = "-l"; $flag = "-d"; find = "$branch" }
+        Default { bw get item $obj --pretty }
+    }
 
-# git republish
-function git_repub {
-    git remote add origin $args[0]
-    $branch_d = $(get_default_branch)
-    git pull $args[0] $branch_d
-    git push --set-upstream origin $branch_d
+    ForEach ( $br in $(git branch "$list" | rg "$find") ){
+        git branch "$flag" "$br"
+    }
+    git branch "$list"
 }
 
 # clean files
