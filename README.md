@@ -14,7 +14,6 @@ Powershell Plugins for [oxidizer](https://github.com/ivaquero/oxidizer).
 |   `ox-pkg-conan.ps1`    | Package Manager |          Conan (C++)           |
 |    `ox-pkg-npm.ps1`     | Package Manager |    NPM + Yarn (JavaScript)     |
 |   `ox-pkg-tlmgr.ps1`    | Package Manager |        tlmgr (TeXLive)         |
-|    `ox-cli-git.ps1`     |     App CLI     |              Git               |
 | `ox-cli-bitwarden.ps1`  |     App CLI     |           Bitwarden            |
 |  `ox-cli-espanso.ps1`   |     App CLI     |            Espanso             |
 |  `ox-cli-jupyter.ps1`   |     App CLI     | Jupyter (notebook, lab, book)  |
