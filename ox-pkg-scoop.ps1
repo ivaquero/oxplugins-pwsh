@@ -51,7 +51,7 @@ function sat { scoop config aria2-enabled true }
 function saf { scoop config aria2-enabled false }
 
 # info & version
-function sif {scoop info $args[0]}
+function sif { scoop info $args[0] }
 function sst { scoop status }
 function spn { scoop hold $args[0] }
 function spnr { scoop unhold $args[0] }

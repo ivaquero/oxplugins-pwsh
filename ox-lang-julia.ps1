@@ -18,7 +18,7 @@ $env:OX_ELEMENT.jl = "$env:JULIA_DEPOT_PATH\config\startup.jl"
 $env:OX_OXIDE.bkjl = "$env:OX_BACKUP\julia\startup.jl"
 
 function up_julia {
-   param ( $the_env, $the_file )
+    param ( $the_env, $the_file )
     if ([string]::IsNullOrEmpty( $the_env )) {
         $julia_env = $Global:OX_julia_ENV.b
         $julia_file = "$Global:OX_OXIDE.bkjlb"
@@ -34,13 +34,13 @@ function up_julia {
 
     echo "Update Julia Env $julia_env by $julia_backup"
     $pkgs = (cat $($julia_backup) | tr '\n' ', ' | sed 's/$/"/g' | sed 's/^/"/g' | sed 's/,/", "/g' | sed 's/, ""//g')
-    $cmd = (echo "using Pkg; Pkg.activate(";;"); Pkg.add([,,])" | sd ";;" "$OX_JULIA_ENV_ACTIVE")
+    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.add([,,])' | sd ";;" "$OX_JULIA_ENV_ACTIVE")
     echo "$cmd"
     julia --eval "'$cmd'"
 }
 
 function back_julia {
-   param ( $the_env, $the_file )
+    param ( $the_env, $the_file )
     if ([string]::IsNullOrEmpty( $the_env )) {
         $julia_env = $Global:OX_julia_ENV.b
         $julia_file = "$Global:OX_OXIDE.bkjlb"
@@ -59,7 +59,7 @@ function back_julia {
 }
 
 function clean_conda {
-   param ( $the_env, $the_file )
+    param ( $the_env, $the_file )
     if ([string]::IsNullOrEmpty( $the_env )) {
         $julia_env = $Global:OX_julia_ENV.b
         $julia_file = "$Global:OX_OXIDE.bkjlb"
@@ -99,7 +99,7 @@ function jlh {
     julia --help
 }
 function jlr {
-   param ( $cmd )
+    param ( $cmd )
     julia --eval $cmd
 }
 function jlcl {
@@ -126,7 +126,7 @@ function jlis {
 # uninstall packages
 function jlus {
     $pkgs = $(echo "'$args'" | sed 's/ /\", \"/g')
-    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.rm([,,])' | sd ",," "$pkgs" | sd ";;" "$env:$OX_JULIA_ENV_ACTIVE")
+    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.rm([,,]); | sd ",," "$pkgs" | sd ";;" "$env:$OX_JULIA_ENV_ACTIVE"')
     echo "'$cmd'"
     julia --eval "'$cmd'"
 }
@@ -138,7 +138,7 @@ function jlup {
     }
     else {
         $pkgs = $(echo "'$args'" | sed 's/ /\", \"/g')
-        $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.update([,,])' | sd ";;" "$env:$OX_JULIA_ENV_ACTIVE")
+        $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.update([,,]); | sd ";;" "$env:$OX_JULIA_ENV_ACTIVE"')
         echo "'$cmd'"
         julia --eval "'$cmd'"
     }

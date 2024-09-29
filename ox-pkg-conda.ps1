@@ -12,11 +12,14 @@ if ([string]::IsNullOrEmpty("$env:OX_BACKUP\conda")) {
 }
 $Global:OX_OXIDE.bkc = "$env:OX_BACKUP\conda\.condarc"
 
-if (Get-Command mamba -ErrorAction SilentlyContinue) {
-    $Global:OX_CONDA="mamba"
+if (Get-Command mamba -ErrorAction SilentlyContinue ) {
+    $Global:OX_CONDA = "mamba"
+}
+elseif (Get-Command micromamba -ErrorAction SilentlyContinue ) {
+    $Global:OX_CONDA = "micromamba"
 }
 else {
-    echo "please install mamba first"
+    echo "please install mamba or micromamba first"
 }
 
 function up_conda {

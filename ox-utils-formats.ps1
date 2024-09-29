@@ -39,7 +39,7 @@ function mdto {
     else {
         pandoc $file -o ($name + "." + $format)
     }
- }
+}
 
 ##########################################################
 # audio
