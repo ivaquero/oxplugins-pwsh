@@ -28,7 +28,7 @@ function oxf {
 
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
-        $in_path = $Global:OX_ELEMENT.$file
+        $in_path = $Global:OX_ELEMENT."$file"
         $out_path = $Global:OX_OXIDE.$bkfile
 
         test_oxpath $out_path
@@ -50,7 +50,7 @@ function rdf {
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
         $in_path = $Global:OX_OXIDE.$bkfile
-        $out_path = $Global:OX_ELEMENT.$file
+        $out_path = $Global:OX_ELEMENT."$file"
 
         test_oxpath $out_path
 
@@ -71,7 +71,7 @@ function clzf {
     ForEach ( $file in $files ) {
         $oxfile = "ox" + $file
         $in_path = $Global:OX_OXYGEN.$oxfile
-        $out_path = $Global:OX_ELEMENT.$file
+        $out_path = $Global:OX_ELEMENT."$file"
 
         test_oxpath $out_path
         cp $in_path $out_path
@@ -139,8 +139,8 @@ function edf {
 ##########################################################
 
 function zpf { ouch compress $args }
-function uzpf { ouch decompress $args }
-function pkzpf { ouch list $args }
+function zpfr { ouch decompress $args }
+function zpls { ouch list $args }
 
 ##########################################################
 # Hash Files
