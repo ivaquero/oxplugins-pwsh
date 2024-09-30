@@ -140,7 +140,7 @@ function edf {
 
 function zpf { ouch compress $args }
 function zpfr { ouch decompress $args }
-function zpls { ouch list $args }
+function zpfls { ouch list $args }
 
 ##########################################################
 # Hash Files
