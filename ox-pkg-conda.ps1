@@ -14,12 +14,15 @@ $Global:OX_OXIDE.bkc = "$env:OX_BACKUP\conda\.condarc"
 
 if (Get-Command mamba -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "mamba"
+    $Global:OX_CONDA2 = "conda"
 }
 elseif (Get-Command micromamba -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "micromamba"
+    $Global:OX_CONDA2 = "micromamba"
 }
 elseif (Get-Command conda -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "conda"
+    $Global:OX_CONDA2 = "conda"
 }
 else {
     echo "No conda package manager found"
@@ -32,8 +35,8 @@ function up_conda {
         $conda_file = "$Global:OX_OXIDE.bkceb"
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $Global:OX_CONDA_ENV.$the_env
-        $conda_file = $Global:OX_OXIDE."bkce$the_env"
+        $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
+        $conda_file = $(echo $Global:OX_CONDA_ENV.bkce$the_env)
     }
     else {
         $conda_env = $the_env
@@ -53,8 +56,8 @@ function back_conda {
         $conda_file = $Global:OX_OXIDE."bkceb"
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $Global:OX_CONDA_ENV.$the_env
-        $conda_file = "$Global:OX_OXIDE.bkce$the_env"
+        $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
+        $conda_file = $(echo $Global:OX_CONDA_ENV.bkce$the_env)
     }
     else {
         $conda_env = $the_env
@@ -72,8 +75,8 @@ function clean_conda {
         $conda_file = $Global:OX_OXIDE.bkceb
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $Global:OX_CONDA_ENV.$the_env
-        $conda_file = $Global:OX_OXIDE."bkce$the_env"
+        $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
+        $conda_file = $(echo $Global:OX_CONDA_ENV.bkce$the_env)
     }
     else {
         $conda_env = $the_env
@@ -144,7 +147,7 @@ function cls {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) { . $Global:OX_CONDA list }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        . $Global:OX_CONDA list -n $Global:OX_CONDA_ENV.$the_env
+        . $Global:OX_CONDA list -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { . $Global:OX_CONDA list -n $the_env }
 }
@@ -155,7 +158,7 @@ function clv {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) { conda-tree leaves | sort }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        conda-tree -n $Global:OX_CONDA_ENV.$the_env leaves | sort
+        conda-tree -n $(echo $Global:OX_CONDA_ENV.$the_env) leaves | sort
     }
     else { conda-tree -n $the_env leaves | sort }
 }
@@ -199,7 +202,7 @@ function cck {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) { . $Global:OX_CONDA doctor }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        . $Global:OX_CONDA doctor -n $Global:OX_CONDA_ENV.$the_env
+        . $Global:OX_CONDA doctor -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { . $Global:OX_CONDA doctor -n $the_env }
 }
@@ -208,20 +211,20 @@ function cck {
 function ceat {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) {
-        . $Global:OX_CONDA activate base; clear
+        . $Global:OX_CONDA2 activate base; clear
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        . $Global:OX_CONDA activate $Global:OX_CONDA_ENV.$the_env; clear
+        . $Global:OX_CONDA2 activate $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else {
-        . $Global:OX_CONDA activate $the_env; clear
+        . $Global:OX_CONDA2 activate $the_env
     }
 }
 
 function ceq {
-    switch ($Global:OX_CONDA) {
-        conda { . $Global:OX_CONDA deactivate; clear }
-        Default { . $Global:OX_CONDA activate; clear }
+    switch ( $Global:OX_CONDA ) {
+        micromamba { . $Global:OX_CONDA2 activate; clear }
+        Default { . $Global:OX_CONDA2 deactivate; clear }
     }
 }
 
@@ -236,7 +239,7 @@ function cerat {
 function cecr {
     param ( $the_env )
     if ( $(echo $the_env | wc -L) -lt 2 ) {
-        . $Global:OX_CONDA create -n $Global:OX_CONDA_ENV.$the_env
+        . $Global:OX_CONDA create -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else {
         . $Global:OX_CONDA create -n $the_env
@@ -249,7 +252,7 @@ function cerm {
     param ( $the_env )
     conda deactivate
     if ( $(echo $the_env | wc -L) -lt 2 ) {
-        . $Global:OX_CONDA env remove -n $Global:OX_CONDA_ENV.$the_env
+        . $Global:OX_CONDA env remove -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { . $Global:OX_CONDA env remove -n $the_env }
 }
@@ -268,7 +271,7 @@ function ceep {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) { $conda_env = base }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $Global:OX_CONDA_ENV.$the_env
+        $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { $conda_env = $the_env }
     . $Global:OX_CONDA env export -n $conda_env -f $env:OX_BACKUP\conda\$conda_env-win.yml
