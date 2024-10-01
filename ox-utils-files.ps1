@@ -29,10 +29,10 @@ function oxf {
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
         $in_path = $Global:OX_ELEMENT."$file"
-        $out_path = $Global:OX_OXIDE.$bkfile
+        $out_path = $Global:OX_OXIDE."$bkfile"
 
+        echo "Backup $in_path to $out_path"
         test_oxpath $out_path
-
         if ( $file.EndsWith("_") ) {
             rm -rf $out_path
             cp -R $in_path $out_path
@@ -49,11 +49,11 @@ function rdf {
 
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
-        $in_path = $Global:OX_OXIDE.$bkfile
+        $in_path = $Global:OX_OXIDE."$bkfile"
         $out_path = $Global:OX_ELEMENT."$file"
 
+        echo "Overwrite $in_path to $out_path"
         test_oxpath $out_path
-
         if ( $file.EndsWith("_") ) {
             rm -rf $out_path
             cp -R $in_path $out_path
@@ -73,6 +73,7 @@ function clzf {
         $in_path = $Global:OX_OXYGEN.$oxfile
         $out_path = $Global:OX_ELEMENT."$file"
 
+        echo "Overwrite $in_path to $out_path"
         test_oxpath $out_path
         cp $in_path $out_path
     }
@@ -85,8 +86,9 @@ function ppgf {
         $oxfile = "ox" + $file
         $bkfile = "bk" + $file
         $in_path = $Global:OX_OXYGEN.$oxfile
-        $out_path = $Global:OX_OXIDE.$bkfile
+        $out_path = $Global:OX_OXIDE."$bkfile"
 
+        echo "Backup $in_path to $out_path"
         test_oxpath $out_path
         cp $in_path $out_path
     }
@@ -115,9 +117,9 @@ function brf {
         $cmd = "cat"
     }
     Switch ( $file ) {
-        { $file -match "ox\w{1,}" } { . $cmd $Global:OX_OXYGEN.$file }
-        { $file -match "bk\w{1,}" } { . $cmd $Global:OX_OXIDE.$file }
-        Default { . $cmd $Global:OX_ELEMENT.$file }
+        { $file -match "ox\w{1,}" } { . $cmd $Global:OX_OXYGEN."$file" }
+        { $file -match "bk\w{1,}" } { . $cmd $Global:OX_OXIDE."$file" }
+        Default { . $cmd $Global:OX_ELEMENT."$file" }
     }
 }
 
@@ -128,9 +130,9 @@ function edf {
     else { $cmd = $env:EDITOR }
 
     Switch ( $file ) {
-        { $file -match "ox[a-z]{1,}" } { . $cmd $Global:OX_OXYGEN.$file }
-        { $file -match "bk[a-z]{1,}" } { . $cmd $Global:OX_OXIDE.$file }
-        Default { . $cmd $Global:OX_ELEMENT.$file }
+        { $file -match "ox[a-z]{1,}" } { . $cmd $Global:OX_OXYGEN."$file" }
+        { $file -match "bk[a-z]{1,}" } { . $cmd $Global:OX_OXIDE."$file" }
+        Default { . $cmd $Global:OX_ELEMENT."$file" }
     }
 }
 
