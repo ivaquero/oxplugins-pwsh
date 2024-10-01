@@ -18,8 +18,11 @@ if (Get-Command mamba -ErrorAction SilentlyContinue ) {
 elseif (Get-Command micromamba -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "micromamba"
 }
+elseif (Get-Command conda -ErrorAction SilentlyContinue ) {
+    $Global:OX_CONDA = "conda"
+}
 else {
-    echo "please install mamba or micromamba first"
+    echo "No conda package manager found"
 }
 
 function up_conda {
@@ -40,7 +43,7 @@ function up_conda {
     echo "Update Conda Env $conda_env by $conda_file"
     $pkg = (cat $conda_file | tr '\n' ' ')
     echo "Installing $pkg"
-    mamba install $pkgs
+    . $Global:OX_CONDA install $pkgs
 }
 
 function back_conda {
@@ -96,26 +99,26 @@ function clean_conda {
 # packages
 ##########################################################
 
-function ch { conda --help }
-function ccf { conda config $args }
-function cif { conda info }
-function cis { mamba install $args }
-function cus { mamba remove $args }
-function csc { mamba search $args }
-function cdp { mamba repoquery depends $pkg }
+function ch { . $Global:OX_CONDA --help }
+function ccf { . $Global:OX_CONDA config $args }
+function cif { . $Global:OX_CONDA info }
+function cis { . $Global:OX_CONDA install $args }
+function cus { . $Global:OX_CONDA remove $args }
+function csc { . $Global:OX_CONDA search $args }
+function cdp { . $Global:OX_CONDA repoquery depends $pkg }
 # specific
-function cdpr { mamba repoquery whoneeds $pkg }
+function cdpr { . $Global:OX_CONDA repoquery whoneeds $pkg }
 
 # clean packages
 function ccl {
     param ( $cmd )
     Switch ( $cmd ) {
-        -l { conda clean --logfiles }
-        -i { conda clean --index-cache }
-        -p { conda clean --packages }
-        -t { conda clean --tarballs }
-        -f { conda clean --force-pkgs-dirs }
-        -a { conda clean --all }
+        -l { . $Global:OX_CONDA clean --logfiles }
+        -i { . $Global:OX_CONDA clean --index-cache }
+        -p { . $Global:OX_CONDA clean --packages }
+        -t { . $Global:OX_CONDA clean --tarballs }
+        -f { . $Global:OX_CONDA clean --force-pkgs-dirs }
+        -a { . $Global:OX_CONDA clean --all }
         Default {
             conda clean --packages
             conda clean --tarballs
@@ -125,11 +128,11 @@ function ccl {
 
 # update packages
 function cup {
-    if ([string]::IsNullOrEmpty( $args[0] )) { mamba update --all }
+    if ([string]::IsNullOrEmpty( $args[0] )) { . $Global:OX_CONDA update --all }
     else {
         ceat $args[0]
-        mamba update --all $args[0]
-        conda deactivate
+        . $Global:OX_CONDA update --all $args[0]
+        . $Global:OX_CONDA deactivate
     }
 }
 
@@ -139,11 +142,11 @@ Remove-Item alias:clv -Force -ErrorAction SilentlyContinue
 # $1=name
 function cls {
     param ( $the_env )
-    if ([string]::IsNullOrEmpty( $the_env )) { conda list }
+    if ([string]::IsNullOrEmpty( $the_env )) { . $Global:OX_CONDA list }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        conda list -n $Global:OX_CONDA_ENV.$the_env
+        . $Global:OX_CONDA list -n $Global:OX_CONDA_ENV.$the_env
     }
-    else { conda list -n $the_env }
+    else { . $Global:OX_CONDA list -n $the_env }
 }
 
 # list leave packages
@@ -171,16 +174,21 @@ function cmt {
 # extension
 ##########################################################
 
-function cxa { conda config --add channels $args }
-function cxrm { conda config --remove channels $args }
-function cxls { conda config --get channels }
+function cxa { . $Global:OX_CONDA config --add channels $args }
+function cxrm { . $Global:OX_CONDA config --remove channels $args }
+function cxls { . $Global:OX_CONDA config --get channels }
 
 ##########################################################
 # project
 ##########################################################
 
-function cii { conda init $args }
-function cr { conda run $args }
+function cii {
+    switch ($Global:OX_CONDA) {
+        conda { . $Global:OX_CONDA init $args }
+        Default { . $Global:OX_CONDA shell init $args }
+    }
+}
+function cr { . $Global:OX_CONDA run $args }
 
 ##########################################################
 # environments
@@ -189,38 +197,44 @@ function cr { conda run $args }
 # check environment health
 function cck {
     param ( $the_env )
-    if ([string]::IsNullOrEmpty( $the_env )) { conda doctor }
+    if ([string]::IsNullOrEmpty( $the_env )) { . $Global:OX_CONDA doctor }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        conda doctor -n $Global:OX_CONDA_ENV.$the_env
+        . $Global:OX_CONDA doctor -n $Global:OX_CONDA_ENV.$the_env
     }
-    else { conda doctor -n $the_env }
+    else { . $Global:OX_CONDA doctor -n $the_env }
 }
 
 # activate environment: $1=name
 function ceat {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) {
-        conda activate base; clear
+        . $Global:OX_CONDA activate base; clear
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        conda activate $Global:OX_CONDA_ENV.$the_env; clear
+        . $Global:OX_CONDA activate $Global:OX_CONDA_ENV.$the_env; clear
     }
     else {
-        conda activate $the_env; clear
+        . $Global:OX_CONDA activate $the_env; clear
+    }
+}
+
+function ceq {
+    switch ($Global:OX_CONDA) {
+        conda { . $Global:OX_CONDA deactivate; clear }
+        Default { . $Global:OX_CONDA activate; clear }
     }
 }
 
 # reactivate environment: $1=name
 function cerat {
     param ( $the_env )
-    conda deactivate
+    ceq
     ceat $the_env
 }
 
 # create environment: $1=name
 function cecr {
     param ( $the_env )
-
     if ( $(echo $the_env | wc -L) -lt 2 ) {
         conda create -n $Global:OX_CONDA_ENV.$the_env
     }
@@ -237,15 +251,15 @@ function cerm {
     if ( $(echo $the_env | wc -L) -lt 2 ) {
         conda env remove -n $Global:OX_CONDA_ENV.$the_env
     }
-    else { conda env remove -n $the_env }
+    else { . $Global:OX_CONDA env remove -n $the_env }
 }
 
 # change environment subdir
 function cesd {
     param ( $arch )
     Switch ( $arch ) {
-        a { conda env config vars set CONDA_SUBDIR=win-arm64 }
-        i { conda env config vars set CONDA_SUBDIR=win-64 }
+        a { . $Global:OX_CONDA env config vars set CONDA_SUBDIR=win-arm64 }
+        i { . $Global:OX_CONDA env config vars set CONDA_SUBDIR=win-64 }
     }
 }
 
@@ -263,9 +277,8 @@ function ceep {
 # rename environment
 function cern {
     param ( $old, $new )
-    if ( $old.Contains('\') ) { conda rename --prefix $old $new }
-    else { conda rename --name $old $new }
+    if ( $old.Contains('\') ) { . $Global:OX_CONDA rename --prefix $old $new }
+    else { . $Global:OX_CONDA rename --name $old $new }
 }
-function cels { conda env list }
-function ceq { conda deactivate; clear }
+function cels { . $Global:OX_CONDA env list }
 function cedf { conda compare $args }
