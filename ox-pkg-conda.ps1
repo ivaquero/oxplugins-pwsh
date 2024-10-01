@@ -120,8 +120,8 @@ function ccl {
         -f { . $Global:OX_CONDA clean --force-pkgs-dirs }
         -a { . $Global:OX_CONDA clean --all }
         Default {
-            conda clean --packages
-            conda clean --tarballs
+            . $Global:OX_CONDA clean --packages
+            . $Global:OX_CONDA clean --tarballs
         }
     }
 }
