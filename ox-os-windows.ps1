@@ -30,7 +30,7 @@ function which { (Get-Command $args[0]).Source }
 ##########################################################
 
 # backup files
-$Global:OX_OXIDE.bkw = "$env:OX_BACKUP\install\Wingetfile.json"
+$Global:OX_OXIDE.bkw = "$env:OX_BACKUP\win\Wingetfile.json"
 
 function up_winget {
     echo "Update Scoop by $($Global:OX_OXIDE.bkw)"

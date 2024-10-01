@@ -7,10 +7,10 @@ $env:SCOOP = 'C:\Scoop'
 
 $Global:OX_OXYGEN.oxs = "$env:OXIDIZER\defaults\Scoopfile.txt"
 # backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\install")) {
-    mkdir "$env:OX_BACKUP\install"
+if ([string]::IsNullOrEmpty("$env:OX_BACKUP\win")) {
+    mkdir "$env:OX_BACKUP\win"
 }
-$Global:OX_OXIDE.bks = "$env:OX_BACKUP\install\Scoopfile.json"
+$Global:OX_OXIDE.bks = "$env:OX_BACKUP\win\Scoopfile.json"
 
 function up_scoop {
     echo "Update Scoop by $($Global:OX_OXIDE.bks)"

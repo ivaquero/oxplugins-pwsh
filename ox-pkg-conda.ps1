@@ -33,7 +33,7 @@ function up_conda {
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
         $conda_env = $Global:OX_CONDA_ENV.$the_env
-        $conda_file = "$Global:OX_OXIDE.bkce$the_env"
+        $conda_file = $Global:OX_OXIDE."bkce$the_env"
     }
     else {
         $conda_env = $the_env
@@ -41,7 +41,7 @@ function up_conda {
     }
 
     echo "Update Conda Env $conda_env by $conda_file"
-    $pkg = (cat $conda_file | tr '\n' ' ')
+    $pkg = (cat $conda_file | tr '\n' '')
     echo "Installing $pkg"
     . $Global:OX_CONDA install $pkgs
 }
@@ -50,7 +50,7 @@ function back_conda {
     param ( $the_env, $the_file )
     if ([string]::IsNullOrEmpty( $the_env )) {
         $conda_env = 'base'
-        $conda_file = "$Global:OX_OXIDE.bkceb"
+        $conda_file = $Global:OX_OXIDE."bkceb"
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
         $conda_env = $Global:OX_CONDA_ENV.$the_env
@@ -69,11 +69,11 @@ function clean_conda {
     param ( $the_env, $the_file )
     if ([string]::IsNullOrEmpty( $the_env )) {
         $conda_env = 'base'
-        $conda_file = "$Global:OX_OXIDE.bkceb"
+        $conda_file = $Global:OX_OXIDE.bkceb
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
         $conda_env = $Global:OX_CONDA_ENV.$the_env
-        $conda_file = "$Global:OX_OXIDE.bkce$the_env"
+        $conda_file = $Global:OX_OXIDE."bkce$the_env"
     }
     else {
         $conda_env = $the_env
@@ -87,7 +87,7 @@ function clean_conda {
         $pkg = (cat $conda_file | rg $line)
         if ([string]::IsNullOrEmpty($pkg)) {
             echo "Removing $line"
-            mamba remove -n $conda_env $line --quiet --yes
+            . $Global:OX_CONDA remove -n $conda_env $line --quiet --yes
         }
     }
     if ($(echo $the_leaves | wc -w) -eq $(cat $conda_file | wc -w) -and ($(echo $the_leaves | wc -c)) -eq $(cat $conda_file | wc -c)) {
@@ -271,7 +271,7 @@ function ceep {
         $conda_env = $Global:OX_CONDA_ENV.$the_env
     }
     else { $conda_env = $the_env }
-    . $Global:OX_CONDA env export -n $conda_env -f $env:OX_BACKUP\install\$conda_env-win.yml
+    . $Global:OX_CONDA env export -n $conda_env -f $env:OX_BACKUP\conda\$conda_env-win.yml
 }
 
 # rename environment
