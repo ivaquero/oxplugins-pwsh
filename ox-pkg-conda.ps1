@@ -236,10 +236,10 @@ function cerat {
 function cecr {
     param ( $the_env )
     if ( $(echo $the_env | wc -L) -lt 2 ) {
-        conda create -n $Global:OX_CONDA_ENV.$the_env
+        . $Global:OX_CONDA create -n $Global:OX_CONDA_ENV.$the_env
     }
     else {
-        conda create -n $the_env
+        . $Global:OX_CONDA create -n $the_env
     }
     ceat $the_env
 }
@@ -249,7 +249,7 @@ function cerm {
     param ( $the_env )
     conda deactivate
     if ( $(echo $the_env | wc -L) -lt 2 ) {
-        conda env remove -n $Global:OX_CONDA_ENV.$the_env
+        . $Global:OX_CONDA env remove -n $Global:OX_CONDA_ENV.$the_env
     }
     else { . $Global:OX_CONDA env remove -n $the_env }
 }
@@ -271,7 +271,7 @@ function ceep {
         $conda_env = $Global:OX_CONDA_ENV.$the_env
     }
     else { $conda_env = $the_env }
-    conda env export -n $conda_env -f $env:OX_BACKUP\install\$conda_env-win.yml
+    . $Global:OX_CONDA env export -n $conda_env -f $env:OX_BACKUP\install\$conda_env-win.yml
 }
 
 # rename environment
