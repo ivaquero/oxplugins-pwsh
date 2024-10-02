@@ -221,12 +221,8 @@ function ceat {
     }
 }
 
-function ceq {
-    switch ( $Global:OX_CONDA ) {
-        micromamba { . $Global:OX_CONDA2 activate; clear }
-        Default { . $Global:OX_CONDA2 deactivate; clear }
-    }
-}
+function ceq { . $Global:OX_CONDA deactivate; clear }
+function cels { . $Global:OX_CONDA env list }
 
 # reactivate environment: $1=name
 function cerat {
@@ -283,5 +279,5 @@ function cern {
     if ( $old.Contains('\') ) { . $Global:OX_CONDA rename --prefix $old $new }
     else { . $Global:OX_CONDA rename --name $old $new }
 }
-function cels { . $Global:OX_CONDA env list }
+
 function cedf { conda compare $args }
