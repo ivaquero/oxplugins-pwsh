@@ -131,12 +131,12 @@ function ccl {
 
 # update packages
 function cup {
-    if ([string]::IsNullOrEmpty( $args[0] )) { . $Global:OX_CONDA update --all }
-    else {
-        ceat $args[0]
-        . $Global:OX_CONDA update --all $args[0]
-        . $Global:OX_CONDA deactivate
+    param ( $the_env )
+    if ([string]::IsNullOrEmpty( $the_env )) { . $Global:OX_CONDA update --all }
+    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
+        . $Global:OX_CONDA update --all -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
+    else { . $Global:OX_CONDA update --all -n $the_env }
 }
 
 Remove-Item alias:cls -Force -ErrorAction SilentlyContinue
