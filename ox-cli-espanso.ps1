@@ -6,6 +6,9 @@
 if (Test-Path -Path "$env:SCOOP/shims/espansod") {
     $Global:ESPANSO_DATA = "$env:SCOOP\current\.espanso"
 }
+else {
+    $Global:ESPANSO_DATA = "$env:APPDATA\espanso"
+}
 
 $Global:OX_ELEMENT.es = "$Global:ESPANSO_DATA\config\default.yml"
 $Global:OX_ELEMENT.esb = "$Global:ESPANSO_DATA\match\base.yml"
