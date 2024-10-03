@@ -59,6 +59,18 @@ function wxa { param ( $repo ) winget source add $repo }
 function wxrm { param ( $repo ) winget source remove $repo }
 function wxls { param ( $repo ) winget source list }
 
+function reset_msstore {
+    # Turn on TLS 1.0, TLS 1.1, TLS 1.2, 和 TLS 1.3...
+    $secureProtocolsPath = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings'
+    $secureProtocolsValue = 0x2AA0
+
+    # Set SecureProtocols (the following line returns msg)
+    New-ItemProperty -Path $secureProtocolsPath -Name 'SecureProtocols' -Value $secureProtocolsValue -PropertyType DWord -Force -ErrorAction Stop
+
+    # Stop IE proxy server
+    Set-ItemProperty -Path $secureProtocolsPath -Name 'ProxyEnable' -Value 0 -Force -ErrorAction Stop
+}
+
 ##########################################################
 # wsl
 ##########################################################
