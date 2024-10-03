@@ -200,11 +200,11 @@ function cr { . $Global:OX_CONDA run $args }
 # check environment health
 function cck {
     param ( $the_env )
-    if ([string]::IsNullOrEmpty( $the_env )) { . $Global:OX_CONDA doctor }
+    if ([string]::IsNullOrEmpty( $the_env )) { conda doctor }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        . $Global:OX_CONDA doctor -n $(echo $Global:OX_CONDA_ENV.$the_env)
+        conda doctor -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
-    else { . $Global:OX_CONDA doctor -n $the_env }
+    else { conda doctor -n $the_env }
 }
 
 # activate environment: $1=name
