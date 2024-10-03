@@ -35,8 +35,8 @@ function up_conda {
         $conda_file = "$Global:OX_OXIDE.bkceb"
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
-        $conda_file = $(echo $Global:OX_CONDA_ENV.bkce$the_env)
+        $conda_env = $Global:OX_CONDA_ENV.$the_env
+        $conda_file = $Global:OX_OXIDE."bkce$the_env"
     }
     else {
         $conda_env = $the_env
@@ -45,7 +45,7 @@ function up_conda {
 
     echo "Update Conda Env $conda_env by $conda_file"
     $pkg = (cat $conda_file | tr '\n' '')
-    echo "Installing $pkg"
+    echo "$Global:OX_CONDA install $pkg"
     . $Global:OX_CONDA install $pkgs
 }
 
@@ -56,8 +56,8 @@ function back_conda {
         $conda_file = $Global:OX_OXIDE."bkceb"
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
-        $conda_file = $(echo $Global:OX_CONDA_ENV.bkce$the_env)
+        $conda_env = $Global:OX_CONDA_ENV.$the_env
+        $conda_file = $Global:OX_OXIDE."bkce$the_env"
     }
     else {
         $conda_env = $the_env
@@ -75,8 +75,8 @@ function clean_conda {
         $conda_file = $Global:OX_OXIDE.bkceb
     }
     elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
-        $conda_file = $(echo $Global:OX_CONDA_ENV.bkce$the_env)
+        $conda_env = $Global:OX_CONDA_ENV.$the_env
+        $conda_file = $Global:OX_OXIDE."bkce$the_env"
     }
     else {
         $conda_env = $the_env
@@ -221,7 +221,7 @@ function ceat {
     }
 }
 
-function ceq { . $Global:OX_CONDA deactivate; clear }
+function ceq { . $Global:OX_CONDA2 deactivate; clear }
 function cels { . $Global:OX_CONDA env list }
 
 # reactivate environment: $1=name
