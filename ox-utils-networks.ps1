@@ -23,3 +23,13 @@ function pxq {
     $env:http_proxy = ''
     $env:all_proxy = ''
 }
+
+# Turn on TLS 1.0, TLS 1.1, TLS 1.2, 和 TLS 1.3...
+$secureProtocolsPath = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings'
+$secureProtocolsValue = 0x2AA0
+
+# Set SecureProtocols
+New-ItemProperty -Path $secureProtocolsPath -Name 'SecureProtocols' -Value $secureProtocolsValue -PropertyType DWord -Force -ErrorAction Stop
+
+# Stop IE proxy server
+Set-ItemProperty -Path $secureProtocolsPath -Name 'ProxyEnable' -Value 0 -Force -ErrorAction Stop
