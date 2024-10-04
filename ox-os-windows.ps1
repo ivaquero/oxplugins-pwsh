@@ -46,6 +46,7 @@ function wus { winget uninstall $args }
 function wls { winget list $args }
 function wif { winget show $args }
 function wifs { winget --info }
+function wcl { rm -rfv "C:/Users/msain/AppData/Local/Temp/WinGet" }
 function wsc { winget search $args }
 function wup {
     if (-not $args) { winget upgrade * }

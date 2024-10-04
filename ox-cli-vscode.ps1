@@ -52,16 +52,16 @@ function back_vscode {
 
 function vscl {
     echo "Cleaning up VSCode Cache.`n"
-    rm -rfv $VSCODE_DATA\Cache\*
+    rm -rfv $Global:VSCODE_DATA\Cache\*
     echo "Cleaning up VSCode Obselete History.`n"
-    rm -rfv $VSCODE_DATA\User\History\*
+    rm -rfv $Global:VSCODE_DATA\User\History\*
     echo "Cleaning up VSCode Obselete Profiles.\n"
-    rm -rfv $VSCODE_DATA\User\profiles\-*
+    rm -rfv $Global:VSCODE_DATA\User\profiles\-*
 
     Switch ( $args[1] ) {
         -a {
             echo "Cleaning up VSCode Workspace Storage.`n"
-            rm -rfv $VSCODE_DATA\User\workspaceStorage\*
+            rm -rfv $Global:VSCODE_DATA\User\workspaceStorage\*
         }
     }
 }
