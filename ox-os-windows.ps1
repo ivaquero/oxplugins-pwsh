@@ -75,16 +75,15 @@ function reset_msstore {
 # wsl
 ##########################################################
 
-function wlis {
-    if (-not $args) { wsl --install }
-    else { wsl --install -d $args }
-}
+function wslii { wsl --install }
 
-function wlus { wslconfig /u $args }
-function wlls { wsl -l -v }
-function wllso { wsl -l -o }
+function wslis { param ( $dist ) wsl --install -d $dist }
 
-function wlv {
+function wslus { param ( $dist ) wslconfig /u $dist }
+function wslls { wsl --list -v }
+function wsllsa { wsl --list --online }
+
+function wslset {
     param ( $ver )
     Switch ($ver) {
         { $ver -eq 2 } { 1 }
@@ -93,7 +92,7 @@ function wlv {
     wsl --set-version $ver
 }
 
-function wlcl {
+function wslcl {
     param ( $sys )
     Switch ( $sys ) {
         kali { $file = "C:\Users\Ci\AppData\Local\Packages\KaliLinux.54290C8133FEE_ey8k8hqnwqnmg\LocalState\ext4.vhdx" }

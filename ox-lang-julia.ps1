@@ -133,7 +133,7 @@ function jlus {
 
 # update packages
 function jlup {
-    if ([string]::IsNullOrEmpty($args)) {
+    if (-not $args) {
         $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.update()' | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
     }
     else {

@@ -31,5 +31,3 @@ function jbcr { jupyter-book create $args }
 function jbcl { jupyter-book clean $args }
 function jbb { jupyter-book build $args }
 function ghp { ghp-import -n -p -f $args\_build\html }
-
-set PYDEVD_DISABLE_FILE_VALIDATION=1

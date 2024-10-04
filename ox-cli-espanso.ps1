@@ -28,15 +28,14 @@ function esus { espansod package uninstall $args }
 function esls { espansod package list }
 
 function esup {
-    param ( $pkg )
-    if ([string]::IsNullOrEmpty($pkg)) {
+    if (-not $args) {
         $pkgs = $(espansod package list | rg -o "\w+.*\s-" | rg -o ".+*\w")
         ForEach ( $line in $pkgs ) {
             espansod package update $line
         }
     }
     else {
-        espansod package update $pkg
+        espansod package update $args
     }
 }
 
