@@ -30,6 +30,10 @@ Remove-Item alias:sls -Force -ErrorAction SilentlyContinue
 
 function sis { scoop install $args }
 function sus { scoop uninstall $args }
+function sris {
+    scoop uninstall $args
+    scoop install $args
+}
 function sls { scoop list }
 function sups { scoop update }
 
@@ -37,7 +41,6 @@ function sup {
     if (-not $args) { scoop update --all }
     else { scoop update $args }
 }
-
 
 function scl {
     if (-not $args) { scoop cleanup --all --cache }
