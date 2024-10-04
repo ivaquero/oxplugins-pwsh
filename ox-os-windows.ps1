@@ -75,13 +75,13 @@ function reset_msstore {
 # wsl
 ##########################################################
 
-function wslii { wsl --install }
+function wslii { wsl.exe --install }
 
-function wslis { param ( $dist ) wsl --install -d $dist }
+function wslis { param ( $dist ) wsl.exe --install -d $dist }
 
 function wslus { param ( $dist ) wslconfig /u $dist }
-function wslls { wsl --list -v }
-function wsllsa { wsl --list --online }
+function wslls { wsl.exe --list -v }
+function wsllsa { wsl.exe --list --online }
 
 function wslset {
     param ( $ver )
@@ -89,7 +89,7 @@ function wslset {
         { $ver -eq 2 } { 1 }
         Default { 2 }
     }
-    wsl --set-version $ver
+    wsl.exe --set-version $ver
 }
 
 function wslcl {
