@@ -29,16 +29,22 @@ function which { (Get-Command $args[0]).Source }
 # winget
 ##########################################################
 
+# system files
+$Global:OX_ELEMENT.w = "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
 # backup files
-$Global:OX_OXIDE.bkw = "$env:OX_BACKUP\win\Wingetfile.json"
+if ([string]::IsNullOrEmpty("$env:OX_BACKUP\win")) {
+    mkdir "$env:OX_BACKUP\win"
+}
+$Global:OX_OXIDE.bkw = "$env:OX_BACKUP\win\winget.jsonc"
+$Global:OX_OXIDE.bkwx = "$env:OX_BACKUP\win\Wingetfile.json"
 
 function up_winget {
-    echo "Update Scoop by $($Global:OX_OXIDE.bkw)"
-    winget import -i $Global:OX_OXIDE.bkw
+    echo "Update Scoop by $($Global:OX_OXIDE.bkwx)"
+    winget import -i $Global:OX_OXIDE.bkwx
 }
 function back_winget {
-    echo "Backup Scoop by $($Global:OX_OXIDE.bkw)"
-    winget export -o $Global:OX_OXIDE.bkw
+    echo "Backup Scoop by $($Global:OX_OXIDE.bkwx)"
+    winget export -o $Global:OX_OXIDE.bkwx
 }
 
 function wis { winget install $args }
@@ -54,6 +60,8 @@ function wup {
 }
 
 function wups { winget source update $args }
+
+function wcf { winget settings }
 
 # extension
 function wxa { param ( $repo ) winget source add $repo }
@@ -98,8 +106,8 @@ function wslset {
 function wslcl {
     param ( $dist )
     Switch ( $dist ) {
-        kali { $file = "C:\Users\Ci\AppData\Local\Packages\KaliLinux.54290C8133FEE_ey8k8hqnwqnmg\LocalState\ext4.vhdx" }
-        Default { $file = "C:\Users\Ci\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\ext4.vhdx" }
+        kali { $file = "$env:LOCALAPPDATA\Packages\KaliLinux.54290C8133FEE_ey8k8hqnwqnmg\LocalState\ext4.vhdx" }
+        Default { $file = "$env:LOCALAPPDATA\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\ext4.vhdx" }
     }
     diskpart
     Select-Object vdisk file=$file

@@ -3,7 +3,7 @@
 ##########################################################
 
 # system files
-if (Test-Path -Path "$env:SCOOP/shims/espansod") {
+if (Test-Path -Path "$env:SCOOP\shims\espansod") {
     $Global:ESPANSO_DATA = "$env:SCOOP\current\.espanso"
 }
 else {

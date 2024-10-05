@@ -5,21 +5,20 @@
 # path
 $env:SCOOP = 'C:\Scoop'
 
-$Global:OX_OXYGEN.oxs = "$env:OXIDIZER\defaults\Scoopfile.txt"
+# system files
+$Global:OX_ELEMENT.s = "$HOME\.config\scoop\config.json"
 # backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\win")) {
-    mkdir "$env:OX_BACKUP\win"
-}
-$Global:OX_OXIDE.bks = "$env:OX_BACKUP\win\Scoopfile.json"
+$Global:OX_OXIDE.bks = "$env:OX_BACKUP\win\scoop.jsonc"
+$Global:OX_OXIDE.bksx = "$env:OX_BACKUP\win\Scoopfile.json"
 
 function up_scoop {
-    echo "Update Scoop by $($Global:OX_OXIDE.bks)"
-    scoop import $($Global:OX_OXIDE.bks)
+    echo "Update Scoop by $($Global:OX_OXIDE.bksx)"
+    scoop import $($Global:OX_OXIDE.bksx)
 }
 
 function back_scoop {
-    echo "Backup Scoop to $($Global:OX_OXIDE.bks)"
-    scoop export > $($Global:OX_OXIDE.bks)
+    echo "Backup Scoop to $($Global:OX_OXIDE.bksx)"
+    scoop export > $($Global:OX_OXIDE.bksx)
 }
 
 ##########################################################
