@@ -148,10 +148,10 @@ function zpfls { ouch list $args }
 # Hash Files
 ##########################################################
 
-function md5 { hashsum --md5 $args }
-function sha1 { hashsum --sha1 $args }
-function sha2 { hashsum --sha256 $args }
-function sha5 { hashsum --sha512 $args }
+function md5 { md5sum.exe --md5 $args }
+function sha1 { sha1sum.exe --sha1 $args }
+function sha2 { sha256sum.exe --sha256 $args }
+function sha5 { sha512sum.exe --sha512 $args }
 
 ##########################################################
 # Editor
