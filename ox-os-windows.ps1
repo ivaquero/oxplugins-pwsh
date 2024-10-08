@@ -50,6 +50,7 @@ function back_winget {
 function wis { winget install $args }
 function wus { winget uninstall $args }
 function wls { winget list $args }
+function wst { winget list --upgrade-available }
 function wif { winget show $args }
 function wifs { winget --info }
 function wcl { rm -rfv "C:/Users/msain/AppData/Local/Temp/WinGet" }
