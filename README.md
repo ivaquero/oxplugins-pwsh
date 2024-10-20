@@ -17,12 +17,11 @@ Powershell Plugins for [oxidizer](https://github.com/ivaquero/oxidizer).
 | `ox-cli-bitwarden.ps1`  |     App CLI     |           Bitwarden            |
 |  `ox-cli-espanso.ps1`   |     App CLI     |            Espanso             |
 |  `ox-cli-jupyter.ps1`   |     App CLI     | Jupyter (notebook, lab, book)  |
+|   `ox-cli-ollama.ps1`   |     App CLI     |             Ollama             |
 |   `ox-cli-vscode.ps1`   |     App CLI     |             VSCode             |
 |   `ox-lang-julia.ps1`   |    Language     |             Julia              |
 |   `ox-lang-ruby.ps1`    |    Language     |       Ruby (include gem)       |
 |   `ox-lang-rust.ps1`    |    Language     |  Rust (include cargo, rustup)  |
-|   `ox-svc-ollama.ps1`   |     Service     |             Ollama             |
-|   `ox-svc-pueue.ps1`    |     Service     |             Pueue              |
 |  `ox-utils-files.ps1`   |  System Utils   |         File Operation         |
 | `ox-utils-formats.ps1`  |  System Utils   |       Formats Conversion       |
 | `ox-utils-networks.ps1` |  System Utils   |     Network Configuration      |
