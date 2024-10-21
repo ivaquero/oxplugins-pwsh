@@ -10,8 +10,6 @@ if ([string]::IsNullOrEmpty($Global:OX_JULIA_ENV_ACTIVE)) {
     $Global:OX_JULIA_ENV_ACTIVE = $Global:OX_JULIA_ENV.b
 }
 
-# default files
-$Global:OX_OXYGEN.oxjl = "$env:OXIDIZER\defaults\startup.jl"
 # system files
 $Global:OX_ELEMENT.jl = "$env:JULIA_DEPOT_PATH\config\startup.jl"
 # backup files
