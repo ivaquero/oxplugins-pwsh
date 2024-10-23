@@ -117,7 +117,6 @@ function jleat {
 
 # install packages
 function jlis {
-    jleat $args[0]
     $pkgs = $(echo $args | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
     $cmd = (echo 'using Pkg; Pkg.add([,,])' | sd ",," "$pkgs")
     echo "$cmd"
@@ -126,7 +125,6 @@ function jlis {
 
 # uninstall packages
 function jlus {
-    jleat $args[0]
     $pkgs = $(echo $args | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
     $cmd = (echo 'using Pkg; Pkg.rm([,,])' | sd ",," "$pkgs")
     echo "$cmd"
@@ -139,7 +137,6 @@ function jlup {
         $cmd = (echo 'using Pkg; Pkg.update()')
     }
     else {
-        jleat $args[0]
         $pkgs = $(echo "'$args'" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
         $cmd = (echo 'using Pkg; Pkg.update([,,])' | sd ", , " "$pkgs" )
     }
@@ -160,21 +157,18 @@ function jlls {
 # dependencies of package
 function jldp {
     param ( $julia_pkg )
-    jleat $args[0]
     $cmd = $(echo 'using Pkg; using PkgDependency; PkgDependency.tree(",,") |> println' | sd ",," "$julia_pkg")
     echo "$cmd"
     julia --eval "$cmd"
 }
 
 function jldpr {
-    jleat $args[0]
     $cmd = $(echo 'using Pkg; using PkgDependency; PkgDependency.tree(",,"; reverse=true) |> println' | sd ",," "$julia_pkg")
     echo "$cmd"
     julia --eval "$cmd"
 }
 
 function jlpn {
-    jleat $args[0]
     $pkgs = $(echo "$*" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
     $cmd = (echo 'using Pkg; Pkg.pin([, , ])' | sd ", , " "$pkgs" )
     echo "$cmd"
@@ -182,7 +176,6 @@ function jlpn {
 }
 
 function jlpnr {
-    jleat $args[0]
     $pkgs = $(echo "$*" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
     $cmd = (echo 'using Pkg; Pkg.free([, , ])' | sd ", , " "$pkgs" )
     echo "$cmd"
@@ -191,6 +184,7 @@ function jlpnr {
 
 # calculate mature rate
 function jlmt {
+    jleat $args[0]
     $num_total = (cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg "version =" | wc -l)
     echo "total: $num_total"
     $num_immature = (cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg '\"0\.' | wc -l)
@@ -205,7 +199,6 @@ function jlmt {
 
 # build project
 function jlb {
-    jleat $args[0]
     $pkgs = $(echo "'$args'" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
     $cmd = (echo 'using Pkg; Pkg.build([, , ])' | sd ",," "$pkgs")
     echo "$cmd"
@@ -214,7 +207,6 @@ function jlb {
 
 # test project
 function jlts {
-    jleat $args[0]
     $pkgs = $(echo "'$args'" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
     $cmd = (echo 'using Pkg; Pkg.test([, , ])' | sd ",," "$pkgs")
     echo "$cmd"
