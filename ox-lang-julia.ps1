@@ -135,11 +135,11 @@ function jlus {
 
 # update packages
 function jlup {
-    jleat $args[0]
     if (-not $args) {
         $cmd = (echo 'using Pkg; Pkg.update()')
     }
     else {
+        jleat $args[0]
         $pkgs = $(echo "'$args'" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
         $cmd = (echo 'using Pkg; Pkg.update([,,])' | sd ", , " "$pkgs" )
     }
