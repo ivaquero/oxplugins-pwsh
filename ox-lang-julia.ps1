@@ -91,22 +91,11 @@ function clean_conda {
 # packages
 ##########################################################
 
-function jl {
-    julia --quiet
-}
-function jlh {
-    julia --help
-}
-function jlr {
-    param ( $cmd )
-    julia --eval $cmd
-}
-function jlcl {
-    julia --eval 'using Pkg; Pkg.activate(";;"); Pkg.gc()'
-}
-function jlst {
-    julia --eval 'using Pkg; Pkg.activate(";;"); Pkg.status()'
-}
+function jl { julia --quiet }
+function jlh { julia --help }
+function jlr { julia --eval $args }
+function jlcl { julia --eval 'using Pkg; Pkg.gc()' }
+function jlst { julia --eval 'using Pkg; Pkg.status()' }
 
 function jleat {
     if (-not $args) { $julia_env = 'b' }
@@ -145,14 +134,9 @@ function jlup {
 }
 
 # list leave packages
-function jllv {
-    cat $Global:OX_JULIA_ENV_ACTIVE/Project.toml | rg -o '\w+ =' | tr " = " " "
-}
-
+function jllv { cat $Global:OX_JULIA_ENV_ACTIVE/Project.toml | rg -o '\w+ =' | tr " = " " " }
 # list packages
-function jlls {
-    cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg -o 'deps\.\w+' | tr -d "deps\."
-}
+function jlls { cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg -o 'deps\.\w+' | tr -d "deps\." }
 
 # dependencies of package
 function jldp {
