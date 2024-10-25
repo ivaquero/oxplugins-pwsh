@@ -19,6 +19,11 @@ if ([string]::IsNullOrEmpty("$env:OX_BACKUP\vscode")) {
     mkdir "$env:OX_BACKUP\vscode"
 }
 
+$Global:OX_OXIDE.bkvs = "$env:OX_BACKUP\vscode\settings.json"
+$Global:OX_OXIDE.bkvsk = "$env:OX_BACKUP\vscode\keybindings.json"
+$Global:OX_OXIDE.bkvss_ = "$env:OX_BACKUP\vscode\snippets"
+$Global:OX_OXIDE.bkvsx = "$env:OX_BACKUP\vscode\vscode-exts.txt"
+
 function up_vscode {
     echo "Update VSCode extensions by $($Global:OX_OXIDE.bkvsx)"
     $exts = (code --list-extensions)
