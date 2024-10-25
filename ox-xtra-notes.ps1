@@ -5,8 +5,8 @@
 $Global:OX_OXIDE.bkob = "$env:OX_BACKUP\obsidian\community-plugins.json"
 $Global:OX_OXIDE.bkob_ = "$env:OX_BACKUP\obsidian\plugins"
 
-$Global:OX_ELEMENT.ob = "$Global:OX_OXIDIAN\obsidian\community-plugins.json"
-$Global:OX_ELEMENT.ob_ = "$Global:OX_OXIDIAN\obsidian\plugins"
+$Global:OX_ELEMENT.ob = "$Global:OX_OXIDIAN\.obsidian\community-plugins.json"
+$Global:OX_ELEMENT.ob_ = "$Global:OX_OXIDIAN\.obsidian\plugins"
 
 ##########################################################
 # logseq
