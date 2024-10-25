@@ -23,10 +23,6 @@ function up_vscode {
     echo "Update VSCode extensions by $($Global:OX_OXIDE.bkvsx)"
     $exts = (code --list-extensions)
     $file = (cat $($Global:OX_OXIDE.bkvsx))
-    $num = (cat $($Global:OX_OXIDE.bkvsx) | wc -l)
-
-    pueue group add vscode_update
-    pueue parallel $num -g vscode_update
 
     ForEach ( $line in $file ) {
         if (echo $exts | rg $line) {
@@ -34,11 +30,9 @@ function up_vscode {
         }
         else {
             echo "Installing $line"
-            pueue add -g vscode_update " code --install-extension '$line'"
+            code --install-extension $line
         }
     }
-    sleep 3
-    pueue status
 }
 
 function back_vscode {
