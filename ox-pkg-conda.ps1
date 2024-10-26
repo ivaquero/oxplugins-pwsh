@@ -29,18 +29,17 @@ else {
 }
 
 function up_conda {
-    param ( $the_env, $the_file )
-    if ([string]::IsNullOrEmpty( $the_env )) {
+    if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
-        $conda_file = "$Global:OX_OXIDE.bkceb"
+        $conda_file = $Global:OX_OXIDE."bkceb"
     }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $Global:OX_CONDA_ENV.$the_env
-        $conda_file = $Global:OX_OXIDE."bkce$the_env"
+    elseif ( $args[0].ToString().Length -lt 2 ) {
+        $conda_env = (echo $Global:OX_CONDA_ENV."$args")
+        $conda_file = $Global:OX_OXIDE."bkce$args"
     }
     else {
-        $conda_env = $the_env
-        $conda_file = $the_file
+        $conda_env = $args[0]
+        $conda_file = $args[1]
     }
 
     echo "Update Conda Env $conda_env by $conda_file"
@@ -50,18 +49,17 @@ function up_conda {
 }
 
 function back_conda {
-    param ( $the_env, $the_file )
-    if ([string]::IsNullOrEmpty( $the_env )) {
+    if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
         $conda_file = $Global:OX_OXIDE."bkceb"
     }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $Global:OX_CONDA_ENV.$the_env
-        $conda_file = $Global:OX_OXIDE."bkce$the_env"
+    elseif ( $args[0].ToString().Length -lt 2 ) {
+        $conda_env = (echo $Global:OX_CONDA_ENV."$args")
+        $conda_file = $Global:OX_OXIDE."bkce$args"
     }
     else {
-        $conda_env = $the_env
-        $conda_file = $the_file
+        $conda_env = $args[0]
+        $conda_file = $args[1]
     }
 
     echo "Backup Conda Env $conda_env to $conda_file"
@@ -69,18 +67,17 @@ function back_conda {
 }
 
 function clean_conda {
-    param ( $the_env, $the_file )
-    if ([string]::IsNullOrEmpty( $the_env )) {
+    if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
-        $conda_file = $Global:OX_OXIDE.bkceb
+        $conda_file = $Global:OX_OXIDE."bkceb"
     }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
-        $conda_env = $Global:OX_CONDA_ENV.$the_env
-        $conda_file = $Global:OX_OXIDE."bkce$the_env"
+    elseif ( $args[0].ToString().Length -lt 2 ) {
+        $conda_env = (echo $Global:OX_CONDA_ENV."$args")
+        $conda_file = $Global:OX_OXIDE."bkce$args"
     }
     else {
-        $conda_env = $the_env
-        $conda_file = $the_file
+        $conda_env = $args[0]
+        $conda_file = $args[1]
     }
 
     echo "Cleanup Conda Env $conda_env by $conda_file"
@@ -133,7 +130,7 @@ function ccl {
 function cup {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) { . $Global:OX_CONDA update --all }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
+    elseif ( $the_env.ToString().Length -lt 2 ) {
         . $Global:OX_CONDA update --all -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { . $Global:OX_CONDA update --all -n $the_env }
@@ -145,8 +142,8 @@ Remove-Item alias:clv -Force -ErrorAction SilentlyContinue
 # $1=name
 function cls {
     param ( $the_env )
-    if ([string]::IsNullOrEmpty( $the_env )) { . $Global:OX_CONDA list }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
+    if ( $the_env.Length -eq 0 ) { . $Global:OX_CONDA list }
+    elseif ( $the_env.ToString().Length -lt 2 ) {
         . $Global:OX_CONDA list -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { . $Global:OX_CONDA list -n $the_env }
@@ -156,8 +153,8 @@ function cls {
 # $1=name
 function clv {
     param ( $the_env )
-    if ([string]::IsNullOrEmpty( $the_env )) { conda-tree leaves | sort }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
+    if ( $the_env.Length -eq 0) { conda-tree leaves | sort }
+    elseif ( $the_env.ToString().Length -lt 2 ) {
         conda-tree -n $(echo $Global:OX_CONDA_ENV.$the_env) leaves | sort
     }
     else { conda-tree -n $the_env leaves | sort }
@@ -201,7 +198,7 @@ function cr { . $Global:OX_CONDA run $args }
 function cck {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) { conda doctor }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
+    elseif ( $the_env.ToString().Length -lt 2 ) {
         conda doctor -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { conda doctor -n $the_env }
@@ -213,7 +210,7 @@ function ceat {
     if ([string]::IsNullOrEmpty( $the_env )) {
         . $Global:OX_CONDA2 activate base; clear
     }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
+    elseif ( $the_env.ToString().Length -lt 2 ) {
         . $Global:OX_CONDA2 activate $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else {
@@ -234,7 +231,7 @@ function cerat {
 # create environment: $1=name
 function cecr {
     param ( $the_env )
-    if ( $(echo $the_env | wc -L) -lt 2 ) {
+    if ( $the_env.ToString().Length -lt 2 ) {
         . $Global:OX_CONDA create -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else {
@@ -247,7 +244,7 @@ function cecr {
 function cerm {
     param ( $the_env )
     conda deactivate
-    if ( $(echo $the_env | wc -L) -lt 2 ) {
+    if ( $the_env.ToString().Length -lt 2 ) {
         . $Global:OX_CONDA env remove -n $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { . $Global:OX_CONDA env remove -n $the_env }
@@ -266,7 +263,7 @@ function cesd {
 function ceep {
     param ( $the_env )
     if ([string]::IsNullOrEmpty( $the_env )) { $conda_env = base }
-    elseif ( $(echo $the_env | wc -L) -lt 2 ) {
+    elseif ( $the_env.ToString().Length -lt 2 ) {
         $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { $conda_env = $the_env }

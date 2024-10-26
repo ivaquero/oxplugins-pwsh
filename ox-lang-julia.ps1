@@ -16,40 +16,39 @@ $Global:OX_ELEMENT.jl = "$env:JULIA_DEPOT_PATH\config\startup.jl"
 $Global:OX_OXIDE.bkjl = "$env:OX_BACKUP\julia\startup.jl"
 
 function up_julia {
-    param ( $the_env, $the_file )
-    if ([string]::IsNullOrEmpty( $the_env )) {
+    if ([string]::IsNullOrEmpty( $args[0] )) {
         $julia_env = $Global:OX_julia_ENV.b
         $julia_backup = $Global:OX_OXIDE.bkjlb
     }
-    elseif ( $(echo $the_env | wc -L) -lt 3 ) {
-        $julia_env = $Global:OX_julia_ENV.$the_env
-        $julia_backup = $Global:OX_OXIDE."bkjl$the_env"
+    elseif ( $args[0].ToString().Length -lt 2 ) {
+        $julia_env = $Global:OX_julia_ENV."$args"
+        $julia_backup = $Global:OX_OXIDE."bkjl$args"
     }
     else {
-        $julia_env = $the_env
-        $julia_backup = $the_file
+        $julia_env = $args[0]
+        $julia_backup = $args[1]
     }
 
     echo "Update Julia Env $julia_env by $julia_backup"
-    $pkgs = (cat $($julia_backup) | tr '\n' ', ' | sd '^' '"' | sd ',$' '"' | sd ',' '","')
-    $cmd = (echo 'using Pkg; Pkg.activate("$julia_env"); Pkg.add([,,])' | sd ",," "$pkgs" | sd ";;" "$OX_JULIA_ENV_ACTIVE")
+    $pkgs = (cat $($julia_backup) | tr '\n' ', ' | sd '^' '"' | sd ', $' '"' | sd ',' '", "')
+    jleat $julia_env
+    $cmd = (echo 'using Pkg; Pkg.add([,,])' | sd ",," "$pkgs")
     echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 function back_julia {
-    param ( $the_env, $the_file )
-    if ([string]::IsNullOrEmpty( $the_env )) {
+    if ([string]::IsNullOrEmpty( $args[0] )) {
         $julia_env = $Global:OX_julia_ENV.b
         $julia_backup = $Global:OX_OXIDE.bkjlb
     }
-    elseif ( $(echo $the_env | wc -L) -lt 3 ) {
-        $julia_env = $Global:OX_julia_ENV.$the_env
-        $julia_backup = $Global:OX_OXIDE."bkjl$the_env"
+    elseif ( $args[0].ToString().Length -lt 2 ) {
+        $julia_env = $Global:OX_julia_ENV."$args"
+        $julia_backup = $Global:OX_OXIDE."bkjl$args"
     }
     else {
-        $julia_env = $the_env
-        $julia_backup = $the_file
+        $julia_env = $args[0]
+        $julia_backup = $args[1]
     }
 
     echo "Backup Julia Env $julia_env to $julia_backup"
@@ -57,18 +56,17 @@ function back_julia {
 }
 
 function clean_julia {
-    param ( $the_env, $the_file )
-    if ([string]::IsNullOrEmpty( $the_env )) {
+    if ([string]::IsNullOrEmpty( $args[0] )) {
         $julia_env = $Global:OX_julia_ENV.b
         $julia_backup = $Global:OX_OXIDE.bkjlb
     }
-    elseif ( $(echo $the_env | wc -L) -lt 3 ) {
-        $julia_env = $Global:OX_julia_ENV.$the_env
-        $julia_backup = $Global:OX_OXIDE."bkjl$the_env"
+    elseif ( $args[0].ToString().Length -lt 2 ) {
+        $julia_env = $Global:OX_julia_ENV."$args"
+        $julia_backup = $Global:OX_OXIDE."bkjl$args"
     }
     else {
-        $julia_env = $the_env
-        $julia_backup = $the_file
+        $julia_env = $args[0]
+        $julia_backup = $args[1]
     }
 
     echo "Cleanup Julia Env $julia_env by $julia_backup"
@@ -81,7 +79,7 @@ function clean_julia {
             jlus $line
         }
     }
-    if ($(echo $the_leaves | wc -w) -eq $(cat $julia_backup | wc -w) -and ($(echo $the_leaves | wc -c)) -eq $(cat $julia_backup | wc -c)) {
+    if ((echo $the_leaves | wc -w) -eq $(cat $julia_backup | wc -w) -and ((echo $the_leaves | wc -c)) -eq $(cat $julia_backup | wc -c)) {
         echo "Julia Env Cleanup Finished"
     }
 }
@@ -97,14 +95,7 @@ function jlh {
     julia --help
 }
 function jlr {
-    param ( $cmd )
-    julia --eval $cmd
-}
-function jlcl {
-    julia --eval 'using Pkg; Pkg.activate(";;"); Pkg.gc()'
-}
-function jlst {
-    julia --eval 'using Pkg; Pkg.activate(";;"); Pkg.status()'
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval $args
 }
 
 function jleat {
@@ -113,33 +104,39 @@ function jleat {
     echo "Activate Julia Env $Global:OX_JULIA_ENV_ACTIVE"
 }
 
+function jlcl {
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE"  --eval 'using Pkg; Pkg.gc()'
+}
+function jlst {
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval 'using Pkg; Pkg.status()'
+}
+
 # install packages
 function jlis {
-    $pkgs = $(echo $args | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.add([,,])' | sd ",," "$pkgs" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
-    echo "$cmd"
-    julia --eval "$cmd"
+    $pkgs = (echo $args | sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
+    echo "installing packages: $pkgs"
+    $cmd = (echo 'using Pkg; Pkg.add([,,])' | sd ",," "$pkgs")
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 # uninstall packages
 function jlus {
-    $pkgs = $(echo $args | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.rm([,,])' | sd ",," "$pkgs" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+    $pkgs = (echo $args | sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
+    $cmd = (echo 'using Pkg; Pkg.rm([,,])' | sd ",," "$pkgs")
     echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 # update packages
 function jlup {
     if (-not $args) {
-        $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.update()' | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+        $cmd = 'using Pkg; Pkg.update()'
     }
     else {
-        $pkgs = $(echo "'$args'" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-        $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.update([,,])' | sd ",," "$pkgs" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+        $pkgs = (echo "'$args'" sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
+        $cmd = (echo 'using Pkg; Pkg.update([,,])' | sd ",," "$pkgs")
     }
-    echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 # list leave packages
@@ -155,29 +152,30 @@ function jlls {
 # dependencies of package
 function jldp {
     param ( $julia_pkg )
-    $cmd = $(echo 'using Pkg; Pkg.activate(";;"); using PkgDependency; PkgDependency.tree(",,") |> println' | sd ",," "$julia_pkg" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+    $cmd = (echo 'using Pkg; using PkgDependency; PkgDependency.tree(",,") |> println' | sd ",," "$julia_pkg")
     echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 function jldpr {
-    $cmd = $(echo 'using Pkg; Pkg.activate(";;"); using PkgDependency; PkgDependency.tree(",,"; reverse=true) |> println' | sd ",," "$julia_pkg" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+    param ( $julia_pkg )
+    $cmd = (echo 'using Pkg; using PkgDependency; PkgDependency.tree(",,"; reverse=true) |> println' | sd ",," "$julia_pkg")
     echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 function jlpn {
-    pkgs=$(echo "$*" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.pin([, , ])' | sd ", , " "$pkgs" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+    pkgs=(echo "$*" sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
+    $cmd = (echo 'using Pkg; Pkg.pin([,,])' | sd ",," "$pkgs")
     echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 function jlpnr {
-    pkgs=$(echo "$*" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.free([, , ])' | sd ", , " "$pkgs" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+    pkgs=(echo "$*" sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
+    $cmd = (echo 'using Pkg; Pkg.free([,,])' | sd ",," "$pkgs")
     echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 # calculate mature rate
@@ -196,16 +194,16 @@ function jlmt {
 
 # build project
 function jlb {
-    $pkgs = $(echo "'$args'" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.build([,,])' | sd ",," "$pkgs" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+    $pkgs = (echo "'$args'" sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
+    $cmd = (echo 'using Pkg; Pkg.build([,,])' | sd ",," "$pkgs")
     echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 # test project
 function jlts {
-    $pkgs = $(echo "'$args'" | sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.activate(";;"); Pkg.test([, , ])' | sd ",," "$pkgs" | sd ";;" "$Global:OX_JULIA_ENV_ACTIVE")
+    $pkgs = (echo "'$args'" sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
+    $cmd = (echo 'using Pkg; Pkg.test([,,])' | sd ",," "$pkgs")
     echo "$cmd"
-    julia --eval "$cmd"
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
