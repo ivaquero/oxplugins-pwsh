@@ -113,16 +113,16 @@ function jlst {
 
 # install packages
 function jlis {
-    $pkgs = (echo $args | sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
-    echo "installing packages: $pkgs"
-    $cmd = (echo 'using Pkg; Pkg.add([,,])' | sd ",," "$pkgs")
+    $pkgs = ($args -join '\", \"')
+    $cmd = 'using Pkg; Pkg.add([\"' + $pkgs + '\"])'
+    echo "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 # uninstall packages
 function jlus {
-    $pkgs = (echo $args | sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.rm([,,])' | sd ",," "$pkgs")
+    $pkgs = ($args -join '\", \"')
+    $cmd = 'using Pkg; Pkg.rm([\"' + $pkgs + '\"])'
     echo "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
@@ -133,8 +133,8 @@ function jlup {
         $cmd = 'using Pkg; Pkg.update()'
     }
     else {
-        $pkgs = (echo "'$args'" sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
-        $cmd = (echo 'using Pkg; Pkg.update([,,])' | sd ",," "$pkgs")
+        $pkgs = ($args -join '\", \"')
+        $cmd = 'using Pkg; Pkg.update([\"' + $pkgs + '\"])'
     }
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
@@ -152,28 +152,28 @@ function jlls {
 # dependencies of package
 function jldp {
     param ( $julia_pkg )
-    $cmd = (echo 'using Pkg; using PkgDependency; PkgDependency.tree(",,") |> println' | sd ",," "$julia_pkg")
+    $cmd = 'using Pkg; using PkgDependency; PkgDependency.tree(\"' + $julia_pkg + '\") |> println'
     echo "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 function jldpr {
     param ( $julia_pkg )
-    $cmd = (echo 'using Pkg; using PkgDependency; PkgDependency.tree(",,"; reverse=true) |> println' | sd ",," "$julia_pkg")
+    $cmd = 'using Pkg; using PkgDependency; PkgDependency.tree(\"' + $julia_pkg + '\"; reverse=true) |> println'
     echo "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 function jlpn {
-    pkgs=(echo "$*" sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.pin([,,])' | sd ",," "$pkgs")
+    $pkgs = ($args -join '\", \"')
+    $cmd = 'using Pkg; Pkg.pin([\"' + $pkgs + '\"])'
     echo "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 function jlpnr {
-    pkgs=(echo "$*" sd '^' '"' | sd '$' '"' | sd ' ' '", "' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.free([,,])' | sd ",," "$pkgs")
+    $pkgs = ($args -join '\", \"')
+    $cmd = 'using Pkg; Pkg.free([\"' + $pkgs + '\"])'
     echo "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
@@ -194,16 +194,16 @@ function jlmt {
 
 # build project
 function jlb {
-    $pkgs = (echo "'$args'" sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.build([,,])' | sd ",," "$pkgs")
+    $pkgs = ($args -join '\", \"')
+    $cmd = 'using Pkg; Pkg.build([\"' + $pkgs + '\"])'
     echo "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
 # test project
 function jlts {
-    $pkgs = (echo "'$args'" sd '^' '"' | sd '$' '"' | sd ' ' '","' | sd '""' '')
-    $cmd = (echo 'using Pkg; Pkg.test([,,])' | sd ",," "$pkgs")
+    $pkgs = ($args -join '\", \"')
+    $cmd = 'using Pkg; Pkg.test([\"' + $pkgs + '\"])'
     echo "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
