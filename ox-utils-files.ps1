@@ -166,12 +166,12 @@ function ched {
 # Zoxide
 ##########################################################
 
-$_ZO_DATA_DIR = "$env:LOCALAPPDATA\zoxide"
+$env:_ZO_DATA_DIR = "$env:LOCALAPPDATA\zoxide"
 
-if (!(Test-Path -Path $_ZO_DATA_DIR)) {
-    mkdir "$_ZO_DATA_DIR"
+if (!(Test-Path -Path $env:_ZO_DATA_DIR)) {
+    mkdir "$env:_ZO_DATA_DIR"
 }
-$Global:OX_ELEMENT.z = "$_ZO_DATA_DIR\db.zo"
+$Global:OX_ELEMENT.z = "$env:_ZO_DATA_DIR\db.zo"
 
 function zh { zoxide --help }
 function zii { zoxide init $args }
