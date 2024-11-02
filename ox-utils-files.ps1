@@ -172,8 +172,6 @@ if (!(Test-Path -Path $_ZO_DATA_DIR)) {
     mkdir "$_ZO_DATA_DIR"
 }
 $Global:OX_ELEMENT.z = "$_ZO_DATA_DIR\db.zo"
-# backup files
-$Global:OX_OXIDE.bkz = "$env:OX_BACKUP\shell\db.zo"
 
 function zh { zoxide --help }
 function zii { zoxide init $args }
