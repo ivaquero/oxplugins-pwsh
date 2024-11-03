@@ -11,7 +11,7 @@ function open { explorer $args }
 function clean {
     param ( $obj )
     Switch ( $obj ) {
-        sdl { rm -r $env:SCOOP\cache }
+        scoop { rm -r $env:SCOOP\cache }
         Default { Clear-RecycleBin -Confirm }
     }
 }
@@ -53,14 +53,12 @@ function wls { winget list $args }
 function wst { winget list --upgrade-available }
 function wif { winget show $args }
 function wifs { winget --info }
-function wcl { rm -rfv "C:/Users/msain/AppData/Local/Temp/WinGet" }
+function wcl { rm -rfv "$HOME/AppData/Local/Temp/WinGet" }
 function wsc { winget search $args }
 function wup {
     if (-not $args) { winget upgrade * }
     else { winget upgrade $args }
 }
-
-function wups { winget source update $args }
 
 function wcf { winget settings }
 
@@ -84,7 +82,6 @@ function reset_msstore {
 ##########################################################
 # wsl
 ##########################################################
-
 
 function wslis {
     if (-not $args) { wsl --install }
