@@ -101,13 +101,8 @@ function clean_conda {
 
 function ch { . $Global:OX_CONDA --help $args }
 function ccf { . $Global:OX_CONDA config $args }
-function cif { . $Global:OX_CONDA info }
 function cis { . $Global:OX_CONDA install $args }
 function cus { . $Global:OX_CONDA remove $args }
-function csc { . $Global:OX_CONDA search $args }
-function cdp { . $Global:OX_CONDA repoquery depends $args }
-# specific
-function cdpr { . $Global:OX_CONDA repoquery whoneeds $args }
 
 # clean packages
 function ccl {
@@ -136,6 +131,13 @@ function cup {
     else { . $Global:OX_CONDA update --all -n $the_env }
 }
 
+##########################################################
+# info
+##########################################################
+
+function cif { . $Global:OX_CONDA info }
+function csc { . $Global:OX_CONDA search $args }
+
 Remove-Item alias:cls -Force -ErrorAction SilentlyContinue
 Remove-Item alias:clv -Force -ErrorAction SilentlyContinue
 # list packages
@@ -159,6 +161,10 @@ function clv {
     }
     else { conda-tree -n $the_env leaves | sort }
 }
+
+function cdp { . $Global:OX_CONDA repoquery depends $args }
+# specific
+function cdpr { . $Global:OX_CONDA repoquery whoneeds $args }
 
 function cmt {
     param ( $the_env )

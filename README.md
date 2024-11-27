@@ -11,8 +11,8 @@ Powershell Plugins for [oxidizer](https://github.com/ivaquero/oxidizer).
 |   `ox-os-windows.ps1`   |  OS Shortcuts   |    Windows (include winget)    |
 |   `ox-pkg-scoop.ps1`    | Package Manager |        Scoop (Windows)         |
 |   `ox-pkg-conda.ps1`    | Package Manager |    Conda (Multi-Languages)     |
-|   `ox-pkg-conan.ps1`    | Package Manager |          Conan (C++)           |
-|    `ox-pkg-npm.ps1`     | Package Manager |    NPM + Yarn (JavaScript)     |
+|    `ox-pkg-npm.ps1`     | Package Manager |    NPM + PNPM (JavaScript)     |
+|    `ox-pkg-pixi.ps1`    | Package Manager |     Pixi (Multi-Languages)     |
 |   `ox-pkg-tlmgr.ps1`    | Package Manager |        tlmgr (TeXLive)         |
 | `ox-cli-bitwarden.ps1`  |     App CLI     |           Bitwarden            |
 |  `ox-cli-espanso.ps1`   |     App CLI     |            Espanso             |
