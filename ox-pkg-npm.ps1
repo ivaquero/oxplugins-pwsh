@@ -11,64 +11,71 @@ if ([string]::IsNullOrEmpty("$env:OX_BACKUP\javascript")) {
 $Global:OX_OXIDE.bknj = "$env:OX_BACKUP\javascript\.npmrc"
 $Global:OX_OXIDE.bknjx = "$env:OX_BACKUP\javascript\node-pkgs.txt"
 
+if (Get-Command pnpm -ErrorAction SilentlyContinue ) {
+    $Global:OX_NPM = "pnpm"
+}
+elseif (Get-Command npm -ErrorAction SilentlyContinue ) {
+    $Global:OX_NPM = "npm"
+}
+else {
+    echo "No nodejs package manager found"
+}
+
 function up_node {
     echo "Update Node by $($Global:OX_OXIDE.bknjx)"
     $pkgs = (cat $($Global:OX_OXIDE.bknjx) | tr "\n" " ")
     echo "Installing $pkgs"
-    Invoke-Expression "npm install -g $pkgs --force"
+    Invoke-Expression ". $Global:OX_NPM install -g $pkgs --force"
 }
 
 function back_node {
     echo "Backup Node to $($Global:OX_OXIDE.bknjx)"
-    npm list -g | rg -o '\w+@' | tr -d '@' > "$($Global:OX_OXIDE.bknjx)"
+    . $Global:OX_NPM list -g | rg -o '\w+@' | tr -d '@' > "$($Global:OX_OXIDE.bknjx)"
 }
 
 ##########################################################
 # packages
 ##########################################################
 
-function nh { npm help $args }
-function ncf { npm config $args }
-function nis { npm install $args }
-function nus { npm uninstall $args }
-function nisg { npm install -g $args }
-function nusg { npm uninstall -g $args }
-function nup { npm update $args }
-function nupg { npm update -g $args }
-function nst { npm outdated }
-function nls { npm list $args }
-function nlsg { npm list -g $args }
-function nlv { npm list --depth 0 }
-function nlvg { npm list --depth 0 -g }
-function nck { npm doctor }
-function nsc { npm search $args }
-function ncl { npm cache clean -f }
+function ncf { . $Global:OX_NPM config $args }
+function nis { . $Global:OX_NPM install $args }
+function nus {
+    param ( $cmd )
+    Switch ( $cmd ) {
+        pnpm { pnpm remove $args }
+        npm  { npm uninstall $args }
+    }
+}
+function nup { . $Global:OX_NPM update $args }
+function nst { . $Global:OX_NPM outdated }
+function nsc { . $Global:OX_NPM search $args }
+function ncl {
+    param ( $cmd )
+    Switch ( $cmd ) {
+        pnpm { pnpm cache delete $args }
+        npm  { npm cache clean -f $args }
+    }
+}
+
+##########################################################
+# info
+##########################################################
+
+function nh { . $Global:OX_NPM help $args }
 function nif { npm info }
+function nls { . $Global:OX_NPM list $args }
+function nlv { . $Global:OX_NPM list --depth 0 }
+function nck { . $Global:OX_NPM doctor }
 
 ##########################################################
 # project
 ##########################################################
 
-function nii { npm init $args }
-function nr { npm run $args }
-function nts { npm test $args }
-function npb { npm publish $args }
+function nii { . $Global:OX_NPM init $args }
+function nr { . $Global:OX_NPM run $args }
+function nts { . $Global:OX_NPM test $args }
+function npb { . $Global:OX_NPM publish $args }
 function nfx {
-    npm audit fix $args
-    npm audit $args
+    . $Global:OX_NPM audit fix $args
+    . $Global:OX_NPM audit $args
 }
-
-##########################################################
-# packages
-##########################################################
-
-function yif { yarn info }
-
-##########################################################
-# project
-##########################################################
-
-function ycf { yarn config $args }
-function yii { yarn init $args }
-function yr { yarn run $args }
-function ypb { yarn publish $args }

@@ -99,15 +99,15 @@ function clean_conda {
 # packages
 ##########################################################
 
-function ch { . $Global:OX_CONDA --help }
+function ch { . $Global:OX_CONDA --help $args }
 function ccf { . $Global:OX_CONDA config $args }
 function cif { . $Global:OX_CONDA info }
 function cis { . $Global:OX_CONDA install $args }
 function cus { . $Global:OX_CONDA remove $args }
 function csc { . $Global:OX_CONDA search $args }
-function cdp { . $Global:OX_CONDA repoquery depends $pkg }
+function cdp { . $Global:OX_CONDA repoquery depends $args }
 # specific
-function cdpr { . $Global:OX_CONDA repoquery whoneeds $pkg }
+function cdpr { . $Global:OX_CONDA repoquery whoneeds $args }
 
 # clean packages
 function ccl {

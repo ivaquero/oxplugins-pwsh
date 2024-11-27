@@ -57,4 +57,3 @@ function cnb { conan build $args }
 function cnif { conan inspect $args }
 function cnpb { conan publish $args }
 function cnts { conan test $args }
-
