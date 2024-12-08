@@ -6,9 +6,6 @@
 if (Test-Path -Path "$env:SCOOP\persist\vscode\data\user-data") {
     $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode\data\user-data"
 }
-elseif (Test-Path -Path "$env:SCOOP\persist\vscode-win7\data\user-data") {
-    $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode-win7\data\user-data"
-}
 
 $Global:OX_ELEMENT.vs = "$Global:VSCODE_DATA\User\settings.json"
 $Global:OX_ELEMENT.vsk = "$Global:VSCODE_DATA\User\keybindings.json"
