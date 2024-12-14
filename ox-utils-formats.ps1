@@ -1,5 +1,5 @@
 ##########################################################
-# text
+# main
 ##########################################################
 
 function pdls {
@@ -15,34 +15,29 @@ if ([string]::IsNullOrEmpty($env:OX_FONT)) {
 function font { param ( $the_font ) $env:OX_FONT = $the_font }
 
 ##########################################################
-# markdown
+# text
 ##########################################################
 
-function mdto {
-    param ( $format, $file )
+function tohtml {
+    param ( $file )
     $name = (basename $file)
-    if ( $format -eq 'pdf' ) {
-        if (Get-Command tectonic -ErrorAction SilentlyContinue) {
-            $pdf_engine = tectonic
-        }
-        elseif (Get-Command xelatex -ErrorAction SilentlyContinue) {
-            $pdf_engine = xelatex
-        }
-        else {
-            echo 'No available pdf engine found'
-        }
-        pandoc $file -o ($name + "." + $format) --pdf-engine=$pdf_engine -V CJKmainfont=$env:OX_FONT
-    }
-    elif ( $format -eq 'html') {
-        pandoc $file -o ($name + "." + $format) --standalone --mathjax --shift-heading-level-by=-1
-    }
-    else {
-        pandoc $file -o ($name + "." + $format)
-    }
+    pandoc $file -o $name.html --standalone --mathjax --shift-heading-level-by=-1
+}
+
+function tomd {
+    pandoc $file -o $name.md
+}
+
+function todocx {
+    pandoc $file -o $name.docx
+}
+
+function totyp {
+    pandoc $file -o $name.typ
 }
 
 ##########################################################
-# audio
+# media
 ##########################################################
 
 function tomp3 {
@@ -52,4 +47,26 @@ function tomp3 {
     else { $cbr = $bitrate + "K" }
 
     ffmpeg -i $file -c:a libmp3lame -b:a $cbr $name.mp3
+}
+
+function tomp4 {
+    param ( $file )
+    $name = (basename $file)
+    ffmpeg -fflags +genpts -i $file -r 24 $name .mp4
+}
+
+##########################################################
+# python
+##########################################################
+
+function py2html {
+    param ( $file )
+    $name = (basename $file)
+    marimo export html $name.py > $name.html
+}
+
+function ipynb2py {
+    param ( $file )
+    $name = (basename $file)
+    marimo convert $name.ipynb > $name.py
 }
