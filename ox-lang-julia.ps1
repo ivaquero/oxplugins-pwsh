@@ -104,6 +104,12 @@ function jleat {
     echo "Activate Julia Env $Global:OX_JULIA_ENV_ACTIVE"
 }
 
+function jldf {
+    param ( $julia_env )
+    cd $Global:OX_JULIA_ENV.$julia_env
+    git diff Manifest.toml
+}
+
 function jlcl {
     julia --project="$Global:OX_JULIA_ENV_ACTIVE"  --eval 'using Pkg; Pkg.gc()'
 }
