@@ -108,6 +108,9 @@ function jldf {
     param ( $julia_env )
     cd $Global:OX_JULIA_ENV.$julia_env
     git diff Manifest.toml
+    lines = $(cat Manifest.toml | wc -l)
+    echo " total lines: $lines"
+    z -
 }
 
 function jlcl {
