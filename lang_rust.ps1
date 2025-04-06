@@ -9,8 +9,6 @@ $Global:OX_ELEMENT.rs = "$HOME\.rustup\settings.toml"
 if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\rust")) {
     mkdir "$Global:OX_BACKUP\rust"
 }
-$Global:OX_OXIDE.bkcg = "$Global:OX_BACKUP\rust\config.toml"
-$Global:OX_OXIDE.bkrs = "$Global:OX_BACKUP\rust\settings.toml"
 
 ##########################################################
 # packages

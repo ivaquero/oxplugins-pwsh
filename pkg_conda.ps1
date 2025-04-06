@@ -10,7 +10,6 @@ $Global:OX_ELEMENT.c = "$HOME\.condarc"
 if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\conda")) {
     mkdir "$Global:OX_BACKUP\conda"
 }
-$Global:OX_OXIDE.bkc = "$Global:OX_BACKUP\conda\.condarc"
 
 if (Get-Command mamba -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "mamba"

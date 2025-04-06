@@ -12,8 +12,6 @@ if ([string]::IsNullOrEmpty($Global:OX_JULIA_ENV_ACTIVE)) {
 
 # system files
 $Global:OX_ELEMENT.jl = "$env:JULIA_DEPOT_PATH\config\startup.jl"
-# backup files
-$Global:OX_OXIDE.bkjl = "$Global:OX_BACKUP\julia\startup.jl"
 
 function up_julia {
     if ([string]::IsNullOrEmpty( $args[0] )) {

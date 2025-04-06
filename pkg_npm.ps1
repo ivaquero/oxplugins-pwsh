@@ -8,8 +8,6 @@ $Global:OX_ELEMENT.nj = "$HOME/.npmrc"
 if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\javascript")) {
     mkdir "$Global:OX_BACKUP\javascript"
 }
-$Global:OX_OXIDE.bknj = "$Global:OX_BACKUP\javascript\.npmrc"
-$Global:OX_OXIDE.bknjx = "$Global:OX_BACKUP\javascript\node-pkgs.txt"
 
 if (Get-Command pnpm -ErrorAction SilentlyContinue ) {
     $Global:OX_NPM = "pnpm"

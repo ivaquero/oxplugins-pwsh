@@ -7,9 +7,6 @@ $env:SCOOP = 'C:\Scoop'
 
 # system files
 $Global:OX_ELEMENT.s = "$HOME\.config\scoop\config.json"
-# backup files
-$Global:OX_OXIDE.bks = "$Global:OX_BACKUP\win\scoop.jsonc"
-$Global:OX_OXIDE.bksx = "$Global:OX_BACKUP\win\Scoopfile.json"
 
 function up_scoop {
     echo "Update Scoop by $($Global:OX_OXIDE.bksx)"
