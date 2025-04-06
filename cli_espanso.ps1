@@ -14,11 +14,6 @@ $Global:OX_ELEMENT.es = "$Global:ESPANSO_DATA\config\default.yml"
 $Global:OX_ELEMENT.esb = "$Global:ESPANSO_DATA\match\base.yml"
 $Global:OX_ELEMENT.esx_ = "$Global:ESPANSO_DATA\match\packages"
 
-# backup files
-$Global:OX_OXIDE.bkes = "$env:OX_BACKUP\espanso\config\default.yml"
-$Global:OX_OXIDE.bkesb = "$env:OX_BACKUP\espanso\match\base.yml"
-$Global:OX_OXIDE.bkesx_ = "$env:OX_BACKUP\espanso\match\packages"
-
 ##########################################################
 # packages
 ##########################################################

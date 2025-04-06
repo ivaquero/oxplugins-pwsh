@@ -3,10 +3,10 @@
 ##########################################################
 
 # backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\text")) {
-    mkdir "$env:OX_BACKUP\text"
+if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\text")) {
+    mkdir "$Global:OX_BACKUP\text"
 }
-$Global:OX_OXIDE.bktl = "$env:OX_BACKUP\text\texlive-pkgs.txt"
+$Global:OX_OXIDE.bktl = "$Global:OX_BACKUP\text\texlive-pkgs.txt"
 
 function up_texlive {
     echo "Update TeXLive by $($Global:OX_OXIDE.bktl)"

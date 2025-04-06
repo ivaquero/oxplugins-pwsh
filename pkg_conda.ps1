@@ -7,10 +7,10 @@ $Global:OX_OXYGEN.oxc = "$env:OXIDIZER\defaults\.condarc"
 # system files
 $Global:OX_ELEMENT.c = "$HOME\.condarc"
 # backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\conda")) {
-    mkdir "$env:OX_BACKUP\conda"
+if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\conda")) {
+    mkdir "$Global:OX_BACKUP\conda"
 }
-$Global:OX_OXIDE.bkc = "$env:OX_BACKUP\conda\.condarc"
+$Global:OX_OXIDE.bkc = "$Global:OX_BACKUP\conda\.condarc"
 
 if (Get-Command mamba -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "mamba"
@@ -273,7 +273,7 @@ function ceep {
         $conda_env = $(echo $Global:OX_CONDA_ENV.$the_env)
     }
     else { $conda_env = $the_env }
-    . $Global:OX_CONDA env export -n $conda_env -f $env:OX_BACKUP\conda\$conda_env-win.yml
+    . $Global:OX_CONDA env export -n $conda_env -f $Global:OX_BACKUP\conda\$conda_env-win.yml
 }
 
 # rename environment

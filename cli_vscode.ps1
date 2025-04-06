@@ -12,34 +12,14 @@ $Global:OX_ELEMENT.vsk = "$Global:VSCODE_DATA\User\keybindings.json"
 $Global:OX_ELEMENT.vss_ = "$Global:VSCODE_DATA\User\snippets"
 
 # backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\vscode")) {
-    mkdir "$env:OX_BACKUP\vscode"
-}
-
-$Global:OX_OXIDE.bkvs = "$env:OX_BACKUP\vscode\settings.json"
-$Global:OX_OXIDE.bkvsk = "$env:OX_BACKUP\vscode\keybindings.json"
-$Global:OX_OXIDE.bkvss_ = "$env:OX_BACKUP\vscode\snippets"
-$Global:OX_OXIDE.bkvsx = "$env:OX_BACKUP\vscode\vscode-exts.txt"
-
-function up_vscode {
-    echo "Update VSCode extensions by $($Global:OX_OXIDE.bkvsx)"
-    $exts = (code --list-extensions)
-    $file = (cat $($Global:OX_OXIDE.bkvsx))
-
-    ForEach ( $line in $file ) {
-        if (echo $exts | rg $line) {
-            echo "Extension $line is already installed."
-        }
-        else {
-            echo "Installing $line"
-            code --install-extension $line
-        }
-    }
+if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\vscode")) {
+    mkdir "$Global:OX_BACKUP\vscode"
 }
 
 function back_vscode {
-    echo "Backup VSCode extensions to $($Global:OX_OXIDE.bkvsx)"
-    code --list-extensions > "$($Global:OX_OXIDE.bkvsx)"
+    $bkvs=$(echo "$Global:OX_OXIDE" | jq -r .bkvsx)
+    echo "Backup VSCode extensions to $Global:OX_BACKUP/$bkvs"
+    code --list-extensions > "$Global:OX_BACKUP/$bkvs"
 }
 
 ##########################################################
