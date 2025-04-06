@@ -29,7 +29,7 @@ function oxf {
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
         $in_path = $Global:OX_ELEMENT."$file"
-        $out_path = $Global:OX_OXIDE."$bkfile"
+        $out_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
 
         echo "Backup $in_path to $out_path"
         test_oxpath $out_path
@@ -49,7 +49,7 @@ function rdf {
 
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
-        $in_path = $Global:OX_OXIDE."$bkfile"
+        $out_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
         $out_path = $Global:OX_ELEMENT."$file"
 
         echo "Overwrite $in_path to $out_path"
@@ -61,7 +61,6 @@ function rdf {
         else {
             cp $in_path $out_path
         }
-
     }
 }
 
@@ -70,7 +69,7 @@ function clzf {
     $files = $args
     ForEach ( $file in $files ) {
         $oxfile = "ox" + $file
-        $in_path = $Global:OX_OXYGEN.$oxfile
+        $in_path = "$env:OXIDIZER" + "/" + $Global:OX_OXYGEN.$oxfile
         $out_path = $Global:OX_ELEMENT."$file"
 
         echo "Overwrite $in_path to $out_path"
@@ -85,8 +84,8 @@ function ppgf {
     ForEach ( $file in $files ) {
         $oxfile = "ox" + $file
         $bkfile = "bk" + $file
-        $in_path = $Global:OX_OXYGEN.$oxfile
-        $out_path = $Global:OX_OXIDE."$bkfile"
+        $in_path = "$env:OXIDIZER" + "/" + $Global:OX_OXYGEN.$oxfile
+        $out_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
 
         echo "Backup $in_path to $out_path"
         test_oxpath $out_path
@@ -161,23 +160,3 @@ function ched {
     param ( $editor )
     sed -i.bak "s|EDITOR = .*|EDITOR = \'$editor\|" $Global:OX_ELEMENT.ox
 }
-
-##########################################################
-# Zoxide
-##########################################################
-
-$env:_ZO_DATA_DIR = "$env:LOCALAPPDATA\zoxide"
-
-if (!(Test-Path -Path $env:_ZO_DATA_DIR)) {
-    mkdir "$env:_ZO_DATA_DIR"
-}
-$Global:OX_ELEMENT.z = "$env:_ZO_DATA_DIR\db.zo"
-
-function zh { zoxide --help }
-function zii { zoxide init $args }
-function za { zoxide add $args }
-function zrm { zoxide remove $args }
-function zed { zoxide edit $args }
-function zsc { zoxide query $args }
-
-Invoke-Expression (& { $hook = if ($PSVersionTable.PSVersion.Major -ge 6) { 'pwd' } else { 'prompt' } (zoxide init powershell --hook $hook | Out-String) })

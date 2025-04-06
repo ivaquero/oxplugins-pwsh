@@ -2,8 +2,6 @@
 # config
 ##########################################################
 
-# default files
-$Global:OX_OXYGEN.oxc = "$env:OXIDIZER\defaults\.condarc"
 # system files
 $Global:OX_ELEMENT.c = "$HOME\.condarc"
 # backup files
@@ -27,14 +25,17 @@ else {
     echo "No conda package manager found"
 }
 
+$custom = Get-Content -Path "$env:OXIDIZER/custom.json" | ConvertFrom-Json
+$Global:OX_CONDA_ENV = $custom.conda_env_shortcuts
+
 function up_conda {
     if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
-        $conda_file = $Global:OX_OXIDE."bkceb"
+        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkceb"
     }
     elseif ( $args[0].Length -lt 2 ) {
-        $conda_env = (echo $Global:OX_CONDA_ENV."$args")
-        $conda_file = $Global:OX_OXIDE."bkce$args"
+        $conda_env = $Global:OX_CONDA_ENV."$args"
+        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkce$args"
     }
     else {
         $conda_env = $args[0]
@@ -50,11 +51,11 @@ function up_conda {
 function back_conda {
     if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
-        $conda_file = $Global:OX_OXIDE."bkceb"
+        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkceb"
     }
     elseif ( $args[0].Length -lt 2 ) {
-        $conda_env = (echo $Global:OX_CONDA_ENV."$args")
-        $conda_file = $Global:OX_OXIDE."bkce$args"
+        $conda_env = $Global:OX_CONDA_ENV."$args"
+        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkce$args"
     }
     else {
         $conda_env = $args[0]
@@ -68,11 +69,11 @@ function back_conda {
 function clean_conda {
     if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
-        $conda_file = $Global:OX_OXIDE."bkceb"
+        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkceb"
     }
     elseif ( $args[0].Length -lt 2 ) {
-        $conda_env = (echo $Global:OX_CONDA_ENV."$args")
-        $conda_file = $Global:OX_OXIDE."bkce$args"
+        $conda_env = $Global:OX_CONDA_ENV."$args"
+        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkce$args"
     }
     else {
         $conda_env = $args[0]

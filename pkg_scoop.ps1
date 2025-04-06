@@ -9,13 +9,13 @@ $env:SCOOP = 'C:\Scoop'
 $Global:OX_ELEMENT.s = "$HOME\.config\scoop\config.json"
 
 function up_scoop {
-    echo "Update Scoop by $($Global:OX_OXIDE.bksx)"
-    scoop import $($Global:OX_OXIDE.bksx)
+    echo "Update Scoop by $Global:OX_OXIDE.bksx"
+    scoop import $Global:OX_OXIDE.bksx
 }
 
 function back_scoop {
-    echo "Backup Scoop to $($Global:OX_OXIDE.bksx)"
-    scoop export > $($Global:OX_OXIDE.bksx)
+    echo "Backup Scoop to $Global:OX_OXIDE.bksx"
+    scoop export > $Global:OX_OXIDE.bksx
 }
 
 ##########################################################

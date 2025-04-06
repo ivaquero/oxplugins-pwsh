@@ -5,8 +5,8 @@
 # system files
 $Global:OX_ELEMENT.nj = "$HOME/.npmrc"
 # backup files
-if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\javascript")) {
-    mkdir "$Global:OX_BACKUP\javascript"
+if ([string]::IsNullOrEmpty("$Global:OX_BACKUP/javascript")) {
+    mkdir "$Global:OX_BACKUP/javascript"
 }
 
 if (Get-Command pnpm -ErrorAction SilentlyContinue ) {
@@ -41,7 +41,7 @@ function nus {
     param ( $cmd )
     Switch ( $cmd ) {
         pnpm { pnpm remove $args }
-        npm  { npm uninstall $args }
+        npm { npm uninstall $args }
     }
 }
 function nup { . $Global:OX_NPM update $args }
@@ -51,7 +51,7 @@ function ncl {
     param ( $cmd )
     Switch ( $cmd ) {
         pnpm { pnpm cache delete $args }
-        npm  { npm cache clean -f $args }
+        npm { npm cache clean -f $args }
     }
 }
 
