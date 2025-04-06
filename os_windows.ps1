@@ -35,8 +35,6 @@ $Global:OX_ELEMENT.w = "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller
 if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\win")) {
     mkdir "$Global:OX_BACKUP\win"
 }
-$Global:OX_OXIDE.bkw = "$Global:OX_BACKUP\win\winget.jsonc"
-$Global:OX_OXIDE.bkwx = "$Global:OX_BACKUP\win\Wingetfile.json"
 
 function up_winget {
     echo "Update Scoop by $($Global:OX_OXIDE.bkwx)"
