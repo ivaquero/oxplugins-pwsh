@@ -151,12 +151,3 @@ function md5 { md5sum.exe --md5 $args }
 function sha1 { sha1sum.exe --sha1 $args }
 function sha2 { sha256sum.exe --sha256 $args }
 function sha5 { sha512sum.exe --sha512 $args }
-
-##########################################################
-# Editor
-##########################################################
-
-function ched {
-    param ( $editor )
-    sed -i.bak "s|EDITOR = .*|EDITOR = \'$editor\|" $Global:OX_ELEMENT.ox
-}

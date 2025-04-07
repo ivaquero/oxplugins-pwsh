@@ -49,10 +49,3 @@ function vscl {
 function vsis { code --install-extension $args }
 function vsus { code --uninstall-extension $args }
 function vsls { code --list-extensions $args }
-
-##########################################################
-# integration
-##########################################################
-
-# shell
-if ($env:TERM_PROGRAM -eq 'vscode') { . "$(code --locate-shell-integration-path pwsh)" }
