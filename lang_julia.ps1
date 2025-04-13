@@ -9,7 +9,12 @@ if ([string]::IsNullOrEmpty("$env:JULIA_DEPOT_PATH\environments")) {
 $Global:OX_ELEMENT.jl = "$env:JULIA_DEPOT_PATH\config\startup.jl"
 
 $Global:OX_JULIA_ENV_BASE = "$env:JULIA_DEPOT_PATH/environments/v$(julia -v | rg -o "\d+\.\d+")"
-$Global:OX_JULIA_ENV = $(cat "$env:OXIDIZER/custom.json" | ConvertFrom-Json).julia_env_shortcuts
+if ($env:OS) {
+    $Global:OX_JULIA_ENV = $Global:OX_CUSTOM.julia_env_shortcuts_win
+}
+else {
+    $Global:OX_JULIA_ENV = $Global:OX_CUSTOM.julia_env_shortcuts
+}
 $Global:bkjlb = $Global:OX_OXIDE.jlb
 
 if ([string]::IsNullOrEmpty($Global:OX_JULIA_ENV_ACTIVE)) {
