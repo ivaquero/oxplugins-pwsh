@@ -9,7 +9,7 @@ if ([string]::IsNullOrEmpty("$env:JULIA_DEPOT_PATH\environments")) {
 $Global:OX_ELEMENT.jl = "$env:JULIA_DEPOT_PATH\config\startup.jl"
 
 $Global:OX_JULIA_ENV_BASE = "$env:JULIA_DEPOT_PATH/environments/v$(julia -v | rg -o "\d+\.\d+")"
-$Global:OX_JULIA_ENV = $(cat "$env:OXIDIZER/custom.json" | jq .julia_env_shortcuts)
+$Global:OX_JULIA_ENV = $(cat "$env:OXIDIZER/custom.json" | ConvertFrom-Json).julia_env_shortcuts
 $Global:bkjlb = $Global:OX_OXIDE.jlb
 
 if ([string]::IsNullOrEmpty($Global:OX_JULIA_ENV_ACTIVE)) {
@@ -22,8 +22,7 @@ function up_julia {
         $julia_backup = $Global:bkjlb
     }
     elseif ( $args[0].ToString().Length -lt 2 ) {
-        $the_env = $Global:OX_JULIA_ENV.$args[0]
-        $julia_env = $HOME + "/" + $the_env
+        $julia_env = $Global:OX_JULIA_ENV.$args[0]
         $julia_backup = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.(bkjl+$args[0])
     }
     else {
@@ -41,16 +40,12 @@ function up_julia {
 
 function back_julia {
     if ([string]::IsNullOrEmpty( $args[0] )) {
-        $julia_env = $Global:OX_JULIA_ENV_BASE
         $julia_backup = $Global:bkjlb
     }
     elseif ( $args[0].ToString().Length -lt 2 ) {
-        $the_env = $Global:OX_JULIA_ENV.$args[0]
-        $julia_env = $HOME + "/" + $the_env
         $julia_backup = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.(bkjl+$args[0])
     }
     else {
-        $julia_env = $args[0]
         $julia_backup = $args[1]
     }
 
@@ -64,8 +59,7 @@ function clean_julia {
         $julia_backup = $Global:bkjlb
     }
     elseif ( $args[0].ToString().Length -lt 2 ) {
-        $the_env = $Global:OX_JULIA_ENV.$args[0]
-        $julia_env = $HOME + "/" + $the_env
+        $julia_env = $Global:OX_JULIA_ENV.$args[0]
         $julia_backup = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.(bkjl+$args[0])
     }
     else {
@@ -104,15 +98,14 @@ function jlr {
 
 function jleat {
     param ( $julia_env )
-    $the_env = $Global:OX_JULIA_ENV.$julia_env
-    $Global:OX_JULIA_ENV_ACTIVE = $HOME + "/" + $the_env
+    $Global:OX_JULIA_ENV_ACTIVE = $Global:OX_JULIA_ENV.$julia_env
     echo "Activate Julia Env $Global:OX_JULIA_ENV_ACTIVE"
 }
 
 function jldf {
     param ( $julia_env )
     $the_env = $Global:OX_JULIA_ENV.$julia_env
-    $Global:OX_JULIA_ENV_ACTIVE = $HOME + "/" + $the_env
+    $Global:OX_JULIA_ENV_ACTIVE = $the_env
     cd $Global:OX_JULIA_ENV_ACTIVE
     git diff Manifest.toml
     lines = $(cat Manifest.toml | wc -l)
