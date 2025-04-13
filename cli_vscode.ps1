@@ -17,7 +17,7 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\vscode")) {
 }
 
 function back_vscode {
-    $bkvs = $(echo "$Global:OX_OXIDE" | jq -r .bkvsx)
+    $bkvs = $Global:OX_OXIDE.bkvsx
     echo "Backup VSCode extensions to $Global:OX_BACKUP/$bkvs"
     code --list-extensions > "$Global:OX_BACKUP/$bkvs"
 }
