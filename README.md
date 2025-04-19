@@ -1,6 +1,6 @@
-# [Oxidizer](https://github.com/ivaquero/oxidizer) Plugins for PowerShell
+# Oxidizer - PowerShell
 
-Powershell Plugins for [oxidizer](https://github.com/ivaquero/oxidizer).
+Powershell Plugins for [oxidizer](https://github.com/ivaquero/oxidizer), please create issues and discussion at there.
 
 [![license](https://img.shields.io/github/license/ivaquero/oxplugins-pwsh)](https://github.com/ivaquero/oxplugins-pwsh/blob/master/LICENSE)
 ![code size](https://img.shields.io/github/languages/code-size/ivaquero/oxplugins-pwsh.svg)

@@ -37,12 +37,14 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\win")) {
 }
 
 function up_winget {
-    echo "Update WinGet by $($Global:OX_OXIDE.bkwx)"
-    winget import -i $Global:OX_OXIDE.bkwx
+    $bkwx = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bkwx
+    echo "Update WinGet by $bkwx"
+    winget import -i $bkwx
 }
 function back_winget {
-    echo "Backup WinGet by $($Global:OX_OXIDE.bkwx)"
-    winget export -o $Global:OX_OXIDE.bkwx
+    $bkwx = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bkwx
+    echo "Backup WinGet by $bkwx"
+    winget export -o $bkwx
 }
 
 function wis { winget install $args }
