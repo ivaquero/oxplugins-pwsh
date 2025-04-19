@@ -11,7 +11,7 @@ function open { explorer $args }
 function clean {
     param ( $obj )
     Switch ( $obj ) {
-        scoop { rm -r $env:SCOOP\cache }
+        WinGet { rm -r $env:WinGet\cache }
         Default { Clear-RecycleBin -Confirm }
     }
 }
@@ -37,11 +37,11 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\win")) {
 }
 
 function up_winget {
-    echo "Update Scoop by $($Global:OX_OXIDE.bkwx)"
+    echo "Update WinGet by $($Global:OX_OXIDE.bkwx)"
     winget import -i $Global:OX_OXIDE.bkwx
 }
 function back_winget {
-    echo "Backup Scoop by $($Global:OX_OXIDE.bkwx)"
+    echo "Backup WinGet by $($Global:OX_OXIDE.bkwx)"
     winget export -o $Global:OX_OXIDE.bkwx
 }
 
