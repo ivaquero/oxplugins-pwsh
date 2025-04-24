@@ -1,4 +1,4 @@
-# Oxidizer - PowerShell
+# oxidizer - PowerShell
 
 Powershell Plugins for [oxidizer](https://github.com/ivaquero/oxidizer), please create issues and discussion at there.
 

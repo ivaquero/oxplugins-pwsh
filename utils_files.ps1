@@ -64,7 +64,7 @@ function rdf {
     }
 }
 
-# catalyze file: owerwrite configuartion file by Oxidizer defaults
+# catalyze file: owerwrite configuartion file by oxidizer defaults
 function clzf {
     $files = $args
     ForEach ( $file in $files ) {
@@ -78,7 +78,7 @@ function clzf {
     }
 }
 
-# propagate file: backup Oxidizer defaults
+# propagate file: backup oxidizer defaults
 function ppgf {
     $files = $args
     ForEach ( $file in $files ) {
