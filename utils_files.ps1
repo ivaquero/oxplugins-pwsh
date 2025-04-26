@@ -49,7 +49,7 @@ function rdf {
 
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
-        $out_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
+        $in_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
         $out_path = $Global:OX_ELEMENT."$file"
 
         echo "Overwrite $in_path to $out_path"
