@@ -55,10 +55,7 @@ function wif { winget show $args }
 function wifs { winget --info }
 function wcl { rm -rfv "$HOME/AppData/Local/Temp/WinGet" }
 function wsc { winget search $args }
-function wup {
-    if (-not $args) { winget upgrade * }
-    else { winget upgrade $args }
-}
+function wup { winget upgrade $args }
 
 function wcf { winget settings }
 
