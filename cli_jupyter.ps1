@@ -2,7 +2,7 @@
 # config
 ##########################################################
 
-$Global:OX_ELEMENT.jn = "$HOME/.jupyter/jupyter_notebook_config.py"
+$Global:OX_ELEMENT.jr = "$HOME/.jupyter/jupyter_notebook_config.py"
 
 ##########################################################
 # main
@@ -31,5 +31,3 @@ function jbcr { jupyter-book create $args }
 function jbcl { jupyter-book clean $args }
 function jbb { jupyter-book build $args }
 function ghp { ghp-import -n -p -f $args\_build\html }
-
-set PYDEVD_DISABLE_FILE_VALIDATION=1

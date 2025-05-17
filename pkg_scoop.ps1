@@ -2,29 +2,22 @@
 # config
 ##########################################################
 
-$Global:OX_OXYGEN.oxs = "$env:OXIDIZER\defaults\Scoopfile.txt"
-# backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\install")) {
-    mkdir "$env:OX_BACKUP\install"
-}
-$Global:OX_OXIDE.bks = "$env:OX_BACKUP\install\Scoopfile.json"
+# path
+$env:SCOOP = 'C:\Scoop'
 
-##########################################################
-# config
-##########################################################
+# system files
+$Global:OX_ELEMENT.s = "$HOME\.config\scoop\config.json"
 
 function up_scoop {
-    echo "Update Scoop by $($Global:OX_OXIDE.bks)"
-    scoop import $($Global:OX_OXIDE.bks)
+    $bks = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bks
+    echo "Update Scoop by $bks"
+    scoop import $Global:OX_OXIDE.bks
 }
 
 function back_scoop {
-    echo "Backup Scoop to $($Global:OX_OXIDE.bks)"
-    scoop export > $($Global:OX_OXIDE.bks)
-}
-
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\install")) {
-    mkdir "$env:OX_BACKUP\install"
+    $bksx = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bksx
+    echo "Backup Scoop to $bksx"
+    scoop export > $bksx
 }
 
 ##########################################################
@@ -35,6 +28,10 @@ Remove-Item alias:sls -Force -ErrorAction SilentlyContinue
 
 function sis { scoop install $args }
 function sus { scoop uninstall $args }
+function sris {
+    scoop uninstall $args
+    scoop install $args
+}
 function sls { scoop list }
 function sups { scoop update }
 
@@ -42,7 +39,6 @@ function sup {
     if (-not $args) { scoop update --all }
     else { scoop update $args }
 }
-
 
 function scl {
     if (-not $args) { scoop cleanup --all --cache }
@@ -56,15 +52,10 @@ function sat { scoop config aria2-enabled true }
 function saf { scoop config aria2-enabled false }
 
 # info & version
-function sif {
-    Switch ( $args[0] ) {
-        --json { scoop cat $args[1] }
-        Default { scoop info $args[0] }
-    }
-}
+function sif { scoop info $args[0] }
 function sst { scoop status }
 function spn { scoop hold $args[0] }
-function supn { scoop unhold $args[0] }
+function spnr { scoop unhold $args[0] }
 
 ##########################################################
 # extension
@@ -80,9 +71,3 @@ function sxls { scoop bucket list }
 
 function sii { param ( $pkg ) scoop create $pkg }
 function sca { param ( $pkg ) scoop cat $pkg }
-
-##########################################################
-# mirrors
-##########################################################
-
-function smr {}

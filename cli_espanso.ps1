@@ -3,21 +3,16 @@
 ##########################################################
 
 # system files
-if (!(Test-Path -Path "$env:APPDATA\espanso")) {
-    $Global:OX_APPHOME.es = "$env:SCOOP\current\.espanso"
+if (Test-Path -Path "$env:SCOOP\shims\espansod.exe") {
+    $Global:ESPANSO_DATA = "$env:SCOOP\persist\espanso\.espanso"
 }
 else {
-    $Global:OX_APPHOME.es = "$env:APPDATA\espanso"
+    $Global:ESPANSO_DATA = "$env:APPDATA\espanso"
 }
 
-$Global:OX_ELEMENT.es = "$($Global:OX_APPHOME.es)\default.yml"
-$Global:OX_ELEMENT.esb = "$($Global:OX_APPHOME.es)\match\base.yml"
-$Global:OX_ELEMENT.esx_ = "$($Global:OX_APPHOME.es)\match\packages"
-
-# backup files
-$Global:OX_OXIDE.bkes = "$env:OX_BACKUP\espanso\config\default.yml"
-$Global:OX_OXIDE.bkesb = "$env:OX_BACKUP\espanso\match\base.yml"
-$Global:OX_OXIDE.bkesx_ = "$env:OX_BACKUP\espanso\match\packages"
+$Global:OX_ELEMENT.es = "$Global:ESPANSO_DATA\config\default.yml"
+$Global:OX_ELEMENT.esb = "$Global:ESPANSO_DATA\match\base.yml"
+$Global:OX_ELEMENT.esx_ = "$Global:ESPANSO_DATA\match\packages"
 
 ##########################################################
 # packages
@@ -28,15 +23,14 @@ function esus { espansod package uninstall $args }
 function esls { espansod package list }
 
 function esup {
-    param ( $pkg )
-    if ([string]::IsNullOrEmpty($pkg)) {
+    if (-not $args) {
         $pkgs = $(espansod package list | rg -o "\w+.*\s-" | rg -o ".+*\w")
         ForEach ( $line in $pkgs ) {
             espansod package update $line
         }
     }
     else {
-        espansod package update $pkg
+        espansod package update $args
     }
 }
 
@@ -55,7 +49,7 @@ function esq { espansod stop }
 
 function esa {
     param ( $path )
-    touch $($Global:OX_APPHOME.es)\match\$path.yml
+    touch $Global:ESPANSO_DATA\match\$path.yml
 }
 function esh { espansod help $args }
 function esed { espansod edit $args }

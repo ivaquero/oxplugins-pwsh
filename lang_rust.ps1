@@ -6,11 +6,9 @@
 $Global:OX_ELEMENT.cg = "$HOME\.cargo\config.toml"
 $Global:OX_ELEMENT.rs = "$HOME\.rustup\settings.toml"
 # backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\rust")) {
-    mkdir "$env:OX_BACKUP\rust"
+if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\rust")) {
+    mkdir "$Global:OX_BACKUP\rust"
 }
-$Global:OX_OXIDE.bkcg = "$env:OX_BACKUP\rust\config.toml"
-$Global:OX_OXIDE.bkrs = "$env:OX_BACKUP\rust\settings.toml"
 
 ##########################################################
 # packages
@@ -40,12 +38,8 @@ function cgr { cargo run $args }
 function cgts { cargo test $args }
 function cgfx { cargo fix $args }
 function cgpb { cargo publish $args }
-
-function cgii {
-    param( $proj )
-    if ([string]::IsNullOrEmpty($proj)) { cargo init $proj }
-    else { cargo new $proj }
-}
+function cgii { cargo init $args }
+function cgcr { cargo create $args }
 
 ##########################################################
 # rustup
