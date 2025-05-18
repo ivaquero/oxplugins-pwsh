@@ -3,16 +3,16 @@
 ##########################################################
 
 function pdls {
-    echo 'input-formats`n'
+    Write-Output 'input-formats`n'
     pandoc --list-input-formats
-    echo 'output-formats`n'
+    Write-Output 'output-formats`n'
     pandoc --list-output-formats
 }
 
-if ([string]::IsNullOrEmpty($Global:OX_FONT)) {
-    $Global:OX_FONT = "Arial Unicode MS"
+if ([string]::IsNullOrEmpty($env:OX_FONT)) {
+    $env:OX_FONT = "Arial Unicode MS"
 }
-function font { param ( $the_font ) $Global:OX_FONT = $the_font }
+function font { param ( $the_font ) $env:OX_FONT = $the_font }
 
 ##########################################################
 # text

@@ -3,11 +3,11 @@
 ##########################################################
 
 # system files
-$Global:OX_ELEMENT.cg = "$HOME\.cargo\config.toml"
-$Global:OX_ELEMENT.rs = "$HOME\.rustup\settings.toml"
+$env:OX_ELEMENT.cg = "$HOME\.cargo\config.toml"
+$env:OX_ELEMENT.rs = "$HOME\.rustup\settings.toml"
 # backup files
-if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\rust")) {
-    mkdir "$Global:OX_BACKUP\rust"
+if ([string]::IsNullOrEmpty("$env:OX_BACKUP\rust")) {
+    mkdir "$env:OX_BACKUP\rust"
 }
 
 ##########################################################

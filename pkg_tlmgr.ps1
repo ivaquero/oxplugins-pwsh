@@ -3,23 +3,23 @@
 ##########################################################
 
 # backup files
-if ([string]::IsNullOrEmpty("$Global:OX_BACKUP/text")) {
-    mkdir "$Global:OX_BACKUP/text"
+if ([string]::IsNullOrEmpty("$env:OX_BACKUP/text")) {
+    mkdir "$env:OX_BACKUP/text"
 }
 
 function up_texlive {
-    echo "Update TeXLive by $Global:OX_OXIDE.bktl"
-    $file = (cat $Global:OX_OXIDE.bktl)
+    Write-Output "Update TeXLive by $env:OX_OXIDE.bktl"
+    $file = (cat $env:OX_OXIDE.bktl)
 
     ForEach ( $line in $file ) {
-        echo "Installing $line"
+        Write-Output "Installing $line"
         tlmgr install $line
     }
 }
 
 function back_texlive {
-    echo "Backup TeXLive to $Global:OX_OXIDE.bktl"
-    tlmgr list --only-installed | rg -o 'collection-\w+' | rg -v 'basic' > "$Global:OX_OXIDE.bktl"
+    Write-Output "Backup TeXLive to $env:OX_OXIDE.bktl"
+    tlmgr list --only-installed | rg -o 'collection-\w+' | rg -v 'basic' > "$env:OX_OXIDE.bktl"
 }
 
 ##########################################################

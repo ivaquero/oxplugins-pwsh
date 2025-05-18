@@ -5,7 +5,7 @@
 Remove-Item alias:cp -Force -ErrorAction SilentlyContinue
 Remove-Item alias:curl -Force -ErrorAction SilentlyContinue
 Remove-Item alias:dir -Force -ErrorAction SilentlyContinue
-Remove-Item alias:echo -Force -ErrorAction SilentlyContinue
+Remove-Item alias:Write-Output -Force -ErrorAction SilentlyContinue
 Remove-Item alias:kill -Force -ErrorAction SilentlyContinue
 Remove-Item alias:mv -Force -ErrorAction SilentlyContinue
 Remove-Item alias:rm -Force -ErrorAction SilentlyContinue
@@ -15,7 +15,7 @@ Remove-Item alias:tee -Force -ErrorAction SilentlyContinue
 
 function test_oxpath {
     if ([string]::IsNullOrEmpty($args[0])) {
-        echo "$args[0] does not exist, please define it in custom.ps1"
+        Write-Output "$args[0] does not exist, please define it in custom.ps1"
     }
     if (!(Test-Path -Path $(dirname $args[0]))) {
         mkdir $(dirname $args[0])
@@ -28,10 +28,10 @@ function oxf {
 
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
-        $in_path = $Global:OX_ELEMENT."$file"
-        $out_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
+        $in_path = $env:OX_ELEMENT."$file"
+        $out_path = "$env:OX_BACKUP" + "/" + $env:OX_OXIDE.$bkfile
 
-        echo "Backup $in_path to $out_path"
+        Write-Output "Backup $in_path to $out_path"
         test_oxpath $out_path
         if ( $file.EndsWith("_") ) {
             rm -rf $out_path
@@ -49,10 +49,10 @@ function rdf {
 
     ForEach ( $file in $files ) {
         $bkfile = "bk" + $file
-        $in_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
-        $out_path = $Global:OX_ELEMENT."$file"
+        $in_path = "$env:OX_BACKUP" + "/" + $env:OX_OXIDE.$bkfile
+        $out_path = $env:OX_ELEMENT."$file"
 
-        echo "Overwrite $in_path to $out_path"
+        Write-Output "Overwrite $in_path to $out_path"
         test_oxpath $out_path
         if ( $file.EndsWith("_") ) {
             rm -rf $out_path
@@ -69,10 +69,10 @@ function clzf {
     $files = $args
     ForEach ( $file in $files ) {
         $oxfile = "ox" + $file
-        $in_path = "$env:OXIDIZER" + "/" + $Global:OX_OXYGEN.$oxfile
-        $out_path = $Global:OX_ELEMENT."$file"
+        $in_path = "$env:OXIDIZER" + "/" + $env:OX_OXYGEN.$oxfile
+        $out_path = $env:OX_ELEMENT."$file"
 
-        echo "Overwrite $in_path to $out_path"
+        Write-Output "Overwrite $in_path to $out_path"
         test_oxpath $out_path
         cp $in_path $out_path
     }
@@ -84,10 +84,10 @@ function ppgf {
     ForEach ( $file in $files ) {
         $oxfile = "ox" + $file
         $bkfile = "bk" + $file
-        $in_path = "$env:OXIDIZER" + "/" + $Global:OX_OXYGEN.$oxfile
-        $out_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
+        $in_path = "$env:OXIDIZER" + "/" + $env:OX_OXYGEN.$oxfile
+        $out_path = "$env:OX_BACKUP" + "/" + $env:OX_OXIDE.$bkfile
 
-        echo "Backup $in_path to $out_path"
+        Write-Output "Backup $in_path to $out_path"
         test_oxpath $out_path
         cp $in_path $out_path
     }
@@ -116,9 +116,9 @@ function brf {
         $cmd = "cat"
     }
     Switch ( $file ) {
-        { $file -match "ox\w{1,}" } { . $cmd $Global:OX_OXYGEN."$file" }
-        { $file -match "bk\w{1,}" } { . $cmd $Global:OX_OXIDE."$file" }
-        Default { . $cmd $Global:OX_ELEMENT."$file" }
+        { $file -match "ox\w{1,}" } { . $cmd $env:OX_OXYGEN."$file" }
+        { $file -match "bk\w{1,}" } { . $cmd $env:OX_OXIDE."$file" }
+        Default { . $cmd $env:OX_ELEMENT."$file" }
     }
 }
 
@@ -129,9 +129,9 @@ function edf {
     else { $cmd = $env:EDITOR }
 
     Switch ( $file ) {
-        { $file -match "ox[a-z]{1,}" } { . $cmd $Global:OX_OXYGEN."$file" }
-        { $file -match "bk[a-z]{1,}" } { . $cmd $Global:OX_OXIDE."$file" }
-        Default { . $cmd $Global:OX_ELEMENT."$file" }
+        { $file -match "ox[a-z]{1,}" } { . $cmd $env:OX_OXYGEN."$file" }
+        { $file -match "bk[a-z]{1,}" } { . $cmd $env:OX_OXIDE."$file" }
+        Default { . $cmd $env:OX_ELEMENT."$file" }
     }
 }
 
