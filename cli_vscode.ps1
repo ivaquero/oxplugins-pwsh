@@ -7,19 +7,19 @@ if (Test-Path -Path "$env:SCOOP\persist\vscode\data\user-data") {
     $Global:VSCODE_DATA = "$env:SCOOP\persist\vscode\data\user-data"
 }
 
-$env:OX_ELEMENT.vs = "$Global:VSCODE_DATA\User\settings.json"
-$env:OX_ELEMENT.vsk = "$Global:VSCODE_DATA\User\keybindings.json"
-$env:OX_ELEMENT.vss_ = "$Global:VSCODE_DATA\User\snippets"
+$Global:OX_ELEMENT.vs = "$Global:VSCODE_DATA\User\settings.json"
+$Global:OX_ELEMENT.vsk = "$Global:VSCODE_DATA\User\keybindings.json"
+$Global:OX_ELEMENT.vss_ = "$Global:VSCODE_DATA\User\snippets"
 
 # backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\vscode")) {
-    mkdir "$env:OX_BACKUP\vscode"
+if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\vscode")) {
+    mkdir "$Global:OX_BACKUP\vscode"
 }
 
 function back_vscode {
-    $bkvs = $env:OX_OXIDE.bkvsx
-    Write-Output "Backup VSCode extensions to $env:OX_BACKUP/$bkvs"
-    code --list-extensions > "$env:OX_BACKUP/$bkvs"
+    $bkvs = $Global:OX_OXIDE.bkvsx
+    Write-Output "Backup VSCode extensions to $Global:OX_BACKUP/$bkvs"
+    code --list-extensions > "$Global:OX_BACKUP/$bkvs"
 }
 
 ##########################################################

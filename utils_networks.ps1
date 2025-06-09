@@ -2,7 +2,7 @@
 # Proxy Utils
 ##########################################################
 
-$env:OX_PROXY = $env:OX_CUSTOM.proxy_ports
+$Global:OX_PROXY = $Global:OX_CUSTOM.proxy_ports
 function pxy {
     param ( $the_port )
     if ( $the_port.Length -lt 0 ) {
@@ -13,7 +13,7 @@ function pxy {
     }
     else {
         if ( $the_port.Length -lt 2 ) {
-            $port = $env:OX_PROXY.$the_port
+            $port = $Global:OX_PROXY.$the_port
         }
         else {
             $port = $the_port

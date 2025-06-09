@@ -2,7 +2,7 @@
 # config
 ##########################################################
 
-$env:OX_ELEMENT.jr = "$HOME/.jupyter/jupyter_notebook_config.py"
+$Global:OX_ELEMENT.jr = "$HOME/.jupyter/jupyter_notebook_config.py"
 
 ##########################################################
 # main

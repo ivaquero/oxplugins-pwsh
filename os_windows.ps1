@@ -30,19 +30,19 @@ function which { (Get-Command $args[0]).Source }
 ##########################################################
 
 # system files
-$env:OX_ELEMENT.w = "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
+$Global:OX_ELEMENT.w = "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
 # backup files
-if ([string]::IsNullOrEmpty("$env:OX_BACKUP\win")) {
-    mkdir "$env:OX_BACKUP\win"
+if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\win")) {
+    mkdir "$Global:OX_BACKUP\win"
 }
 
 function up_winget {
-    $bkwx = $env:OX_BACKUP + "/" + $env:OX_OXIDE.bkwx
+    $bkwx = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bkwx
     Write-Output "Update WinGet by $bkwx"
     winget import -i $bkwx
 }
 function back_winget {
-    $bkwx = $env:OX_BACKUP + "/" + $env:OX_OXIDE.bkwx
+    $bkwx = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bkwx
     Write-Output "Backup WinGet by $bkwx"
     winget export -o $bkwx
 }

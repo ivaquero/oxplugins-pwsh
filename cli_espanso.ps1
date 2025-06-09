@@ -10,9 +10,9 @@ else {
     $Global:ESPANSO_DATA = "$env:APPDATA\espanso"
 }
 
-$env:OX_ELEMENT.es = "$Global:ESPANSO_DATA\config\default.yml"
-$env:OX_ELEMENT.esb = "$Global:ESPANSO_DATA\match\base.yml"
-$env:OX_ELEMENT.esx_ = "$Global:ESPANSO_DATA\match\packages"
+$Global:OX_ELEMENT.es = "$Global:ESPANSO_DATA\config\default.yml"
+$Global:OX_ELEMENT.esb = "$Global:ESPANSO_DATA\match\base.yml"
+$Global:OX_ELEMENT.esx_ = "$Global:ESPANSO_DATA\match\packages"
 
 ##########################################################
 # packages
