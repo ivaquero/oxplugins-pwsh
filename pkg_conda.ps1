@@ -13,16 +13,14 @@ if (Get-Command mamba -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "mamba"
     $Global:OX_CONDA2 = "conda"
 }
-elseif (Get-Command micromamba -ErrorAction SilentlyContinue ) {
-    $Global:OX_CONDA = "micromamba"
-    $Global:OX_CONDA2 = "micromamba"
-}
 elseif (Get-Command conda -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "conda"
     $Global:OX_CONDA2 = "conda"
 }
-else {
-    Write-Output "No conda package manager found"
+else (Get-Command micromamba -ErrorAction SilentlyContinue ) {
+    $Global:OX_CONDA = "micromamba"
+    $Global:OX_CONDA2 = "micromamba"
+    scoop install micromamba
 }
 
 $custom = Get-Content -Path "$env:OXIDIZER/custom.json" | ConvertFrom-Json
