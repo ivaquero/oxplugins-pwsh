@@ -17,7 +17,7 @@ elseif (Get-Command conda -ErrorAction SilentlyContinue ) {
     $Global:OX_CONDA = "conda"
     $Global:OX_CONDA2 = "conda"
 }
-else (Get-Command micromamba -ErrorAction SilentlyContinue ) {
+else{
     $Global:OX_CONDA = "micromamba"
     $Global:OX_CONDA2 = "micromamba"
     scoop install micromamba
