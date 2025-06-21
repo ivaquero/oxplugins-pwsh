@@ -17,7 +17,7 @@ function up_scoop {
 function back_scoop {
     $bksx = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bksx
     Write-Output "Backup Scoop to $bksx"
-    scoop export > $bksx
+    scoop export --config > $bksx
 }
 
 ##########################################################
