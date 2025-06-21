@@ -10,7 +10,7 @@ function pdls {
 }
 
 if ([string]::IsNullOrEmpty($Global:OX_FONT)) {
-    $Global:OX_FONT = "Arial Unicode MS"
+    $Global:OX_FONT = 'Arial Unicode MS'
 }
 function font { param ( $the_font ) $Global:OX_FONT = $the_font }
 
@@ -43,8 +43,8 @@ function totyp {
 function tomp3 {
     param ( $file, $bitrate )
     $name = (basename $file)
-    if ([string]::IsNullOrEmpty($cbr)) { $bitrate = "192K" }
-    else { $cbr = $bitrate + "K" }
+    if ([string]::IsNullOrEmpty($cbr)) { $bitrate = '192K' }
+    else { $cbr = $bitrate + 'K' }
 
     ffmpeg -i $file -c:a libmp3lame -b:a $cbr $name.mp3
 }

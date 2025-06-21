@@ -10,18 +10,18 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP/javascript")) {
 }
 
 if (Get-Command pnpm -ErrorAction SilentlyContinue ) {
-    $Global:OX_NPM = "pnpm"
+    $Global:OX_NPM = 'pnpm'
 }
 elseif (Get-Command npm -ErrorAction SilentlyContinue ) {
-    $Global:OX_NPM = "npm"
+    $Global:OX_NPM = 'npm'
 }
 else {
-    Write-Output "No nodejs package manager found"
+    Write-Output 'No nodejs package manager found'
 }
 
 function up_node {
     Write-Output "Update Node by $($Global:OX_OXIDE.bknjx)"
-    $pkgs = (cat $($Global:OX_OXIDE.bknjx) | tr "\n" " ")
+    $pkgs = (cat $($Global:OX_OXIDE.bknjx) | tr '\n' ' ')
     Write-Output "Installing $pkgs"
     Invoke-Expression ". $Global:OX_NPM install -g $pkgs --force"
 }

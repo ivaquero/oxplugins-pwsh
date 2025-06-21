@@ -27,13 +27,13 @@ function oxf {
     $files = $args
 
     ForEach ( $file in $files ) {
-        $bkfile = "bk" + $file
+        $bkfile = 'bk' + $file
         $in_path = $Global:OX_ELEMENT."$file"
-        $out_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
+        $out_path = "$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE.$bkfile
 
         Write-Output "Backup $in_path to $out_path"
         test_oxpath $out_path
-        if ( $file.EndsWith("_") ) {
+        if ( $file.EndsWith('_') ) {
             rm -rf $out_path
             cp -R $in_path $out_path
         }
@@ -48,13 +48,13 @@ function rdf {
     $files = $args
 
     ForEach ( $file in $files ) {
-        $bkfile = "bk" + $file
-        $in_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
+        $bkfile = 'bk' + $file
+        $in_path = "$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE.$bkfile
         $out_path = $Global:OX_ELEMENT."$file"
 
         Write-Output "Overwrite $in_path to $out_path"
         test_oxpath $out_path
-        if ( $file.EndsWith("_") ) {
+        if ( $file.EndsWith('_') ) {
             rm -rf $out_path
             cp -R $in_path $out_path
         }
@@ -68,8 +68,8 @@ function rdf {
 function clzf {
     $files = $args
     ForEach ( $file in $files ) {
-        $oxfile = "ox" + $file
-        $in_path = "$env:OXIDIZER" + "/" + $Global:OX_OXYGEN.$oxfile
+        $oxfile = 'ox' + $file
+        $in_path = "$env:OXIDIZER" + '/' + $Global:OX_OXYGEN.$oxfile
         $out_path = $Global:OX_ELEMENT."$file"
 
         Write-Output "Overwrite $in_path to $out_path"
@@ -82,10 +82,10 @@ function clzf {
 function ppgf {
     $files = $args
     ForEach ( $file in $files ) {
-        $oxfile = "ox" + $file
-        $bkfile = "bk" + $file
-        $in_path = "$env:OXIDIZER" + "/" + $Global:OX_OXYGEN.$oxfile
-        $out_path = "$Global:OX_BACKUP" + "/" + $Global:OX_OXIDE.$bkfile
+        $oxfile = 'ox' + $file
+        $bkfile = 'bk' + $file
+        $in_path = "$env:OXIDIZER" + '/' + $Global:OX_OXYGEN.$oxfile
+        $out_path = "$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE.$bkfile
 
         Write-Output "Backup $in_path to $out_path"
         test_oxpath $out_path
@@ -109,15 +109,15 @@ function frf {
 # browse file
 function brf {
     param ( $file )
-    if ( $file.EndsWith("_")  ) {
-        $cmd = "ls"
+    if ( $file.EndsWith('_')  ) {
+        $cmd = 'ls'
     }
     else {
-        $cmd = "cat"
+        $cmd = 'cat'
     }
     Switch ( $file ) {
-        { $file -match "ox\w{1,}" } { . $cmd $Global:OX_OXYGEN."$file" }
-        { $file -match "bk\w{1,}" } { . $cmd $Global:OX_OXIDE."$file" }
+        { $file -match 'ox\w{1,}' } { . $cmd $Global:OX_OXYGEN."$file" }
+        { $file -match 'bk\w{1,}' } { . $cmd $Global:OX_OXIDE."$file" }
         Default { . $cmd $Global:OX_ELEMENT."$file" }
     }
 }
@@ -125,12 +125,12 @@ function brf {
 # edit file by default editor
 function edf {
     param ( $file, $mode )
-    if ( $mode -eq "-t" ) { $cmd = $env:EDITOR_T }
+    if ( $mode -eq '-t' ) { $cmd = $env:EDITOR_T }
     else { $cmd = $env:EDITOR }
 
     Switch ( $file ) {
-        { $file -match "ox[a-z]{1,}" } { . $cmd $Global:OX_OXYGEN."$file" }
-        { $file -match "bk[a-z]{1,}" } { . $cmd $Global:OX_OXIDE."$file" }
+        { $file -match 'ox[a-z]{1,}' } { . $cmd $Global:OX_OXYGEN."$file" }
+        { $file -match 'bk[a-z]{1,}' } { . $cmd $Global:OX_OXIDE."$file" }
         Default { . $cmd $Global:OX_ELEMENT."$file" }
     }
 }

@@ -26,7 +26,7 @@ function cgdp { cargo tree $args }
 function cgcf { cargo config $args }
 
 function cgif {
-    cargo $($pkg + " info")
+    cargo $($pkg + ' info')
 }
 
 ##########################################################

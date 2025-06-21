@@ -9,17 +9,21 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\conda")) {
     mkdir "$Global:OX_BACKUP\conda"
 }
 
-if (Get-Command mamba -ErrorAction SilentlyContinue ) {
-    $Global:OX_CONDA = "mamba"
-    $Global:OX_CONDA2 = "conda"
+if (Get-Command micromamba -ErrorAction SilentlyContinue ) {
+    $Global:OX_CONDA = 'micromamba'
+    $Global:OX_CONDA2 = 'micromamba'
+}
+elseif (Get-Command mamba -ErrorAction SilentlyContinue ) {
+    $Global:OX_CONDA = 'mamba'
+    $Global:OX_CONDA2 = 'conda'
 }
 elseif (Get-Command conda -ErrorAction SilentlyContinue ) {
-    $Global:OX_CONDA = "conda"
-    $Global:OX_CONDA2 = "conda"
+    $Global:OX_CONDA = 'conda'
+    $Global:OX_CONDA2 = 'conda'
 }
-else{
-    $Global:OX_CONDA = "micromamba"
-    $Global:OX_CONDA2 = "micromamba"
+else {
+    $Global:OX_CONDA = 'micromamba'
+    $Global:OX_CONDA2 = 'micromamba'
     scoop install micromamba
 }
 
@@ -29,11 +33,11 @@ $Global:OX_CONDA_ENV = $custom.conda_env_shortcuts
 function up_conda {
     if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
-        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkceb"
+        $conda_file = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.'bkceb'
     }
     elseif ( $args[0].Length -lt 2 ) {
         $conda_env = $Global:OX_CONDA_ENV."$args"
-        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkce$args"
+        $conda_file = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE."bkce$args"
     }
     else {
         $conda_env = $args[0]
@@ -49,11 +53,11 @@ function up_conda {
 function back_conda {
     if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
-        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkceb"
+        $conda_file = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.'bkceb'
     }
     elseif ( $args[0].Length -lt 2 ) {
         $conda_env = $Global:OX_CONDA_ENV."$args"
-        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkce$args"
+        $conda_file = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE."bkce$args"
     }
     else {
         $conda_env = $args[0]
@@ -67,11 +71,11 @@ function back_conda {
 function clean_conda {
     if ( $args.Count -eq 0 ) {
         $conda_env = 'base'
-        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkceb"
+        $conda_file = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.'bkceb'
     }
     elseif ( $args[0].Length -lt 2 ) {
         $conda_env = $Global:OX_CONDA_ENV."$args"
-        $conda_file = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE."bkce$args"
+        $conda_file = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE."bkce$args"
     }
     else {
         $conda_env = $args[0]
@@ -89,7 +93,7 @@ function clean_conda {
         }
     }
     if ($(Write-Output $the_leaves | wc -w) -eq $(cat $conda_file | wc -w) -and ($(Write-Output $the_leaves | wc -c)) -eq $(cat $conda_file | wc -c)) {
-        Write-Output "Conda Env Cleanup Finished"
+        Write-Output 'Conda Env Cleanup Finished'
     }
 }
 
@@ -168,7 +172,7 @@ function cmt {
     param ( $the_env )
     $num_total = (cls $the_env | wc -l)
     Write-Output "total: $num_total"
-    $num_immature = (cls $the_env | rg -c "\s0\.\d")
+    $num_immature = (cls $the_env | rg -c '\s0\.\d')
     $ratio = $num_immature / $num_total * 100
     $mature_rate = '{0:N0}' -f $(100 - $ratio)
     Write-Output "mature rate: $mature_rate %"

@@ -6,7 +6,7 @@ function olh { ollama help $args }
 
 function ol_host {
     if ([string]::IsNullOrEmpty( $args[0] )) {
-        $Global:OLLAMA_HOST = "127.0.0.1"
+        $Global:OLLAMA_HOST = '127.0.0.1'
     }
     else {
         $Global:OLLAMA_HOST = $args[0]
@@ -15,7 +15,7 @@ function ol_host {
 
 function ol_origns {
     if ([string]::IsNullOrEmpty( $args[0] )) {
-        $Global:OLLAMA_ORIGINS = "\*"
+        $Global:OLLAMA_ORIGINS = '\*'
     }
     else {
         $Global:OLLAMA_ORIGINS = $args[0]
