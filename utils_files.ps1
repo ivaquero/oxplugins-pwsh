@@ -15,7 +15,7 @@ Remove-Item alias:tee -Force -ErrorAction SilentlyContinue
 
 function test_oxpath {
     if ([string]::IsNullOrEmpty($args[0])) {
-        Write-Output "$args[0] does not exist, please define it in custom.ps1"
+        Write-Output "$args[0] does not exist, please define it in custom.json"
     }
     if (!(Test-Path -Path $(dirname $args[0]))) {
         mkdir $(dirname $args[0])
@@ -26,7 +26,7 @@ function test_oxpath {
 function oxf {
     $files = $args
 
-    ForEach ( $file in $files ) {
+    foreach ( $file in $files ) {
         $bkfile = 'bk' + $file
         $in_path = $Global:OX_ELEMENT."$file"
         $out_path = "$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE.$bkfile
@@ -47,7 +47,7 @@ function oxf {
 function rdf {
     $files = $args
 
-    ForEach ( $file in $files ) {
+    foreach ( $file in $files ) {
         $bkfile = 'bk' + $file
         $in_path = "$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE.$bkfile
         $out_path = $Global:OX_ELEMENT."$file"
@@ -67,7 +67,7 @@ function rdf {
 # catalyze file: owerwrite configuartion file by oxidizer defaults
 function clzf {
     $files = $args
-    ForEach ( $file in $files ) {
+    foreach ( $file in $files ) {
         $oxfile = 'ox' + $file
         $in_path = "$env:OXIDIZER" + '/' + $Global:OX_OXYGEN.$oxfile
         $out_path = $Global:OX_ELEMENT."$file"
@@ -81,7 +81,7 @@ function clzf {
 # propagate file: backup oxidizer defaults
 function ppgf {
     $files = $args
-    ForEach ( $file in $files ) {
+    foreach ( $file in $files ) {
         $oxfile = 'ox' + $file
         $bkfile = 'bk' + $file
         $in_path = "$env:OXIDIZER" + '/' + $Global:OX_OXYGEN.$oxfile
@@ -115,10 +115,10 @@ function brf {
     else {
         $cmd = 'cat'
     }
-    Switch ( $file ) {
+    switch ( $file ) {
         { $file -match 'ox\w{1,}' } { . $cmd $Global:OX_OXYGEN."$file" }
         { $file -match 'bk\w{1,}' } { . $cmd $Global:OX_OXIDE."$file" }
-        Default { . $cmd $Global:OX_ELEMENT."$file" }
+        default { . $cmd $Global:OX_ELEMENT."$file" }
     }
 }
 
@@ -128,10 +128,10 @@ function edf {
     if ( $mode -eq '-t' ) { $cmd = $env:EDITOR_T }
     else { $cmd = $env:EDITOR }
 
-    Switch ( $file ) {
+    switch ( $file ) {
         { $file -match 'ox[a-z]{1,}' } { . $cmd $Global:OX_OXYGEN."$file" }
         { $file -match 'bk[a-z]{1,}' } { . $cmd $Global:OX_OXIDE."$file" }
-        Default { . $cmd $Global:OX_ELEMENT."$file" }
+        default { . $cmd $Global:OX_ELEMENT."$file" }
     }
 }
 

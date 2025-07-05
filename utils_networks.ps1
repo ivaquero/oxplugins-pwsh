@@ -5,7 +5,7 @@
 $Global:OX_PROXY = $Global:OX_CUSTOM.proxy_ports
 function pxy {
     param ( $the_port )
-    if ( $the_port.Length -lt 0 ) {
+    if ( $the_port.Length -ge 0 ) {
         Write-Output 'unset all proxies'
         $env:https_proxy = ''
         $env:http_proxy = ''
@@ -18,7 +18,7 @@ function pxy {
         else {
             $port = $the_port
         }
-        Write-Output "using port $port"
+        Write-Output "using proxies with port $port"
         $env:https_proxy = "http://127.0.0.1:$port"
         $env:http_proxy = "http://127.0.0.1:$port"
         $env:all_proxy = "socks5://127.0.0.1:$port"
