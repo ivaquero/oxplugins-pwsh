@@ -12,11 +12,8 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP/javascript")) {
 if (Get-Command pnpm -ErrorAction SilentlyContinue ) {
     $Global:OX_NPM = 'pnpm'
 }
-elseif (Get-Command npm -ErrorAction SilentlyContinue ) {
-    $Global:OX_NPM = 'npm'
-}
 else {
-    Write-Output 'No nodejs package manager found'
+    $Global:OX_NPM = 'npm'
 }
 
 function up_node {
