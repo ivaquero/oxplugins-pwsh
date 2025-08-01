@@ -9,31 +9,57 @@ function pdls {
     pandoc --list-output-formats
 }
 
-if ([string]::IsNullOrEmpty($Global:OX_FONT)) {
-    $Global:OX_FONT = 'Arial Unicode MS'
-}
-function font { param ( $the_font ) $Global:OX_FONT = $the_font }
-
 ##########################################################
 # text
 ##########################################################
 
 function tohtml {
-    param ( $file )
+    param ($file)
     $name = (basename $file)
     pandoc $file -o $name.html --standalone --mathjax --shift-heading-level-by=-1
 }
 
 function tomd {
+    param ($file)
+    $name = (basename $file)
     pandoc $file -o $name.md
 }
 
 function todocx {
+    param ($file)
+    $name = (basename $file)
     pandoc $file -o $name.docx
 }
 
 function totyp {
+    param ($file)
+    $name = (basename $file)
     pandoc $file -o $name.typ
+}
+
+function topdf {
+    param ($file)
+    $name = (basename $file)
+    if (Get-Command tectonic -ErrorAction SilentlyContinue ) {
+        $Global:OX_PDF_ENGINE = tectonic
+    }
+    elseif (Get-Command xelatex -ErrorAction SilentlyContinue ) {
+        $Global:OX_PDF_ENGINE = xelatex
+    }
+    elseif (Get-Command lualatex -ErrorAction SilentlyContinue ) {
+        $Global:OX_PDF_ENGINE = lualatex
+    }
+    elseif (Get-Command pdflatex -ErrorAction SilentlyContinue ) {
+        $Global:OX_PDF_ENGINE = pdflatex
+    }
+    else {
+        echo 'No available pdf engine found'
+    }
+    pandoc $file -o $name.pdf --pdf-engine=$Global:OX_PDF_ENGINE\
+    -f gfm \
+    -V geometry:a4paper \
+    -V geometry:margin=2cm \
+    -V CJKmainfont="STFangsong"
 }
 
 ##########################################################
@@ -50,7 +76,7 @@ function tomp3 {
 }
 
 function tomp4 {
-    param ( $file )
+    param ($file)
     $name = (basename $file)
     ffmpeg -fflags +genpts -i $file -r 24 $name .mp4
 }
@@ -60,13 +86,13 @@ function tomp4 {
 ##########################################################
 
 function py2html {
-    param ( $file )
+    param ($file)
     $name = (basename $file)
     marimo export html $name.py > $name.html
 }
 
 function ipynb2py {
-    param ( $file )
+    param ($file)
     $name = (basename $file)
     marimo convert $name.ipynb > $name.py
 }
