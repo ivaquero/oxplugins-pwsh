@@ -62,6 +62,11 @@ function topdf {
     -V CJKmainfont="STFangsong"
 }
 
+function toipynb {
+    param ($file)
+    jupytext --to notebook $file
+}
+
 ##########################################################
 # media
 ##########################################################
