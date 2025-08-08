@@ -15,15 +15,15 @@ function pdls {
 
 function tohtml {
     param ($file)
-    $name = $file.Basename
+    $name = (Get-Item $file).Basename
     pandoc $file -o $name.html --standalone --mathjax --shift-heading-level-by=-1
 }
 
 function tomd {
     param ($file)
-    $name = $file.Basename
-    $ext = $file.Extension
-    if ( $ext -eq 'ipynb') {
+    $name = (Get-Item $file).Basename
+    $ext = (Get-Item $file).Extension
+    if ( $ext -eq '.ipynb') {
         jupytext --to md $file
     }
     else {
@@ -33,19 +33,19 @@ function tomd {
 
 function todocx {
     param ($file)
-    $name = $file.Basename
+    $name = (Get-Item $file).Basename
     pandoc $file -o $name.docx
 }
 
 function totyp {
     param ($file)
-    $name = $file.Basename
+    $name = (Get-Item $file).Basename
     pandoc $file -o $name.typ
 }
 
 function topdf {
     param ($file)
-    $name = $file.Basename
+    $name = (Get-Item $file).Basename
     if (Get-Command tectonic -ErrorAction SilentlyContinue ) {
         $Global:OX_PDF_ENGINE = tectonic
     }
@@ -79,7 +79,7 @@ function toipynb {
 
 function tomp3 {
     param ( $file, $bitrate )
-    $name = $file.Basename
+    $name = (Get-Item $file).Basename
     if ([string]::IsNullOrEmpty($cbr)) { $bitrate = '192K' }
     else { $cbr = $bitrate + 'K' }
 
@@ -88,7 +88,7 @@ function tomp3 {
 
 function tomp4 {
     param ($file)
-    $name = $file.Basename
+    $name = (Get-Item $file).Basename
     ffmpeg -fflags +genpts -i $file -r 24 $name .mp4
 }
 
@@ -98,12 +98,12 @@ function tomp4 {
 
 function py2html {
     param ($file)
-    $name = $file.Basename
+    $name = (Get-Item $file).Basename
     marimo export html $name.py > $name.html
 }
 
 function ipynb2py {
     param ($file)
-    $name = $file.Basename
+    $name = (Get-Item $file).Basename
     marimo convert $name.ipynb > $name.py
 }
