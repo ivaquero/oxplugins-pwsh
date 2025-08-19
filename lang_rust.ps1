@@ -17,8 +17,8 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\rust")) {
 function cgh { cargo help $args }
 function cgis { cargo install $args }
 function cgus { cargo uninstall $args }
-function cgls { cargo --list }
 function cgup { cargo update $args }
+function cgls { cargo install --list }
 function cgcl { cargo clean }
 function cgsc { cargo search $args }
 function cgck { cargo check }
