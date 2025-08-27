@@ -175,7 +175,7 @@ function cmt {
     $num_immature = (cls $the_env | rg -c '\s0\.\d')
     $ratio = $num_immature / $num_total * 100
     $mature_rate = '{0:N0}' -f $(100 - $ratio)
-    Write-Output "mature rate: $mature_rate %"
+    Write-Output "maturity: $mature_rate %"
 }
 
 ##########################################################

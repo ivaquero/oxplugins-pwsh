@@ -192,14 +192,14 @@ function jlpnr {
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
 
-# calculate mature rate
+# calculate maturity
 function jlmt {
     $num_total = (cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg "version =" | wc -l)
     Write-Output "total: $num_total"
     $num_immature = (cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg '\"0\.' | wc -l)
     $ratio = $num_immature / $num_total * 100 -as [float]
     $mature_rate = ($(100 - $ratio) -as [float])
-    Write-Output "mature rate: $mature_rate %"
+    Write-Output "maturity: $mature_rate %"
 }
 
 ##########################################################
