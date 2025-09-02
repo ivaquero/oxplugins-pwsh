@@ -5,7 +5,7 @@
 $Global:OX_PROXY = $Global:OX_CUSTOM.proxy_ports
 function pxy {
     param ( $the_port )
-    if ( $the_port.Length -ge 0 ) {
+    if ( $the_port.Length -eq 0 ) {
         Write-Output 'unset all proxies'
         $env:https_proxy = ''
         $env:http_proxy = ''
