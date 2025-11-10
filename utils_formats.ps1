@@ -16,7 +16,7 @@ function pdls {
 function tohtml {
     param ($file)
     $name = (Get-Item $file).Basename
-    pandoc $file -o $name.html --standalone --mathjax --shift-heading-level-by=-1
+    pandoc $file -o $name.html --to html5 --standalone --mathjax --shift-heading-level-by=-1
 }
 
 function tomd {
@@ -61,10 +61,9 @@ function topdf {
     else {
         echo 'No available pdf engine found'
     }
-    pandoc $file -o $name.pdf --pdf-engine=$Global:OX_PDF_ENGINE\
-    -f gfm \
+    pandoc $file -o $name.pdf --pdf-engine=$Global:OX_PDF_ENGINE \
     -V geometry:a4paper \
-    -V geometry:margin=2cm \
+    -V geometry:margin=2.5cm \
     -V CJKmainfont="STFangsong"
 }
 
