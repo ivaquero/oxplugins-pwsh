@@ -157,7 +157,7 @@ function cls {
 # $1=name
 function clv {
     param ( $the_env )
-    if ( $the_env.Length -eq 0) { $cenv = 'base' }
+    if ( $the_env.Length -eq 0) { $cenv = '' }
     elseif ( $the_env.Length -lt 2 ) {
         $cenv = $(Write-Output $Global:OX_CONDA_ENV.$the_env)
     }
