@@ -10,9 +10,9 @@ function open { explorer $args }
 
 function clean {
     param ( $obj )
-    Switch ( $obj ) {
+    switch ( $obj ) {
         WinGet { rm -r $env:WinGet\cache }
-        Default { Clear-RecycleBin -Confirm }
+        default { Clear-RecycleBin -Confirm }
     }
 }
 
@@ -37,14 +37,14 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP\win")) {
 }
 
 function up_winget {
-    $bkwx = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bkwx
+    $bkwx = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.bkwx
     Write-Output "Update WinGet by $bkwx"
     winget import -i $bkwx
 }
 function back_winget {
-    $bkwx = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.bkwx
+    $bkwx = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.bkwx
     Write-Output "Backup WinGet by $bkwx"
-    winget export -o $bkwx
+    winget export -s winget -o $bkwx
 }
 
 function wis { winget install $args }
@@ -86,23 +86,14 @@ function wslis {
 }
 
 function wslus { param ( $dist ) wslconfig /u $dist }
-function wslls { wsl.exe --list -v }
-function wsllsa { wsl.exe --list --online }
-
-function wslset {
-    param ( $ver )
-    Switch ($ver) {
-        { $ver -eq 2 } { 1 }
-        Default { 2 }
-    }
-    wsl.exe --set-version $ver
-}
+function wslls { wsl --list -v }
+function wsllsa { wsl --list --online }
 
 function wslcl {
     param ( $dist )
-    Switch ( $dist ) {
+    switch ( $dist ) {
         kali { $file = "$env:LOCALAPPDATA\Packages\KaliLinux.54290C8133FEE_ey8k8hqnwqnmg\LocalState\ext4.vhdx" }
-        Default { $file = "$env:LOCALAPPDATA\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\ext4.vhdx" }
+        default { $file = "$env:LOCALAPPDATA\Packages\CanonicalGroupLimited.Ubuntu20.04onWindows_79rhkp1fndgsc\LocalState\ext4.vhdx" }
     }
     diskpart
     Select-Object vdisk file=$file
