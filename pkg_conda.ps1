@@ -65,7 +65,7 @@ function back_conda {
     }
 
     Write-Output "Backup Conda Env $conda_env to $conda_file"
-    conda tree -n $conda_env leaves | sort > "$conda_file"
+    clv $conda_env > "$conda_file"
 }
 
 function clean_conda {
@@ -83,9 +83,9 @@ function clean_conda {
     }
 
     Write-Output "Cleanup Conda Env $conda_env by $conda_file"
-    $the_leaves = (conda tree -n $conda_env leaves)
+    $the_leaves = clv $conda_env
 
-    ForEach ( $line in $the_leaves ) {
+    foreach ( $line in $the_leaves ) {
         $pkg = (cat $conda_file | rg $line)
         if ([string]::IsNullOrEmpty($pkg)) {
             Write-Output "Removing $line"
@@ -109,14 +109,14 @@ function cus { . $Global:OX_CONDA remove $args }
 # clean packages
 function ccl {
     param ( $cmd )
-    Switch ( $cmd ) {
+    switch ( $cmd ) {
         -l { . $Global:OX_CONDA clean --logfiles }
         -i { . $Global:OX_CONDA clean --index-cache }
         -p { . $Global:OX_CONDA clean --packages }
         -t { . $Global:OX_CONDA clean --tarballs }
         -f { . $Global:OX_CONDA clean --force-pkgs-dirs }
         -a { . $Global:OX_CONDA clean --all }
-        Default {
+        default {
             . $Global:OX_CONDA clean --packages
             . $Global:OX_CONDA clean --tarballs
         }
@@ -157,11 +157,21 @@ function cls {
 # $1=name
 function clv {
     param ( $the_env )
-    if ( $the_env.Length -eq 0) { conda-tree leaves | sort }
+    if ( $the_env.Length -eq 0) { $cenv = 'base' }
     elseif ( $the_env.Length -lt 2 ) {
-        conda-tree -n $(Write-Output $Global:OX_CONDA_ENV.$the_env) leaves | sort
+        $cenv = $(Write-Output $Global:OX_CONDA_ENV.$the_env)
     }
-    else { conda-tree -n $the_env leaves | sort }
+    else { $cenv = $the_env }
+
+    $leaves = ''
+    $pkgs = $(mamba list -n "$cenv" --json | jq -r '.[].name' | rg -v 'lib.+' | rg -v 'font.+' | rg -v '_.+')
+    foreach ($pkg in $pkgs) {
+        $res = $(micromamba repoquery whoneeds "$pkg" | rg -o 'No entries')
+        if ($res = = 'No entries') {
+            leaves="$leaves\n$pkg"
+        }
+    }
+    echo "$leaves"
 }
 
 function Set-Locationp { . $Global:OX_CONDA repoquery depends $args }
@@ -193,7 +203,7 @@ function cxls { . $Global:OX_CONDA config --get channels }
 function cii {
     switch ($Global:OX_CONDA) {
         conda { . $Global:OX_CONDA init $args }
-        Default { . $Global:OX_CONDA shell init $args }
+        default { . $Global:OX_CONDA shell init $args }
     }
 }
 function cr { . $Global:OX_CONDA run $args }
@@ -261,7 +271,7 @@ function cerm {
 # change environment subdir
 function cesd {
     param ( $arch )
-    Switch ( $arch ) {
+    switch ( $arch ) {
         a { . $Global:OX_CONDA env config vars set CONDA_SUBDIR=win-arm64 }
         i { . $Global:OX_CONDA env config vars set CONDA_SUBDIR=win-64 }
     }
