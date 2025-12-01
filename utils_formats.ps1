@@ -2,11 +2,18 @@
 # main
 ##########################################################
 
-function pdls {
-    Write-Output 'input-formats`n'
+function pdlsi {
+    Write-Output 'input-formats\n\n'
     pandoc --list-input-formats
-    Write-Output 'output-formats`n'
+}
+
+function pdlso {
+    Write-Output 'output-formats\n\n'
     pandoc --list-output-formats
+}
+
+function pdref {
+    pandoc --print-default-data-file reference.docx >custom-reference.docx
 }
 
 ##########################################################
@@ -31,16 +38,16 @@ function tomd {
     }
 }
 
-function todocx {
-    param ($file)
-    $name = (Get-Item $file).Basename
-    pandoc $file -o $name.docx
-}
-
 function totyp {
     param ($file)
     $name = (Get-Item $file).Basename
     pandoc $file -o $name.typ
+}
+
+function todocx {
+    param ($file)
+    $name = (Get-Item $file).Basename
+    pandoc $file -o $name.docx
 }
 
 function topdf {
