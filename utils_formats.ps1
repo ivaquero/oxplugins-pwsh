@@ -66,7 +66,7 @@ function topdf {
         $Global:OX_PDF_ENGINE = pdflatex
     }
     else {
-        echo 'No available pdf engine found'
+        Write-Output 'No available pdf engine found'
     }
     pandoc $file -o $name.pdf --pdf-engine=$Global:OX_PDF_ENGINE --syntax-highlighting tango \
     -V colorlinks \
