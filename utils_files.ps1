@@ -116,8 +116,8 @@ function brf {
         $cmd = 'cat'
     }
     switch ( $file ) {
-        { $file -match 'ox\w{1,}' } { . $cmd $Global:OX_OXYGEN."$file" }
-        { $file -match 'bk\w{1,}' } { . $cmd $Global:OX_OXIDE."$file" }
+        { $file -match 'ox\w{1,}' } { . $cmd ($env:OXIDIZER + $Global:OX_OXYGEN."$file") }
+        { $file -match 'bk\w{1,}' } { . $cmd ("$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE."$file") }
         default { . $cmd $Global:OX_ELEMENT."$file" }
     }
 }
@@ -129,8 +129,8 @@ function edf {
     else { $cmd = $env:EDITOR }
 
     switch ( $file ) {
-        { $file -match 'ox[a-z]{1,}' } { . $cmd $Global:OX_OXYGEN."$file" }
-        { $file -match 'bk[a-z]{1,}' } { . $cmd $Global:OX_OXIDE."$file" }
+        { $file -match 'ox[a-z]{1,}' } { . $cmd ($env:OXIDIZER + $Global:OX_OXYGEN."$file") }
+        { $file -match 'bk[a-z]{1,}' } { . $cmd ("$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE."$file") }
         default { . $cmd $Global:OX_ELEMENT."$file" }
     }
 }
