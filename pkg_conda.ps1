@@ -65,7 +65,7 @@ function back_conda {
     }
 
     Write-Output "Backup Conda Env $conda_env to $conda_file"
-    clv $conda_env > "$conda_file"
+    conda tree -n $conda_env leaves | sort > "$conda_file"
 }
 
 function clean_conda {
@@ -83,7 +83,7 @@ function clean_conda {
     }
 
     Write-Output "Cleanup Conda Env $conda_env by $conda_file"
-    $the_leaves = clv $conda_env
+    $the_leaves = (conda tree -n $conda_env leaves)
 
     foreach ( $line in $the_leaves ) {
         $pkg = (cat $conda_file | rg $line)
@@ -157,21 +157,11 @@ function cls {
 # $1=name
 function clv {
     param ( $the_env )
-    if ( $the_env.Length -eq 0) { $cenv = '' }
+    if ( $the_env.Length -eq 0) { conda-tree leaves | sort }
     elseif ( $the_env.Length -lt 2 ) {
-        $cenv = $(Write-Output $Global:OX_CONDA_ENV.$the_env)
+        conda-tree -n $(Write-Output $Global:OX_CONDA_ENV.$the_env) leaves | sort
     }
-    else { $cenv = $the_env }
-
-    $leaves = ''
-    $pkgs = $(mamba list -n "$cenv" --json | jq -r '.[].name' | rg -v 'lib.+' | rg -v 'font.+' | rg -v '_.+')
-    foreach ($pkg in $pkgs) {
-        $res = $(micromamba repoquery whoneeds "$pkg" | rg -o 'No entries')
-        if ($res = = 'No entries') {
-            leaves="$leaves\n$pkg"
-        }
-    }
-    echo "$leaves"
+    else { conda-tree -n $the_env leaves | sort }
 }
 
 function Set-Locationp { . $Global:OX_CONDA repoquery depends $args }
