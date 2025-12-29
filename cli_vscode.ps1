@@ -31,10 +31,10 @@ function vscl {
     rm -rfv $Global:VSCODE_DATA\Cache\*
     Write-Output "Cleaning up VSCode Obselete History.`n"
     rm -rfv $Global:VSCODE_DATA\User\History\*
-    Write-Output 'Cleaning up VSCode Obselete Profiles.\n'
+    Write-Output "Cleaning up VSCode Obselete Profiles.`n"
     rm -rfv $Global:VSCODE_DATA\User\profiles\-*
 
-    Switch ( $args[1] ) {
+    switch ( $args[1] ) {
         -a {
             Write-Output "Cleaning up VSCode Workspace Storage.`n"
             rm -rfv $Global:VSCODE_DATA\User\workspaceStorage\*

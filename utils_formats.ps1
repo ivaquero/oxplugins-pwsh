@@ -3,12 +3,12 @@
 ##########################################################
 
 function pdlsi {
-    Write-Output 'input-formats\n\n'
+    Write-Output "input-formats`n"
     pandoc --list-input-formats
 }
 
 function pdlso {
-    Write-Output 'output-formats\n\n'
+    Write-Output "output-formats`n"
     pandoc --list-output-formats
 }
 
