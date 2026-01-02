@@ -82,6 +82,45 @@ function toipynb {
 }
 
 ##########################################################
+# notebook
+##########################################################
+
+function py2html {
+    param ($file)
+    $name = (Get-Item $file).Basename
+    marimo export html $file > $name.html
+}
+
+function ipynb2py {
+    param ($file)
+    $name = (Get-Item $file).Basename
+    marimo convert $file > $name.py
+}
+
+##########################################################
+# image
+##########################################################
+
+function topng {
+    param ($file)
+    $name = (Get-Item $file).Basename
+    magick $file -o $name.png
+}
+
+function tojpg {
+    param ($file)
+    $name = (Get-Item $file).Basename
+    magick $file -o $name.jpg
+}
+
+function bgnone {
+    param ( $file, $color )
+    if ([string]::IsNullOrEmpty($color)) { $bg = 'white' }
+    else { $bg = $color }
+    magick $file -background $bg $file
+}
+
+##########################################################
 # media
 ##########################################################
 
@@ -98,20 +137,4 @@ function tomp4 {
     param ($file)
     $name = (Get-Item $file).Basename
     ffmpeg -fflags +genpts -i $file -r 24 $name .mp4
-}
-
-##########################################################
-# python
-##########################################################
-
-function py2html {
-    param ($file)
-    $name = (Get-Item $file).Basename
-    marimo export html $name.py > $name.html
-}
-
-function ipynb2py {
-    param ($file)
-    $name = (Get-Item $file).Basename
-    marimo convert $name.ipynb > $name.py
 }
