@@ -9,16 +9,17 @@ if ([string]::IsNullOrEmpty("$Global:OX_BACKUP/javascript")) {
     mkdir "$Global:OX_BACKUP/javascript"
 }
 
+$bknjx = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.bknjx
 function up_node {
-    Write-Output "Update Node by $($Global:OX_OXIDE.bknjx)"
-    $pkgs = (cat $($Global:OX_OXIDE.bknjx) | tr '\n' ' ')
+    Write-Output "Update Node by $bknjx"
+    $pkgs = (cat $bknjx | tr '\n' ' ')
     Write-Output "Installing $pkgs"
     Invoke-Expression "npm install -g $pkgs --force"
 }
 
 function back_node {
-    Write-Output "Backup Node to $($Global:OX_OXIDE.bknjx)"
-    npm list -g | rg -o '\w+@' | tr -d '@' > "$($Global:OX_OXIDE.bknjx)"
+    Write-Output "Backup Node to $bknjx"
+    npm list -g | rg -o '\w+@' | tr -d '@' > "$bknjx"
 }
 
 ##########################################################
