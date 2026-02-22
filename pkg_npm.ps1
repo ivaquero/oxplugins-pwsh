@@ -27,23 +27,11 @@ function back_node {
 
 function ncf { npm config $args }
 function nis { npm install $args }
-function nus {
-    param ( $cmd )
-    switch ( $cmd ) {
-        pnpm { pnpm remove $args }
-        npm { npm uninstall $args }
-    }
-}
+function nus { npm uninstall $args }
 function nup { npm update $args }
 function nst { npm outdated }
 function nsc { npm search $args }
-function ncl {
-    param ( $cmd )
-    switch ( $cmd ) {
-        pnpm { pnpm cache delete $args }
-        npm { npm cache clean -f $args }
-    }
-}
+function ncl { npm cache clean -f $args }
 
 ##########################################################
 # info
