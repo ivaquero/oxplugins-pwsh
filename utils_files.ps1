@@ -124,14 +124,21 @@ function brf {
 
 # edit file by default editor
 function edf {
-    param ( $file, $mode )
-    if ( $mode -eq '-t' ) { $cmd = $env:EDITOR_T }
-    else { $cmd = $env:EDITOR }
-
+    param ( $file )
     switch ( $file ) {
-        { $file -match 'ox[a-z]{1,}' } { . $cmd ($env:OXIDIZER + '/' + $Global:OX_OXYGEN."$file") }
-        { $file -match 'bk[a-z]{1,}' } { . $cmd ("$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE."$file") }
-        default { . $cmd $Global:OX_ELEMENT."$file" }
+        { $file -match 'ox[a-z]{1,}' } { . $env:EDITOR ($env:OXIDIZER + '/' + $Global:OX_OXYGEN."$file") }
+        { $file -match 'bk[a-z]{1,}' } { . $env:EDITOR ("$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE."$file") }
+        default { . $env:EDITOR $Global:OX_ELEMENT."$file" }
+    }
+}
+
+# edit file by default terminal editor
+function tedf {
+    param ( $file )
+    switch ( $file ) {
+        { $file -match 'ox[a-z]{1,}' } { . $env:EDITOR_T ($env:OXIDIZER + '/' + $Global:OX_OXYGEN."$file") }
+        { $file -match 'bk[a-z]{1,}' } { . $env:EDITOR_T ("$Global:OX_BACKUP" + '/' + $Global:OX_OXIDE."$file") }
+        default { . $env:EDITOR_T $Global:OX_ELEMENT."$file" }
     }
 }
 
