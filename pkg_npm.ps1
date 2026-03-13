@@ -19,7 +19,7 @@ function up_node {
 
 function back_node {
     Write-Output "Backup Node to $bknjx"
-    npm list -g | rg -o '\w+@' | tr -d '@' > "$bknjx"
+    npm list -g | rg -o '[\w@].+@' | tr '\n' ' ' | sd '@ ' '\n' > "$bknjx"
 }
 
 ##########################################################
