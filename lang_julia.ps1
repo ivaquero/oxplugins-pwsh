@@ -8,7 +8,7 @@ if ([string]::IsNullOrEmpty("$env:JULIA_DEPOT_PATH\environments")) {
 # system files
 $Global:OX_ELEMENT.jl = "$env:JULIA_DEPOT_PATH\config\startup.jl"
 
-$Global:OX_JULIA_ENV_BASE = "$env:JULIA_DEPOT_PATH/environments/v$(julia -v | rg -o "\d+\.\d+")"
+$Global:OX_JULIA_ENV_BASE = "$env:JULIA_DEPOT_PATH/environments/v$(julia -v | rg -o '\d+\.\d+')"
 if ($env:OS) {
     $Global:OX_JULIA_ENV = $Global:OX_CUSTOM.julia_env_shortcuts_win
 }
@@ -28,7 +28,7 @@ function up_julia {
     }
     elseif ( $args[0].ToString().Length -lt 2 ) {
         $julia_env = $Global:OX_JULIA_ENV.$args[0]
-        $julia_backup = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.(bkjl+$args[0])
+        $julia_backup = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.(bkjl+$args[0])
     }
     else {
         $julia_env = $args[0]
@@ -38,7 +38,7 @@ function up_julia {
     Write-Output "Update Julia Env $julia_env by $julia_backup"
     $pkgs = (cat $($julia_backup) | tr '\n' ', ' | sd '^' '"' | sd ', $' '"' | sd ',' '", "')
     jleat $julia_env
-    $cmd = (Write-Output 'using Pkg; Pkg.add([,,])' | sd ",," "$pkgs")
+    $cmd = (Write-Output 'using Pkg; Pkg.add([,,])' | sd ',,' "$pkgs")
     Write-Output "$cmd"
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval "$cmd"
 }
@@ -48,14 +48,14 @@ function back_julia {
         $julia_backup = $Global:bkjlb
     }
     elseif ( $args[0].ToString().Length -lt 2 ) {
-        $julia_backup = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.(bkjl+$args[0])
+        $julia_backup = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.(bkjl+$args[0])
     }
     else {
         $julia_backup = $args[1]
     }
 
     Write-Output "Backup Julia Env $julia_env to $julia_backup"
-    cat $Global:OX_JULIA_ENV_ACTIVE/Project.toml | rg -o "\w.*=" | tr -d '= ' > $julia_backup
+    cat $Global:OX_JULIA_ENV_ACTIVE/Project.toml | rg -o '\w.*=' | tr -d '= ' > $julia_backup
 }
 
 function clean_julia {
@@ -65,7 +65,7 @@ function clean_julia {
     }
     elseif ( $args[0].ToString().Length -lt 2 ) {
         $julia_env = $Global:OX_JULIA_ENV.$args[0]
-        $julia_backup = $Global:OX_BACKUP + "/" + $Global:OX_OXIDE.(bkjl+$args[0])
+        $julia_backup = $Global:OX_BACKUP + '/' + $Global:OX_OXIDE.(bkjl+$args[0])
     }
     else {
         $julia_env = $args[0]
@@ -75,7 +75,7 @@ function clean_julia {
     Write-Output "Cleanup Julia Env $julia_env by $julia_backup"
     $the_leaves = (jllv $julia_env)
 
-    ForEach ( $line in $the_leaves ) {
+    foreach ( $line in $the_leaves ) {
         $pkg = (cat $julia_backup | rg $line)
         if ([string]::IsNullOrEmpty($pkg)) {
             Write-Output "Removing $line"
@@ -83,7 +83,7 @@ function clean_julia {
         }
     }
     if ((Write-Output $the_leaves | wc -w) -eq $(cat $julia_backup | wc -w) -and ((Write-Output $the_leaves | wc -c)) -eq $(cat $julia_backup | wc -c)) {
-        Write-Output "Julia Env Cleanup Finished"
+        Write-Output 'Julia Env Cleanup Finished'
     }
 }
 
@@ -119,7 +119,7 @@ function jldf {
 }
 
 function jlcl {
-    julia --project="$Global:OX_JULIA_ENV_ACTIVE"  --eval 'using Pkg; Pkg.gc()'
+    julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval 'using Pkg; Pkg.gc()'
 }
 function jlst {
     julia --project="$Global:OX_JULIA_ENV_ACTIVE" --eval 'using Pkg; Pkg.status()'
@@ -155,12 +155,12 @@ function jlup {
 
 # list leave packages
 function jllv {
-    cat $Global:OX_JULIA_ENV_ACTIVE/Project.toml | rg -o '\w+ =' | tr " = " " "
+    cat $Global:OX_JULIA_ENV_ACTIVE/Project.toml | rg -o '\w+ =' | tr ' = ' ' '
 }
 
 # list packages
 function jlls {
-    cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg -o 'deps\.\w+' | tr -d "deps\."
+    cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg -o 'deps\.\w+' | tr -d 'deps\.'
 }
 
 # dependencies of package
@@ -194,7 +194,7 @@ function jlpnr {
 
 # calculate maturity
 function jlmt {
-    $num_total = (cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg "version =" | wc -l)
+    $num_total = (cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg 'version =' | wc -l)
     Write-Output "total: $num_total"
     $num_immature = (cat $Global:OX_JULIA_ENV_ACTIVE/Manifest.toml | rg '\"0\.' | wc -l)
     $ratio = $num_immature / $num_total * 100 -as [float]

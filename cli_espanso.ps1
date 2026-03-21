@@ -25,7 +25,7 @@ function esls { espansod package list }
 function esup {
     if (-not $args) {
         $pkgs = $(espansod package list | rg -o '\w+.*\s-' | rg -o '.+*\w')
-        ForEach ( $line in $pkgs ) {
+        foreach ( $line in $pkgs ) {
             espansod package update $line
         }
     }

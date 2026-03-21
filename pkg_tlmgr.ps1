@@ -11,7 +11,7 @@ function up_texlive {
     Write-Output "Update TeXLive by $Global:OX_OXIDE.bktl"
     $file = (cat $Global:OX_OXIDE.bktl)
 
-    ForEach ( $line in $file ) {
+    foreach ( $line in $file ) {
         Write-Output "Installing $line"
         tlmgr install $line
     }

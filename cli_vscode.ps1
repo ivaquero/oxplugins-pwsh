@@ -22,6 +22,14 @@ function back_vscode {
     code --list-extensions > "$Global:OX_BACKUP/$bkvs"
 }
 
+function up_vscode {
+    $exts = (cat "$Global:OX_BACKUP/$bkvs")
+    foreach ($ext in $exts) {
+        Write-Output "Installing $ext"
+        code --install-extension $ext
+    }
+}
+
 ##########################################################
 # Cache
 ##########################################################

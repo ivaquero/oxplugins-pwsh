@@ -12,12 +12,12 @@ function bwcf { bw config $args }
 
 function bwsc {
     param ( $cmd, $obj )
-    Switch ( $cmd ) {
+    switch ( $cmd ) {
         -h { bw get --help }
         -u { bw get username $obj }
         -p { bw get password $obj }
         -n { bw get notes $obj }
-        Default { bw get item $obj --pretty }
+        default { bw get item $obj --pretty }
     }
 }
 
@@ -36,17 +36,17 @@ function bwup { bw sync }
 
 function bwe {
     param ( $cmd, $obj )
-    Switch ( $cmd ) {
+    switch ( $cmd ) {
         -d { bw edit folder $obj }
-        Default { bw edit item $obj }
+        default { bw edit item $obj }
     }
 }
 
 function bwrm {
     param ( $cmd, $obj )
-    Switch ( $cmd ) {
+    switch ( $cmd ) {
         -d { bw delete folder $obj }
-        Default { bw delete item $obj }
+        default { bw delete item $obj }
     }
 }
 
