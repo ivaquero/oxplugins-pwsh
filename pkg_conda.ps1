@@ -65,7 +65,7 @@ function back_conda {
     }
 
     Write-Output "Backup Conda Env $conda_env to $conda_file"
-    conda tree -n $conda_env leaves | sort > "$conda_file"
+    conda-tree -n $conda_env leaves | sort > "$conda_file"
 }
 
 function clean_conda {
@@ -83,7 +83,7 @@ function clean_conda {
     }
 
     Write-Output "Cleanup Conda Env $conda_env by $conda_file"
-    $the_leaves = (conda tree -n $conda_env leaves)
+    $the_leaves = (conda-tree -n $conda_env leaves)
 
     foreach ( $line in $the_leaves ) {
         $pkg = (cat $conda_file | rg $line)
