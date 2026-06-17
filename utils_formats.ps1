@@ -104,13 +104,13 @@ function ipynb2py {
 function topng {
     param ($file)
     $name = (Get-Item $file).Basename
-    magick $file -o $name.png
+    magick $file $name.png
 }
 
 function tojpg {
     param ($file)
     $name = (Get-Item $file).Basename
-    magick $file -o $name.jpg
+    magick $file $name.jpg
 }
 
 function bgnone {
