@@ -23,8 +23,8 @@ function back_vscode {
 }
 
 function up_vscode {
-    $exts = (cat "$Global:OX_BACKUP/$bkvsx")
-    foreach ($ext in $exts) {
+    $bkvs = $Global:OX_OXIDE.bkvsx
+    foreach ($ext in "$Global:OX_BACKUP/$bkvs") {
         Write-Output "Installing $ext"
         code --install-extension $ext
     }
