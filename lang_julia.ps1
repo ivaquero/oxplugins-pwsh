@@ -2,9 +2,10 @@
 # config
 ##########################################################
 
+$env:JULIA_DEPOT_PATH = "$env:USERPROFILE\.julia"
+
 if ([string]::IsNullOrEmpty("$env:JULIA_DEPOT_PATH\environments")) {
     Write-Output "Create Julia Environments Folder"
-    $env:JULIA_DEPOT_PATH = "$env:USERPROFILE\.julia"
     mkdir "$env:JULIA_DEPOT_PATH"
     mkdir "$env:JULIA_DEPOT_PATH\environments"
 }
