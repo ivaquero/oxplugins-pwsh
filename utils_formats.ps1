@@ -13,7 +13,7 @@ function pdlso {
 }
 
 function pdref {
-    pandoc --print-default-data-file reference.docx >custom-reference.docx
+    pandoc --print-default-data-file reference.docx > custom-reference.docx
 }
 
 ##########################################################
@@ -34,20 +34,21 @@ function tomd {
         jupytext --to md $file
     }
     else {
-        pandoc $file -o $name.md
+        echo "pandoc $file -o $name.md"
+        pandoc $file -o "$name.md"
     }
 }
 
 function totyp {
     param ($file)
     $name = (Get-Item $file).Basename
-    pandoc $file -o $name.typ
+    pandoc $file -o "$name.typ"
 }
 
 function todocx {
     param ($file)
     $name = (Get-Item $file).Basename
-    pandoc $file -o $name.docx
+    pandoc $file -o "$name.docx"
 }
 
 function topdf {
@@ -88,13 +89,13 @@ function toipynb {
 function py2html {
     param ($file)
     $name = (Get-Item $file).Basename
-    marimo export html $file > $name.html
+    marimo export html $file > "$name.html"
 }
 
 function ipynb2py {
     param ($file)
     $name = (Get-Item $file).Basename
-    marimo convert $file > $name.py
+    marimo convert $file > "$name.py"
 }
 
 ##########################################################
@@ -110,7 +111,7 @@ function topng {
 function tojpg {
     param ($file)
     $name = (Get-Item $file).Basename
-    magick $file $name.jpg
+    magick $file "$name.jpg"
 }
 
 function bgnone {
@@ -130,11 +131,11 @@ function tomp3 {
     if ([string]::IsNullOrEmpty($cbr)) { $bitrate = '192K' }
     else { $cbr = $bitrate + 'K' }
 
-    ffmpeg -i $file -c:a libmp3lame -b:a $cbr $name.mp3
+    ffmpeg -i $file -c:a libmp3lame -b:a $cbr "$name.mp3"
 }
 
 function tomp4 {
     param ($file)
     $name = (Get-Item $file).Basename
-    ffmpeg -fflags +genpts -i $file -r 24 $name .mp4
+    ffmpeg -fflags +genpts -i $file -r 24 "$name.mp4"
 }
